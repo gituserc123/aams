@@ -1,0 +1,60 @@
+/* card_list */
+
+.card_list  {  list-style-type:none; margin:0px; }
+.clearfix:before,
+.clearfix:after {
+content:"";
+display:table;
+}
+.clearfix:after {
+clear:both;
+overflow:hidden;
+}
+.clearfix {
+zoom:1; /* IE < 8 */
+}
+
+.txt-align-right { text-align: right; }
+.card_list {   }
+.card_list li { float:left; min-width:150px; width: 20%; display: block; overflow: hidden; }
+.card_list .dragItem {   display: block; }
+.card_list .body {   position: relative; }
+.card_list .card_wrapper { margin:0 2px 2px 0;  position: relative;  height: 150px; background: #fff; border:#E8EBF2 solid 1px; }
+.card_list .card_content { position: absolute; right: 30px; top: 0; left: 0; bottom: 0;  padding: 5px 5px 5px 10px; }
+.card_list .top { font-size: 16px; height: 34px; line-height: 34px; background: #f8feff; border-bottom: #89d7ee solid 1px; padding: 0 5px; font-weight: bold; }
+.card_list .mark_list { width: 25px; float: right; padding:3px 0 0 5px; }
+
+.day_mark,.stop_mark ,.operation_mark {  padding: 3px;  word-wrap: break-word; width: 13px;  display: inline-block; line-height:1em; text-align: center; margin: 2px 0; }
+.day_mark { background: #82A6f5; color: #fff; }
+
+.stop_mark { background: #0b5fa5; color: #fff; }
+.operation_mark { background: #73af7b; color: #fff; }
+.info_table { width:100%; }
+.info_table td { padding: 1px 0; }
+.normal_font { font-size: 14px; color: #777; }
+
+.condition {  display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:160px; }
+
+.contract_bed {  background:url(../images/contract_bed.png) !important;}
+.onSelect .card_wrapper,.onSelect .card_wrapper .top  { background: #fff4da; }
+.onSelect .contract_bed .top { background: none;  }
+.card_list .sex  { margin:0 5px 0 0;  float:right; }
+.card_list .lev { margin:0 15px 0 10px;  float:right; width: 22px; display: inline-block; }
+.card_list .age { margin:0 15px 0 10px;  float:right; }
+
+
+
+.empty_bed .age  .normal_font {  display: none;}
+.bedno,.bedno em { color:#00a0e8; }
+
+.card_list .name { margin: 0 10px;  float: left; }
+.placeHolder div {  min-width:150px; width: 99%;  height:150px; display: block;  background-color:white !important; border:dashed 1px gray !important; }
+body .scroll-view {  position: absolute; top: 45px; left: 0; right: 0; bottom: 0;  min-width: 1280px;  background:#E8EBF2; padding: 5px;  }
+body .scroll-content {  overflow-y: auto; }
+.contract_bed .top { background: none;}
+.hide { visibility: hidden; }
+.active .card_wrapper {  background-color:white !important; border:#9E9E9E solid 1px; }
+.inpWardName { color: #00a0e8; }
+.bedNumber {   display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:55px; float: left; }
+.color_man { color:#00a0e9;  }
+.color_famle { color:#ef8c35; }

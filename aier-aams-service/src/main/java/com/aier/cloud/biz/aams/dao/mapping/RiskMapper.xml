@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.RiskMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.Risk">
+        <id column="RiskId" property="riskId" />
+        <result column="RiskName" property="riskName" />
+        <result column="RiskDesc" property="riskDesc" />
+        <result column="RiskBussinessType" property="riskBussinessType" />
+        <result column="RiskProject" property="riskProject" />
+        <result column="RiskLevel" property="riskLevel" />
+        <result column="RiskIsdlt" property="riskIsdlt" />
+        <result column="RiskCreate_time" property="riskcreateTime" />
+        <result column="RiskCreate_user" property="riskcreateUser" />
+        <result column="RiskUpdate_time" property="riskupdateTime" />
+        <result column="RiskUpdate_user" property="riskupdateUser" />
+        <result column="RiskIsPost" property="riskIsPost" />
+        <result column="RiskMethod" property="riskMethod" />
+        <result column="RiskInstitution" property="riskInstitution" />
+        <result column="RiskRemote" property="riskRemote" />
+        <result column="RiskType" property="riskType" />
+        <result column="RiskCode" property="riskCode" />
+        <result column="RiskCapability" property="riskCapability" />
+        <result column="RiskSenstivity" property="riskSenstivity" />
+        <result column="RiskRectifyType" property="riskRectifyType" />
+        <result column="RiskIsRandom" property="riskIsRandom" />
+        <result column="SelfRiskId" property="selfRiskId" />
+        <result column="RiskSenstivityDesc" property="riskSenstivityDesc" />
+        <result column="RiskEmergencyRef" property="riskEmergencyRef" />
+        <result column="RiskRectifyAttribute" property="riskRectifyAttribute" />
+        <result column="RiskCategory" property="riskCategory" />
+        <result column="RiskIsQueDescStd" property="riskIsQueDescStd" />
+        <result column="RiskDigitalModel" property="riskDigitalModel" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        RiskId, RiskName, RiskDesc, RiskBussinessType, RiskProject, RiskLevel, RiskIsdlt, RiskCreate_time, RiskCreate_user, RiskUpdate_time, RiskUpdate_user, RiskIsPost, RiskMethod, RiskInstitution, RiskRemote, RiskType, RiskCode, RiskCapability, RiskSenstivity, RiskRectifyType, RiskIsRandom, SelfRiskId, RiskSenstivityDesc, RiskEmergencyRef, RiskRectifyAttribute, RiskCategory, RiskIsQueDescStd, RiskDigitalModel
+    </sql>
+
+</mapper>

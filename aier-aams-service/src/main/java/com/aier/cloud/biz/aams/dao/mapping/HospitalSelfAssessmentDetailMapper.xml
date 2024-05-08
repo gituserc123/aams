@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.HospitalSelfAssessmentDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.HospitalSelfAssessmentDetail">
+        <id column="HospitalSelfAssessmentDetailId" property="hospitalSelfAssessmentDetailId" />
+        <result column="HospitalSelfAssessmentId" property="hospitalSelfAssessmentId" />
+        <result column="RiskId" property="riskId" />
+        <result column="HospitalSelfAssessmentDetailResult" property="hospitalSelfAssessmentDetailResult" />
+        <result column="HospitalSelfAssessmentDetailResultDesc" property="hospitalSelfAssessmentDetailResultDesc" />
+        <result column="HospitalSelfAssessmentDetailCreate_time" property="hospitalselfassessmentdetailcreateTime" />
+        <result column="HospitalSelfAssessmentDetailCreate_user" property="hospitalselfassessmentdetailcreateUser" />
+        <result column="HospitalSelfAssessmentDetailUpdate_time" property="hospitalselfassessmentdetailupdateTime" />
+        <result column="HospitalSelfAssessmentDetailUpdate_user" property="hospitalselfassessmentdetailupdateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        HospitalSelfAssessmentDetailId, HospitalSelfAssessmentId, RiskId, HospitalSelfAssessmentDetailResult, HospitalSelfAssessmentDetailResultDesc, HospitalSelfAssessmentDetailCreate_time, HospitalSelfAssessmentDetailCreate_user, HospitalSelfAssessmentDetailUpdate_time, HospitalSelfAssessmentDetailUpdate_user
+    </sql>
+
+</mapper>

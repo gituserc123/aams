@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.UserSelfEvaluationDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.UserSelfEvaluationDetail">
+        <id column="UserSelfEvaluationDetailId" property="userSelfEvaluationDetailId" />
+        <result column="UserSelfEvaluationDetailCreate_time" property="userselfevaluationdetailcreateTime" />
+        <result column="UserSelfEvaluationDetailCreate_user" property="userselfevaluationdetailcreateUser" />
+        <result column="UserSelfEvaluationDetailUpdate_time" property="userselfevaluationdetailupdateTime" />
+        <result column="UserSelfEvaluationDetailUpdate_user" property="userselfevaluationdetailupdateUser" />
+        <result column="UserSelfEvaluationDetailScore" property="userSelfEvaluationDetailScore" />
+        <result column="UserSelfEvaluationDetailNonScoreDesc" property="userSelfEvaluationDetailNonScoreDesc" />
+        <result column="UserSelfEvaluationId" property="userSelfEvaluationId" />
+        <result column="UserSelfRiskId" property="userSelfRiskId" />
+        <result column="UserSelfEvaluationDetailMeasures" property="userSelfEvaluationDetailMeasures" />
+        <result column="UserSelfEvaluationDetailResult" property="userSelfEvaluationDetailResult" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        UserSelfEvaluationDetailId, UserSelfEvaluationDetailCreate_time, UserSelfEvaluationDetailCreate_user, UserSelfEvaluationDetailUpdate_time, UserSelfEvaluationDetailUpdate_user, UserSelfEvaluationDetailScore, UserSelfEvaluationDetailNonScoreDesc, UserSelfEvaluationId, UserSelfRiskId, UserSelfEvaluationDetailMeasures, UserSelfEvaluationDetailResult
+    </sql>
+
+</mapper>

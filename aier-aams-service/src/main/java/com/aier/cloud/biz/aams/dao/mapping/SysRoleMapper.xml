@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.SysRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.SysRole">
+        <id column="id" property="id" />
+        <result column="role_name" property="roleName" />
+        <result column="role_type" property="roleType" />
+        <result column="role_code" property="roleCode" />
+        <result column="data_scope" property="dataScope" />
+        <result column="remarks" property="remarks" />
+        <result column="parent" property="parentId" />
+        <result column="treepath" property="treepath" />
+        <result column="grade" property="grade" />
+        <result column="modifer" property="modifer" />
+        <result column="modify_date" property="modifyDate" />
+        <result column="orders" property="orders" />
+        <result column="platform_code" property="platformCode" />
+        <result column="role_attr" property="roleAttr" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        orders, id, role_name as name, role_type, data_scope, remarks,
+        parent as pid, treepath, grade, modifer, modify_date, platform_code
+    </sql>
+
+    <select id="getForTree" parameterType="com.aier.cloud.biz.aams.entity.SysRole"
+            resultType="com.aier.cloud.basic.core.base.db.CamelKeyMap">
+        SELECT
+        <include refid="BaseColumnList"></include>
+        FROM T_SYS_ROLE a
+        where 1 = 1
+        AND a.id > 0
+        AND a.platform_code = #{platformCode}
+        <if test="id != null and (grade == null or grade != 2)">
+            and a.id != #{id}
+        </if>
+        <if test="roleName != null and roleName != ''">
+            and a.role_name LIKE concat(concat('%',#{roleName}),'%')
+        </if>
+        <if test="roleType != null and roleType != ''">
+            AND role_type = #{roleType}
+        </if>
+        <if test="id != null and id != ''">
+            START WITH a.id = #{id}
+            CONNECT BY PRIOR a.id = a.parent
+        </if>
+        ORDER BY
+        a.grade, a.orders asc
+    </select>
+
+    <!-- 获取当前用户当前机构的角色组 -->
+    <select id="selectRoleTreeByStaffInst" resultType="com.aier.cloud.basic.core.base.db.CamelKeyMap">
+        SELECT
+        a.id AS "id",
+        parent AS "pid",
+        role_name AS "name",
+        (
+        SELECT NVL2(sir.role_id,'true','false') FROM T_SYS_STAFF_INST_ROLE sir
+        WHERE sir.ROLE_ID = a.ID
+        AND sir.institution_id = #{instId}
+        AND sir.staff_id = #{staffId}
+        and rownum = 1
+        ) AS checked
+        FROM T_SYS_ROLE a
+        WHERE a.platform_code = #{platformCode}
+        ORDER BY orders ASC
+    </select>
+
+    <!-- 获取当前医院用户当前医院的角色组 -->
+    <select id="selectRoleTreeByStaffInstHosp" resultType="com.aier.cloud.basic.core.base.db.CamelKeyMap">
+        SELECT
+        a.id AS "id",
+        parent AS "pid",
+        role_name  AS "name",
+        (
+        SELECT NVL2(sir.role_id,'true','false') FROM T_SYS_STAFF_INST_ROLE sir INNER JOIN t_crs_sys_staff s ON sir.staff_id = s.id
+        WHERE sir.ROLE_ID = a.ID
+        AND sir.institution_id = #{instId}
+        AND sir.staff_id = #{staffId}
+        ) AS checked
+        FROM T_SYS_ROLE a
+        <where>
+            role_type = #{roleType}
+            AND a.platform_code = #{platformCode}
+        </where>
+        ORDER BY orders ASC
+    </select>
+
+    <!-- 获取当前用户的角色集合 -->
+    <select id="selectRolesByStaff" resultType="String">
+        SELECT
+        a.role_name AS "roleName"
+        FROM T_SYS_ROLE a
+        INNER JOIN T_SYS_STAFF_INST_ROLE sir ON sir.role_id = a.id
+        <where>
+            sir.staff_id = #{staffId}
+            AND sir.institution_id = #{instId}
+        </where>
+    </select>
+
+    <select id="getForRoleType" parameterType="com.aier.cloud.biz.aams.entity.SysRole"
+            resultType="com.aier.cloud.basic.core.base.db.CamelKeyMap">
+        SELECT case when grade=0 then 'open' else 'closed' end as state,
+        <include refid="BaseColumnList"></include>
+        FROM T_SYS_ROLE a
+        where parent = #{id}
+        AND a.platform_code = #{platformCode}
+        ORDER BY a.grade, a.orders asc
+    </select>
+
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.RiskFindTemplateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.RiskFindTemplate">
+        <id column="RiskFindTemplateId" property="riskFindTemplateId" />
+        <result column="RiskFindTemplateDetail" property="riskFindTemplateDetail" />
+        <result column="RiskId" property="riskId" />
+        <result column="RiskFindTemplateIsdlt" property="riskFindTemplateIsdlt" />
+        <result column="RiskFindTemplateCreate_user" property="riskfindtemplatecreateUser" />
+        <result column="RiskFindTemplateCreate_time" property="riskfindtemplatecreateTime" />
+        <result column="RiskFindTemplateUpdate_User" property="riskfindtemplateupdateUser" />
+        <result column="RiskFindTemplateUpdate_time" property="riskfindtemplateupdateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        RiskFindTemplateId, RiskFindTemplateDetail, RiskId, RiskFindTemplateIsdlt, RiskFindTemplateCreate_user, RiskFindTemplateCreate_time, RiskFindTemplateUpdate_User, RiskFindTemplateUpdate_time
+    </sql>
+
+</mapper>

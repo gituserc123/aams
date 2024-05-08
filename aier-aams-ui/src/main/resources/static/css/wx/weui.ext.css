@@ -1,0 +1,54 @@
+.weui-flex {
+	padding: 16px;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	-webkit-transition: .3s;
+	transition: .3s
+}
+
+label.xrequired:after {
+    content: '* ';
+    color: red;
+    position: absolute;
+}
+
+li {
+	margin: 8px 0;
+	background-color: var(--weui-BG-2);
+	overflow: hidden;
+	border-radius: 2px;
+	cursor: pointer
+}
+
+
+.js-opacity {
+	opacity: .5
+}
+
+li.js_show .page__category {
+	height: auto
+}
+
+li.js_show .page__category-content {
+	opacity: 1;
+	-webkit-transform: translateY(0);
+	transform: translateY(0)
+}
+
+li:first-child {
+	margin-top: 0
+}
+
+.page__category {
+	height: 0;
+	overflow: hidden
+}
+
+.page__category-content {
+	opacity: 0;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	-webkit-transition: .3s;
+	transition: .3s
+}

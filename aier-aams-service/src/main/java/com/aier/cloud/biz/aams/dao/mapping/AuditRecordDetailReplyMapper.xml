@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditRecordDetailReplyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditRecordDetailReply">
+        <id column="AuditRecordDetailReplyID" property="auditRecordDetailReplyID" />
+        <result column="AuditRecordDetailId" property="auditRecordDetailId" />
+        <result column="AuditRecordReplyID1" property="auditRecordReplyID1" />
+        <result column="AuditRecordDetailReplyEvaluate_user" property="auditrecorddetailreplyevaluateUser" />
+        <result column="AuditRecordDetailReplyEvaluate_time" property="auditrecorddetailreplyevaluateTime" />
+        <result column="AuditRecordDetailReplyEvaluateLx" property="auditRecordDetailReplyEvaluateLx" />
+        <result column="AuditRecordDetailReplyEvaluatYxx" property="auditRecordDetailReplyEvaluatYxx" />
+        <result column="AuditRecordDetailReplyEvaluatXx" property="auditRecordDetailReplyEvaluatXx" />
+        <result column="AuditRecordDetailReplyBS" property="auditRecordDetailReplyBS" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditRecordDetailReplyID, AuditRecordDetailId, AuditRecordReplyID1, AuditRecordDetailReplyEvaluate_user, AuditRecordDetailReplyEvaluate_time, AuditRecordDetailReplyEvaluateLx, AuditRecordDetailReplyEvaluatYxx, AuditRecordDetailReplyEvaluatXx, AuditRecordDetailReplyBS
+    </sql>
+
+</mapper>

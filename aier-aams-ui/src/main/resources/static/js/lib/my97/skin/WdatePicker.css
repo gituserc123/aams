@@ -1,0 +1,12 @@
+.Wdate{
+	border:#999 1px solid;
+	height:26px;
+	background:#fff url(inputmark.png) no-repeat right 0;
+}
+.Wdate.required{background-position:right -1500px;}
+.Wdate::-ms-clear{display:none;}
+
+.WdateFmtErr{
+	font-weight:bold;
+	color:red;
+}

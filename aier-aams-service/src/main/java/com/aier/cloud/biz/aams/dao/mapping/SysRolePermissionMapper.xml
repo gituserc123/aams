@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.SysRolePermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.SysRolePermission">
+        <id column="id" property="id" />
+        <result column="role_id" property="roleId" />
+        <result column="permission_id" property="permissionId" />
+        <result column="modifer" property="modifer" />
+        <result column="modify_date" property="modifyDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_id, permission_id, modifer, modify_date
+    </sql>
+
+
+    <sql id="BaseColumnList">
+        d.role_name AS roleName,
+        p.perm_name AS permissionName
+    </sql>
+
+    <sql id="joins">
+        INNER JOIN T_SYS_ROLE d ON d.id = a.role_id
+        INNER JOIN T_SYS_PERMISSION p ON p.id = a.permission_id
+    </sql>
+
+    <select id="selectRoleListByPermissions" resultType="com.aier.cloud.biz.aams.entity.SysRolePermission">
+        SELECT
+        <include refid="BaseColumnList" />
+        FROM T_SYS_ROLE_PERMISSION a
+        <include refid="joins" />
+        WHERE
+        a.permission_id in
+        <foreach collection="permissionList" index="index" item="permissionId" open="(" separator="," close=")">
+            #{permissionId}
+        </foreach>
+    </select>
+
+</mapper>

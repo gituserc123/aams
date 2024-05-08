@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditHGEvalSysMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditHGEvalSys">
+        <id column="AuditHGEvalSysId" property="auditHGEvalSysId" />
+        <result column="AuditHGEvalSysCode" property="auditHGEvalSysCode" />
+        <result column="AuditHGEvalSysName" property="auditHGEvalSysName" />
+        <result column="AuditHGEvalSysType" property="auditHGEvalSysType" />
+        <result column="AuditHGEvalSysMaxScore" property="auditHGEvalSysMaxScore" />
+        <result column="AuditHGEvalSysParentCode" property="auditHGEvalSysParentCode" />
+        <result column="AuditHGEvalSysLevel" property="auditHGEvalSysLevel" />
+        <result column="AuditHGEvalSysIsDlt" property="auditHGEvalSysIsDlt" />
+        <result column="AuditHGEvalSysDesc" property="auditHGEvalSysDesc" />
+        <result column="AuditHGEvalSysFilter" property="auditHGEvalSysFilter" />
+        <result column="AuditHGEvalSysCreate_user" property="audithgevalsyscreateUser" />
+        <result column="AuditHGEvalSysCreate_time" property="audithgevalsyscreateTime" />
+        <result column="AuditHGEvalSysUpdate_User" property="audithgevalsysupdateUser" />
+        <result column="AuditHGEvalSysUpdate_time" property="audithgevalsysupdateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditHGEvalSysId, AuditHGEvalSysCode, AuditHGEvalSysName, AuditHGEvalSysType, AuditHGEvalSysMaxScore, AuditHGEvalSysParentCode, AuditHGEvalSysLevel, AuditHGEvalSysIsDlt, AuditHGEvalSysDesc, AuditHGEvalSysFilter, AuditHGEvalSysCreate_user, AuditHGEvalSysCreate_time, AuditHGEvalSysUpdate_User, AuditHGEvalSysUpdate_time
+    </sql>
+
+</mapper>

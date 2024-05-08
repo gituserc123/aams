@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.SysStaffInstRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.SysStaffInstRole">
+        <id column="id" property="id" />
+        <result column="role_id" property="roleId" />
+        <result column="institution_id" property="institutionId" />
+        <result column="create_date" property="createDate" />
+        <result column="modify_date" property="modifyDate" />
+        <result column="staff_id" property="staffId" />
+        <result column="creator" property="creator" />
+        <result column="modifer" property="modifer" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_id, institution_id, create_date, modify_date, staff_id, creator, modifer
+    </sql>
+
+</mapper>

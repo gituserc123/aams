@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditFxtsRelaMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditFxtsRela">
+        <id column="AuditFxtsRelaId" property="auditFxtsRelaId" />
+        <result column="AuditRecordId" property="auditRecordId" />
+        <result column="AuditFxtsRelaCode" property="auditFxtsRelaCode" />
+        <result column="AuditFxtsRelaName" property="auditFxtsRelaName" />
+        <result column="AuditFxtsRelaType" property="auditFxtsRelaType" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditFxtsRelaId, AuditRecordId, AuditFxtsRelaCode, AuditFxtsRelaName, AuditFxtsRelaType
+    </sql>
+
+</mapper>

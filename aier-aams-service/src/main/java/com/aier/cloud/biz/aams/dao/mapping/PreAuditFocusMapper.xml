@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.PreAuditFocusMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.PreAuditFocus">
+        <id column="PreAuditFocusId" property="preAuditFocusId" />
+        <result column="AuditRecordId" property="auditRecordId" />
+        <result column="PreAuditFocusContent" property="preAuditFocusContent" />
+        <result column="PreAuditFocusResult" property="preAuditFocusResult" />
+        <result column="PreAuditFocusiIsDlt" property="preAuditFocusiIsDlt" />
+        <result column="PreAuditFocusUpdate_time" property="preauditfocusupdateTime" />
+        <result column="PreAuditFocusUpdate_user" property="preauditfocusupdateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        PreAuditFocusId, AuditRecordId, PreAuditFocusContent, PreAuditFocusResult, PreAuditFocusiIsDlt, PreAuditFocusUpdate_time, PreAuditFocusUpdate_user
+    </sql>
+
+</mapper>

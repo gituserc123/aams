@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditRecordReplyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditRecordReply">
+        <id column="AuditRecordReplyID" property="auditRecordReplyID" />
+        <result column="AuditRecordId" property="auditRecordId" />
+        <result column="AuditRecordReplyBS" property="auditRecordReplyBS" />
+        <result column="AuditRecordReplyStatus" property="auditRecordReplyStatus" />
+        <result column="AuditRecordReplyUser" property="auditRecordReplyUser" />
+        <result column="AuditRecordReplyTime" property="auditRecordReplyTime" />
+        <result column="AuditRecordReplyEvalateUser" property="auditRecordReplyEvalateUser" />
+        <result column="AuditRecordReplyEvalateTime" property="auditRecordReplyEvalateTime" />
+        <result column="AuditRecordReplySQTime" property="auditRecordReplySQTime" />
+        <result column="AuditRecordReplySQUser" property="auditRecordReplySQUser" />
+        <result column="AuditRecordReplyMgxxSQTime" property="auditRecordReplyMgxxSQTime" />
+        <result column="AuditRecordReplyMgxxSQUser" property="auditRecordReplyMgxxSQUser" />
+        <result column="AuditRecordReplyMGxxTime" property="auditRecordReplyMGxxTime" />
+        <result column="AuditRecordReplyMgxxUser" property="auditRecordReplyMgxxUser" />
+        <result column="AuditRecordReplyMgxxStatus" property="auditRecordReplyMgxxStatus" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditRecordReplyID, AuditRecordId, AuditRecordReplyBS, AuditRecordReplyStatus, AuditRecordReplyUser, AuditRecordReplyTime, AuditRecordReplyEvalateUser, AuditRecordReplyEvalateTime, AuditRecordReplySQTime, AuditRecordReplySQUser, AuditRecordReplyMgxxSQTime, AuditRecordReplyMgxxSQUser, AuditRecordReplyMGxxTime, AuditRecordReplyMgxxUser, AuditRecordReplyMgxxStatus
+    </sql>
+
+</mapper>

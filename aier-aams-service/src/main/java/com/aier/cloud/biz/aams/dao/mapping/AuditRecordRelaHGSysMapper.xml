@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditRecordRelaHGSysMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditRecordRelaHGSys">
+        <id column="AuditRecordRelaHGSysId" property="auditRecordRelaHGSysId" />
+        <result column="AuditHGEvalSysId" property="auditHGEvalSysId" />
+        <result column="AuditRecordId" property="auditRecordId" />
+        <result column="AuditRecordRelaHGSysIsDlt" property="auditRecordRelaHGSysIsDlt" />
+        <result column="AuditRecordRelaHGSysScore" property="auditRecordRelaHGSysScore" />
+        <result column="AuditRecordRelaHGSysCreate_user" property="auditrecordrelahgsyscreateUser" />
+        <result column="AuditRecordRelaHGSysCreate_time" property="auditrecordrelahgsyscreateTime" />
+        <result column="AuditRecordRelaHGSysUpdate_User" property="auditrecordrelahgsysupdateUser" />
+        <result column="AuditRecordRelaHGSysUpdate_time" property="auditrecordrelahgsysupdateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditRecordRelaHGSysId, AuditHGEvalSysId, AuditRecordId, AuditRecordRelaHGSysIsDlt, AuditRecordRelaHGSysScore, AuditRecordRelaHGSysCreate_user, AuditRecordRelaHGSysCreate_time, AuditRecordRelaHGSysUpdate_User, AuditRecordRelaHGSysUpdate_time
+    </sql>
+
+</mapper>

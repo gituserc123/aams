@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditRecordDetailReplyXxbMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditRecordDetailReplyXxb">
+        <id column="AuditRecordDetailReplyXxbID" property="auditRecordDetailReplyXxbID" />
+        <result column="AuditRecordDetailReplyID" property="auditRecordDetailReplyID" />
+        <result column="AuditRecordDetailReplyXxbHfxx" property="auditRecordDetailReplyXxbHfxx" />
+        <result column="AuditRecordDetailReplyXxb_Hfuser" property="auditrecorddetailreplyxxbHfuser" />
+        <result column="AuditRecordDetailReplyXxb_Hftime" property="auditrecorddetailreplyxxbHftime" />
+        <result column="AuditRecordDetailReplyXxbOverdueReason" property="auditRecordDetailReplyXxbOverdueReason" />
+        <result column="AuditRecordDetailReplyXxbSJFinishTime" property="auditRecordDetailReplyXxbSJFinishTime" />
+        <result column="AuditRecordDetailReplyXxbStatus" property="auditRecordDetailReplyXxbStatus" />
+        <result column="AuditRecordDetailReplyXxbBS" property="auditRecordDetailReplyXxbBS" />
+        <result column="AuditRecordDetailReplyXxbSqpj_user" property="auditrecorddetailreplyxxbsqpjUser" />
+        <result column="AuditRecordDetailReplyXxbSqpj_time" property="auditrecorddetailreplyxxbsqpjTime" />
+        <result column="AuditRecordDetailReplyXxbSqpjjg" property="auditRecordDetailReplyXxbSqpjjg" />
+        <result column="AuditRecordDetailReplyXxbSqpjxx" property="auditRecordDetailReplyXxbSqpjxx" />
+        <result column="AuditRecordDetailReplyXxbHFBS" property="auditRecordDetailReplyXxbHFBS" />
+        <result column="AuditRecordDetailReplyXxbXGBS" property="auditRecordDetailReplyXxbXGBS" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditRecordDetailReplyXxbID, AuditRecordDetailReplyID, AuditRecordDetailReplyXxbHfxx, AuditRecordDetailReplyXxb_Hfuser, AuditRecordDetailReplyXxb_Hftime, AuditRecordDetailReplyXxbOverdueReason, AuditRecordDetailReplyXxbSJFinishTime, AuditRecordDetailReplyXxbStatus, AuditRecordDetailReplyXxbBS, AuditRecordDetailReplyXxbSqpj_user, AuditRecordDetailReplyXxbSqpj_time, AuditRecordDetailReplyXxbSqpjjg, AuditRecordDetailReplyXxbSqpjxx, AuditRecordDetailReplyXxbHFBS, AuditRecordDetailReplyXxbXGBS
+    </sql>
+
+</mapper>

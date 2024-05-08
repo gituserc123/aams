@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.SelfEvaluationDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.SelfEvaluationDetail">
+        <id column="SelfEvaluationDetailId" property="selfEvaluationDetailId" />
+        <result column="SelfEvaluationId" property="selfEvaluationId" />
+        <result column="SelfRiskId" property="selfRiskId" />
+        <result column="SelfEvaluationDetailResult" property="selfEvaluationDetailResult" />
+        <result column="SelfEvaluationDetailIssueDesc" property="selfEvaluationDetailIssueDesc" />
+        <result column="SelfEvaluationDetailMeasures" property="selfEvaluationDetailMeasures" />
+        <result column="SelfEvaluationDetailSubmit_time" property="selfevaluationdetailsubmitTime" />
+        <result column="SelfEvaluationDetailCreate_time" property="selfevaluationdetailcreateTime" />
+        <result column="SelfEvaluationDetailCreate_user" property="selfevaluationdetailcreateUser" />
+        <result column="SelfEvaluationDetailUpdate_time" property="selfevaluationdetailupdateTime" />
+        <result column="SelfEvaluationDetailUpdate_user" property="selfevaluationdetailupdateUser" />
+        <result column="SelfEvaluationDetailScore" property="selfEvaluationDetailScore" />
+        <result column="SelfEvaluationDetailScoreCode" property="selfEvaluationDetailScoreCode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        SelfEvaluationDetailId, SelfEvaluationId, SelfRiskId, SelfEvaluationDetailResult, SelfEvaluationDetailIssueDesc, SelfEvaluationDetailMeasures, SelfEvaluationDetailSubmit_time, SelfEvaluationDetailCreate_time, SelfEvaluationDetailCreate_user, SelfEvaluationDetailUpdate_time, SelfEvaluationDetailUpdate_user, SelfEvaluationDetailScore, SelfEvaluationDetailScoreCode
+    </sql>
+
+</mapper>

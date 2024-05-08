@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.RiskScoreStandardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.RiskScoreStandard">
+        <id column="RiskScoreStandardId" property="riskScoreStandardId" />
+        <result column="RiskScoreStandardManualId" property="riskScoreStandardManualId" />
+        <result column="RiskScoreStandardType" property="riskScoreStandardType" />
+        <result column="RiskScoreStandardScore" property="riskScoreStandardScore" />
+        <result column="RiskScoreStandardDesc" property="riskScoreStandardDesc" />
+        <result column="RiskScoreStandardCode" property="riskScoreStandardCode" />
+        <result column="RiskScoreStandardParentCode" property="riskScoreStandardParentCode" />
+        <result column="RiskScoreStandardValue" property="riskScoreStandardValue" />
+        <result column="RiskScoreStandardIsDlt" property="riskScoreStandardIsDlt" />
+        <result column="RiskScoreStandardCreate_user" property="riskscorestandardcreateUser" />
+        <result column="RiskScoreStandardCreate_time" property="riskscorestandardcreateTime" />
+        <result column="RiskScoreStandardUpdate_User" property="riskscorestandardupdateUser" />
+        <result column="RiskScoreStandardUpdate_time" property="riskscorestandardupdateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        RiskScoreStandardId, RiskScoreStandardManualId, RiskScoreStandardType, RiskScoreStandardScore, RiskScoreStandardDesc, RiskScoreStandardCode, RiskScoreStandardParentCode, RiskScoreStandardValue, RiskScoreStandardIsDlt, RiskScoreStandardCreate_user, RiskScoreStandardCreate_time, RiskScoreStandardUpdate_User, RiskScoreStandardUpdate_time
+    </sql>
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditRecordAuditRecordDecisionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditRecordAuditRecordDecision">
+        <id column="AuditRecordId" property="auditRecordId" />
+        <id column="AuditRecordDecisionGuid" property="auditRecordDecisionGuid" />
+        <result column="AuditRecordDecisionTitle" property="auditRecordDecisionTitle" />
+        <result column="AuditRecordDecisionRemark" property="auditRecordDecisionRemark" />
+        <result column="AuditRecordDecisionUpdate_user" property="auditrecorddecisionupdateUser" />
+        <result column="AuditRecordDecisionUpdate_time" property="auditrecorddecisionupdateTime" />
+        <result column="AuditRecordDecisionIsdlt" property="auditRecordDecisionIsdlt" />
+        <result column="AuditRecordDecisionRemark_user" property="auditrecorddecisionremarkUser" />
+        <result column="AuditRecordDecisionRemark_time" property="auditrecorddecisionremarkTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditRecordId, AuditRecordDecisionGuid, AuditRecordDecisionTitle, AuditRecordDecisionRemark, AuditRecordDecisionUpdate_user, AuditRecordDecisionUpdate_time, AuditRecordDecisionIsdlt, AuditRecordDecisionRemark_user, AuditRecordDecisionRemark_time
+    </sql>
+
+</mapper>

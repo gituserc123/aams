@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.FxglGroupAuthMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.FxglGroupAuth">
+        <id column="FxglGroupAuthId" property="fxglGroupAuthId" />
+        <result column="SecUserId" property="secUserId" />
+        <result column="FxglGroupAuthBusiCode" property="fxglGroupAuthBusiCode" />
+        <result column="FxglGroupAuthCreate_user" property="fxglgroupauthcreateUser" />
+        <result column="FxglGroupAuthCreate_time" property="fxglgroupauthcreateTime" />
+        <result column="FxglGroupAuthIsDlt" property="fxglGroupAuthIsDlt" />
+        <result column="FxglGroupAuthUpdate_user" property="fxglgroupauthupdateUser" />
+        <result column="FxglGroupAuthUpdate_time" property="fxglgroupauthupdateTime" />
+        <result column="FxglGroupAuthOrgMasterId" property="fxglGroupAuthOrgMasterId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        FxglGroupAuthId, SecUserId, FxglGroupAuthBusiCode, FxglGroupAuthCreate_user, FxglGroupAuthCreate_time, FxglGroupAuthIsDlt, FxglGroupAuthUpdate_user, FxglGroupAuthUpdate_time, FxglGroupAuthOrgMasterId
+    </sql>
+
+</mapper>

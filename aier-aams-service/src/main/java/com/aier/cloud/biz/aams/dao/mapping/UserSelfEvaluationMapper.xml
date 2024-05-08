@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.UserSelfEvaluationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.UserSelfEvaluation">
+        <id column="UserSelfEvaluationId" property="userSelfEvaluationId" />
+        <result column="UserSelfEvaluationCreate_time" property="userselfevaluationcreateTime" />
+        <result column="UserSelfEvaluationCreate_User" property="userselfevaluationcreateUser" />
+        <result column="UserSelfEvaluationUpdate_time" property="userselfevaluationupdateTime" />
+        <result column="UserSelfEvaluationUpdate_user" property="userselfevaluationupdateUser" />
+        <result column="UserSelfEvaluationIsdlt" property="userSelfEvaluationIsdlt" />
+        <result column="UserSelfEvaluationDeptCode" property="userSelfEvaluationDeptCode" />
+        <result column="UserSelfEvaluationStatus" property="userSelfEvaluationStatus" />
+        <result column="UserSelfEvaluationScore" property="userSelfEvaluationScore" />
+        <result column="UserSelfEvaluationFinishedTime" property="userSelfEvaluationFinishedTime" />
+        <result column="UserSelfEvaluationName" property="userSelfEvaluationName" />
+        <result column="UserSelfEvaluationMonth" property="userSelfEvaluationMonth" />
+        <result column="UserSelfEvaluationYear" property="userSelfEvaluationYear" />
+        <result column="UserSelfEvaluationForHospLevel" property="userSelfEvaluationForHospLevel" />
+        <result column="UserSelfEvaluationIsGroup" property="userSelfEvaluationIsGroup" />
+        <result column="UserSelfEvaluationGroupDept" property="userSelfEvaluationGroupDept" />
+        <result column="orgMasterId" property="orgMasterId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        UserSelfEvaluationId, UserSelfEvaluationCreate_time, UserSelfEvaluationCreate_User, UserSelfEvaluationUpdate_time, UserSelfEvaluationUpdate_user, UserSelfEvaluationIsdlt, UserSelfEvaluationDeptCode, UserSelfEvaluationStatus, UserSelfEvaluationScore, UserSelfEvaluationFinishedTime, UserSelfEvaluationName, UserSelfEvaluationMonth, UserSelfEvaluationYear, UserSelfEvaluationForHospLevel, UserSelfEvaluationIsGroup, UserSelfEvaluationGroupDept, orgMasterId
+    </sql>
+
+</mapper>

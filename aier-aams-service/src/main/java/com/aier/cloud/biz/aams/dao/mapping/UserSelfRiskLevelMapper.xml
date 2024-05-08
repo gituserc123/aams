@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.UserSelfRiskLevelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.UserSelfRiskLevel">
+        <id column="UserSelfRiskLevelId" property="userSelfRiskLevelId" />
+        <result column="UserSelfRiskLevelName" property="userSelfRiskLevelName" />
+        <result column="UserSelfRiskLevelDeptCode" property="userSelfRiskLevelDeptCode" />
+        <result column="UserSelfRiskLevelCreate_time" property="userselfrisklevelcreateTime" />
+        <result column="UserSelfRiskLevelCreate_user" property="userselfrisklevelcreateUser" />
+        <result column="UserSelfRiskLevelUpdate_time" property="userselfrisklevelupdateTime" />
+        <result column="UserSelfRiskLevelUpdate_user" property="userselfrisklevelupdateUser" />
+        <result column="UserSelfRiskLevelIsdlt" property="userSelfRiskLevelIsdlt" />
+        <result column="UserSelfRiskLevelCode" property="userSelfRiskLevelCode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        UserSelfRiskLevelId, UserSelfRiskLevelName, UserSelfRiskLevelDeptCode, UserSelfRiskLevelCreate_time, UserSelfRiskLevelCreate_user, UserSelfRiskLevelUpdate_time, UserSelfRiskLevelUpdate_user, UserSelfRiskLevelIsdlt, UserSelfRiskLevelCode
+    </sql>
+
+</mapper>

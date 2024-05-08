@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.SelfEvaluationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.SelfEvaluation">
+        <id column="SelfEvaluationId" property="selfEvaluationId" />
+        <result column="SelfEvaluationCreate_time" property="selfevaluationcreateTime" />
+        <result column="SelfEvaluationCreate_user" property="selfevaluationcreateUser" />
+        <result column="SelfEvaluationScore" property="selfEvaluationScore" />
+        <result column="SelfEvaluationResultDesc" property="selfEvaluationResultDesc" />
+        <result column="SelfEvaluationUpdate_user" property="selfevaluationupdateUser" />
+        <result column="SelfEvaluationUpdate_time" property="selfevaluationupdateTime" />
+        <result column="SelfEvaluationFinishedTime" property="selfEvaluationFinishedTime" />
+        <result column="SelfEvaluationStatus" property="selfEvaluationStatus" />
+        <result column="orgMasterId" property="orgMasterId" />
+        <result column="SelfEvaluationIsdlt" property="selfEvaluationIsdlt" />
+        <result column="SelfEvaluationType" property="selfEvaluationType" />
+        <result column="SelfEvaluationForHospType" property="selfEvaluationForHospType" />
+        <result column="SelfEvaluationName" property="selfEvaluationName" />
+        <result column="SelfEvaluationMonth" property="selfEvaluationMonth" />
+        <result column="SelfEvaluationYear" property="selfEvaluationYear" />
+        <result column="SelfEvaluationSubmitDate" property="selfEvaluationSubmitDate" />
+        <result column="SelfEvaluationIsClosed" property="selfEvaluationIsClosed" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        SelfEvaluationId, SelfEvaluationCreate_time, SelfEvaluationCreate_user, SelfEvaluationScore, SelfEvaluationResultDesc, SelfEvaluationUpdate_user, SelfEvaluationUpdate_time, SelfEvaluationFinishedTime, SelfEvaluationStatus, orgMasterId, SelfEvaluationIsdlt, SelfEvaluationType, SelfEvaluationForHospType, SelfEvaluationName, SelfEvaluationMonth, SelfEvaluationYear, SelfEvaluationSubmitDate, SelfEvaluationIsClosed
+    </sql>
+
+</mapper>

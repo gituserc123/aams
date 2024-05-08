@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.FeedbacksMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.Feedbacks">
+        <id column="FeedbacksId" property="feedbacksId" />
+        <result column="FeedbacksDesc" property="feedbacksDesc" />
+        <result column="FeedbacksStatus" property="feedbacksStatus" />
+        <result column="FeedbacksCreate_user" property="feedbackscreateUser" />
+        <result column="FeedbacksCreate_time" property="feedbackscreateTime" />
+        <result column="FeedbacksReply" property="feedbacksReply" />
+        <result column="FeedbacksNeedDay" property="feedbacksNeedDay" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        FeedbacksId, FeedbacksDesc, FeedbacksStatus, FeedbacksCreate_user, FeedbacksCreate_time, FeedbacksReply, FeedbacksNeedDay
+    </sql>
+
+</mapper>

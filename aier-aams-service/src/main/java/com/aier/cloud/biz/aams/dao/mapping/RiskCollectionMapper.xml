@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.RiskCollectionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.RiskCollection">
+        <id column="RiskCollectionId" property="riskCollectionId" />
+        <result column="RiskId" property="riskId" />
+        <result column="RiskCollectionLabelId" property="riskCollectionLabelId" />
+        <result column="RiskCollectionOrder" property="riskCollectionOrder" />
+        <result column="RiskCollectionIsDlt" property="riskCollectionIsDlt" />
+        <result column="RiskCollectionUpdate_time" property="riskcollectionupdateTime" />
+        <result column="RiskCollectionCreate_User" property="riskcollectioncreateUser" />
+        <result column="RiskCollectionCreate_time" property="riskcollectioncreateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        RiskCollectionId, RiskId, RiskCollectionLabelId, RiskCollectionOrder, RiskCollectionIsDlt, RiskCollectionUpdate_time, RiskCollectionCreate_User, RiskCollectionCreate_time
+    </sql>
+
+</mapper>

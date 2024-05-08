@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditRecordPersonMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditRecordPerson">
+        <id column="AuditRecordPersonId" property="auditRecordPersonId" />
+        <result column="AuditRecordId" property="auditRecordId" />
+        <result column="SecUserId" property="secUserId" />
+        <result column="AuditRecordPersonCreate_time" property="auditrecordpersoncreateTime" />
+        <result column="AuditRecordPersonCreate_user" property="auditrecordpersoncreateUser" />
+        <result column="AuditRecordPersonLx" property="auditRecordPersonLx" />
+        <result column="AuditRecordPersonIsManager" property="auditRecordPersonIsManager" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditRecordPersonId, AuditRecordId, SecUserId, AuditRecordPersonCreate_time, AuditRecordPersonCreate_user, AuditRecordPersonLx, AuditRecordPersonIsManager
+    </sql>
+
+</mapper>

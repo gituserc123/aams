@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.SelfEvaluationBussinessTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.SelfEvaluationBussinessType">
+        <id column="SelfEvaluationBussinessTypeId" property="selfEvaluationBussinessTypeId" />
+        <result column="SelfEvaluationBussinessTypeScroe" property="selfEvaluationBussinessTypeScroe" />
+        <result column="SelfEvaluationBussinessTypeBT" property="selfEvaluationBussinessTypeBT" />
+        <result column="SelfEvaluationBussinessTypeCreate_user" property="selfevaluationbussinesstypecreateUser" />
+        <result column="SelfEvaluationBussinessTypeCreate_time" property="selfevaluationbussinesstypecreateTime" />
+        <result column="SelfEvaluationId" property="selfEvaluationId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        SelfEvaluationBussinessTypeId, SelfEvaluationBussinessTypeScroe, SelfEvaluationBussinessTypeBT, SelfEvaluationBussinessTypeCreate_user, SelfEvaluationBussinessTypeCreate_time, SelfEvaluationId
+    </sql>
+
+</mapper>

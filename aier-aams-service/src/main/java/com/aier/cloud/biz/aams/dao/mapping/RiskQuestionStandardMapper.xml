@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.RiskQuestionStandardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.RiskQuestionStandard">
+        <id column="RiskQuestionStandardId" property="riskQuestionStandardId" />
+        <result column="RiskId" property="riskId" />
+        <result column="RiskQuestionStandardCode" property="riskQuestionStandardCode" />
+        <result column="RiskQuestionStandardDesc" property="riskQuestionStandardDesc" />
+        <result column="RiskQuestionStandardValue" property="riskQuestionStandardValue" />
+        <result column="RiskQuestionStandardRemark" property="riskQuestionStandardRemark" />
+        <result column="RiskQuestionStandardIsDlt" property="riskQuestionStandardIsDlt" />
+        <result column="RiskQuestionStandardCreate_user" property="riskquestionstandardcreateUser" />
+        <result column="RiskQuestionStandardCreate_time" property="riskquestionstandardcreateTime" />
+        <result column="RiskQuestionStandardUpdate_User" property="riskquestionstandardupdateUser" />
+        <result column="RiskQuestionStandardUpdate_time" property="riskquestionstandardupdateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        RiskQuestionStandardId, RiskId, RiskQuestionStandardCode, RiskQuestionStandardDesc, RiskQuestionStandardValue, RiskQuestionStandardRemark, RiskQuestionStandardIsDlt, RiskQuestionStandardCreate_user, RiskQuestionStandardCreate_time, RiskQuestionStandardUpdate_User, RiskQuestionStandardUpdate_time
+    </sql>
+
+</mapper>

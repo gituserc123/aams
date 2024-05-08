@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.MedSupervDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.MedSupervDetail">
+        <id column="MedSupervDetailId" property="medSupervDetailId" />
+        <result column="MedSupervId" property="medSupervId" />
+        <result column="UserSelfRiskId" property="userSelfRiskId" />
+        <result column="MedSupervDetailScore" property="medSupervDetailScore" />
+        <result column="MedSupervDetailDeductReason" property="medSupervDetailDeductReason" />
+        <result column="MedSupervDetailRectifyUpdate_time" property="medsupervdetailrectifyupdateTime" />
+        <result column="MedSupervDetailRectifyUpdate_user" property="medsupervdetailrectifyupdateUser" />
+        <result column="MedSupervDetailRectifyMeasures" property="medSupervDetailRectifyMeasures" />
+        <result column="MedSupervDetailUpdate_time" property="medsupervdetailupdateTime" />
+        <result column="MedSupervDetailUpdate_user" property="medsupervdetailupdateUser" />
+        <result column="MedSupervDetailCreate_time" property="medsupervdetailcreateTime" />
+        <result column="MedSupervDetailCreate_user" property="medsupervdetailcreateUser" />
+        <result column="MedSupervDetailStatus" property="medSupervDetailStatus" />
+        <result column="MedSupervDetailCustomHbText" property="medSupervDetailCustomHbText" />
+        <result column="MedSupervDetailIsGroupHb" property="medSupervDetailIsGroupHb" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        MedSupervDetailId, MedSupervId, UserSelfRiskId, MedSupervDetailScore, MedSupervDetailDeductReason, MedSupervDetailRectifyUpdate_time, MedSupervDetailRectifyUpdate_user, MedSupervDetailRectifyMeasures, MedSupervDetailUpdate_time, MedSupervDetailUpdate_user, MedSupervDetailCreate_time, MedSupervDetailCreate_user, MedSupervDetailStatus, MedSupervDetailCustomHbText, MedSupervDetailIsGroupHb
+    </sql>
+
+</mapper>

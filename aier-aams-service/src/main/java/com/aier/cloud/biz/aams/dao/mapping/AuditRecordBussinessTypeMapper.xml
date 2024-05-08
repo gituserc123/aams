@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditRecordBussinessTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditRecordBussinessType">
+        <id column="AuditRecordBussinessTypeId" property="auditRecordBussinessTypeId" />
+        <result column="AuditRecordId" property="auditRecordId" />
+        <result column="AuditRecordBussinessTypeSuggestion" property="auditRecordBussinessTypeSuggestion" />
+        <result column="AuditRecordBussinessTypeIsdlt" property="auditRecordBussinessTypeIsdlt" />
+        <result column="AuditRecordBussinessTypeCreate_user" property="auditrecordbussinesstypecreateUser" />
+        <result column="AuditRecordBussinessTypeUpdate_user" property="auditrecordbussinesstypeupdateUser" />
+        <result column="AuditRecordBussinessTypeCreate_time" property="auditrecordbussinesstypecreateTime" />
+        <result column="AuditRecordBussinessTypeUpdate_time" property="auditrecordbussinesstypeupdateTime" />
+        <result column="AuditRecordBussinessTypeCode" property="auditRecordBussinessTypeCode" />
+        <result column="AuditRecordBussinessTypeAttachmentId" property="auditRecordBussinessTypeAttachmentId" />
+        <result column="AuditRecordBussinessTypeRemarks" property="auditRecordBussinessTypeRemarks" />
+        <result column="AuditRecordBussinessTypeScore" property="auditRecordBussinessTypeScore" />
+        <result column="AuditRecordBussinessTypeConfirmTime" property="auditRecordBussinessTypeConfirmTime" />
+        <result column="AuditRecordBussinessTypeConfirmUser" property="auditRecordBussinessTypeConfirmUser" />
+        <result column="AuditRecordBussinessTypeOpenToHos" property="auditRecordBussinessTypeOpenToHos" />
+        <result column="AuditRecordBussinessTypeOpenToHosDeadlin" property="auditRecordBussinessTypeOpenToHosDeadlin" />
+        <result column="AuditRecordBussinessTypeRemarks_user" property="auditrecordbussinesstyperemarksUser" />
+        <result column="AuditRecordBussinessTypeRemarks_time" property="auditrecordbussinesstyperemarksTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditRecordBussinessTypeId, AuditRecordId, AuditRecordBussinessTypeSuggestion, AuditRecordBussinessTypeIsdlt, AuditRecordBussinessTypeCreate_user, AuditRecordBussinessTypeUpdate_user, AuditRecordBussinessTypeCreate_time, AuditRecordBussinessTypeUpdate_time, AuditRecordBussinessTypeCode, AuditRecordBussinessTypeAttachmentId, AuditRecordBussinessTypeRemarks, AuditRecordBussinessTypeScore, AuditRecordBussinessTypeConfirmTime, AuditRecordBussinessTypeConfirmUser, AuditRecordBussinessTypeOpenToHos, AuditRecordBussinessTypeOpenToHosDeadlin, AuditRecordBussinessTypeRemarks_user, AuditRecordBussinessTypeRemarks_time
+    </sql>
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.SecUserBussinessTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.SecUserBussinessType">
+        <id column="SecUserBussinessTypeId" property="secUserBussinessTypeId" />
+        <result column="SecUserId" property="secUserId" />
+        <result column="SecUserBussinessTypeCode" property="secUserBussinessTypeCode" />
+        <result column="SecUserBussinessTypeCreate_user" property="secuserbussinesstypecreateUser" />
+        <result column="SecUserBussinessTypeCreate_time" property="secuserbussinesstypecreateTime" />
+        <result column="SecUserBussinessTypeIsDlt" property="secUserBussinessTypeIsDlt" />
+        <result column="SecUserBussinessTypeUpdate_time" property="secuserbussinesstypeupdateTime" />
+        <result column="SecUserBussinessTypeUpdate_user" property="secuserbussinesstypeupdateUser" />
+        <result column="SecUserBussinessTypeOrgMasterId" property="secUserBussinessTypeOrgMasterId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        SecUserBussinessTypeId, SecUserId, SecUserBussinessTypeCode, SecUserBussinessTypeCreate_user, SecUserBussinessTypeCreate_time, SecUserBussinessTypeIsDlt, SecUserBussinessTypeUpdate_time, SecUserBussinessTypeUpdate_user, SecUserBussinessTypeOrgMasterId
+    </sql>
+
+</mapper>

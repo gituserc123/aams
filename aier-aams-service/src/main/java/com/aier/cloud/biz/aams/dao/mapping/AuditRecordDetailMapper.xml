@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditRecordDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditRecordDetail">
+        <id column="AuditRecordDetailId" property="auditRecordDetailId" />
+        <result column="AuditRecordId" property="auditRecordId" />
+        <result column="RiskId" property="riskId" />
+        <result column="AuditRecordDetailStatus" property="auditRecordDetailStatus" />
+        <result column="AuditRecordDetailQuestionDesc" property="auditRecordDetailQuestionDesc" />
+        <result column="AuditRecordDetailCreate_user" property="auditrecorddetailcreateUser" />
+        <result column="AuditRecordDetailUpdate_user" property="auditrecorddetailupdateUser" />
+        <result column="AuditRecordDetailCreate_time" property="auditrecorddetailcreateTime" />
+        <result column="AuditRecordDetailUpdate_time" property="auditrecorddetailupdateTime" />
+        <result column="AuditRecordDetailEmergency" property="auditRecordDetailEmergency" />
+        <result column="AuditRecordDetailAddToAuditReport" property="auditRecordDetailAddToAuditReport" />
+        <result column="AuditRecordDetailAddToRiskRememberLetter" property="auditRecordDetailAddToRiskRememberLetter" />
+        <result column="AuditRecordDetailAuditFind" property="auditRecordDetailAuditFind" />
+        <result column="AuditRecordDetailMarks" property="auditRecordDetailMarks" />
+        <result column="AuditRecordDetailReplyStatus" property="auditRecordDetailReplyStatus" />
+        <result column="AuditRecordDetailManuscript" property="auditRecordDetailManuscript" />
+        <result column="AuditRecordDetailEvaluateDay" property="auditRecordDetailEvaluateDay" />
+        <result column="AuditRecordDetailRectifyType" property="auditRecordDetailRectifyType" />
+        <result column="AuditRecordDetailRiskCode" property="auditRecordDetailRiskCode" />
+        <result column="AuditRecordDetailJtznzxyj" property="auditRecordDetailJtznzxyj" />
+        <result column="AuditRecordDetailjtznzxyjUpdate_time" property="auditrecorddetailjtznzxyjupdateTime" />
+        <result column="AuditRecordDetailjtznzxyjUpdate_user" property="auditrecorddetailjtznzxyjupdateUser" />
+        <result column="AuditRecordDetailAudit_time" property="auditrecorddetailauditTime" />
+        <result column="AuditRecordDetailAudit_user" property="auditrecorddetailauditUser" />
+        <result column="AuditRecordDetailLastAuditFind" property="auditRecordDetailLastAuditFind" />
+        <result column="AuditRecordDetailScore" property="auditRecordDetailScore" />
+        <result column="AuditRecordDetailJtznzxyjStatus" property="auditRecordDetailJtznzxyjStatus" />
+        <result column="AuditRecordDetailScoreCode" property="auditRecordDetailScoreCode" />
+        <result column="AuditRecordDetailIsQueDescStd" property="auditRecordDetailIsQueDescStd" />
+        <result column="AuditRecordDetailHistoryAuditFind" property="auditRecordDetailHistoryAuditFind" />
+        <result column="AuditRecordDetailRiskScore" property="auditRecordDetailRiskScore" />
+        <result column="AuditRecordDetailSQKeyIssuse" property="auditRecordDetailSQKeyIssuse" />
+        <result column="AuditRecordDetailMarks_user" property="auditrecorddetailmarksUser" />
+        <result column="AuditRecordDetailMarks_time" property="auditrecorddetailmarksTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditRecordDetailId, AuditRecordId, RiskId, AuditRecordDetailStatus, AuditRecordDetailQuestionDesc, AuditRecordDetailCreate_user, AuditRecordDetailUpdate_user, AuditRecordDetailCreate_time, AuditRecordDetailUpdate_time, AuditRecordDetailEmergency, AuditRecordDetailAddToAuditReport, AuditRecordDetailAddToRiskRememberLetter, AuditRecordDetailAuditFind, AuditRecordDetailMarks, AuditRecordDetailReplyStatus, AuditRecordDetailManuscript, AuditRecordDetailEvaluateDay, AuditRecordDetailRectifyType, AuditRecordDetailRiskCode, AuditRecordDetailJtznzxyj, AuditRecordDetailjtznzxyjUpdate_time, AuditRecordDetailjtznzxyjUpdate_user, AuditRecordDetailAudit_time, AuditRecordDetailAudit_user, AuditRecordDetailLastAuditFind, AuditRecordDetailScore, AuditRecordDetailJtznzxyjStatus, AuditRecordDetailScoreCode, AuditRecordDetailIsQueDescStd, AuditRecordDetailHistoryAuditFind, AuditRecordDetailRiskScore, AuditRecordDetailSQKeyIssuse, AuditRecordDetailMarks_user, AuditRecordDetailMarks_time
+    </sql>
+
+</mapper>

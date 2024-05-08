@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditRecord">
+        <id column="AuditRecordId" property="auditRecordId" />
+        <result column="AuditRecordOrgCode" property="auditRecordOrgCode" />
+        <result column="AuditRecordIsFinished" property="auditRecordIsFinished" />
+        <result column="AuditRecordIsdlt" property="auditRecordIsdlt" />
+        <result column="AuditRecordCreate_time" property="auditrecordcreateTime" />
+        <result column="AuditRecordCreate_user" property="auditrecordcreateUser" />
+        <result column="AuditRecordType" property="auditRecordType" />
+        <result column="AuditRecordName" property="auditRecordName" />
+        <result column="AuditRecordDateTo" property="auditRecordDateTo" />
+        <result column="AuditRecordDateFrom" property="auditRecordDateFrom" />
+        <result column="AuditRecordFinished_time" property="auditrecordfinishedTime" />
+        <result column="AuditrecordNoteAttachmenId" property="auditrecordNoteAttachmenId" />
+        <result column="AuditRecordReprotAttachmentid" property="auditRecordReprotAttachmentid" />
+        <result column="AuditRecordStatus" property="auditRecordStatus" />
+        <result column="AuditRecordLeaveHospitalDate" property="auditRecordLeaveHospitalDate" />
+        <result column="AuditRecordArriveHospitalDate" property="auditRecordArriveHospitalDate" />
+        <result column="AuditRecordMonth" property="auditRecordMonth" />
+        <result column="AuditRecordYear" property="auditRecordYear" />
+        <result column="AuditRecordOverview" property="auditRecordOverview" />
+        <result column="AuditRecordOverviewRemark" property="auditRecordOverviewRemark" />
+        <result column="AuditRecordUpdate_time" property="auditrecordupdateTime" />
+        <result column="AuditRecordUpdate_user" property="auditrecordupdateUser" />
+        <result column="AuditRecordRejectReason" property="auditRecordRejectReason" />
+        <result column="AuditRecordReprotConfirmAttachmentid" property="auditRecordReprotConfirmAttachmentid" />
+        <result column="AuditRecordLockUser" property="auditRecordLockUser" />
+        <result column="AuditRecordParentId" property="auditRecordParentId" />
+        <result column="AuditRecordReplyEvalateSubmitTime" property="auditRecordReplyEvalateSubmitTime" />
+        <result column="AuditRecordReplyEvalateSubmitUser" property="auditRecordReplyEvalateSubmitUser" />
+        <result column="AuditRecordReplyEvalateXx" property="auditRecordReplyEvalateXx" />
+        <result column="AuditRecordReplyFinishTime" property="auditRecordReplyFinishTime" />
+        <result column="AuditRecordReplyIsFinish" property="auditRecordReplyIsFinish" />
+        <result column="AuditRecordCapability" property="auditRecordCapability" />
+        <result column="orgMasterId" property="orgMasterId" />
+        <result column="AuditRecordScore" property="auditRecordScore" />
+        <result column="AuditRecordRandomHG" property="auditRecordRandomHG" />
+        <result column="AuditRecordOpenToHos" property="auditRecordOpenToHos" />
+        <result column="AuditRecordConfirmDatetime" property="auditRecordConfirmDatetime" />
+        <result column="AuditRecordConfirmUser" property="auditRecordConfirmUser" />
+        <result column="AuditRecordOpenToHosDeadline" property="auditRecordOpenToHosDeadline" />
+        <result column="AuditRecordTheme" property="auditRecordTheme" />
+        <result column="AuditRecordOverviewRemark_user" property="auditrecordoverviewremarkUser" />
+        <result column="AuditRecordOverviewRemark_time" property="auditrecordoverviewremarkTime" />
+        <result column="AuditRecordFHreview_time" property="auditrecordfhreviewTime" />
+        <result column="AuditRecordFHreview_user" property="auditrecordfhreviewUser" />
+        <result column="AuditRecordCGSubmit_time" property="auditrecordcgsubmitTime" />
+        <result column="AuditRecordCGSubmit_user" property="auditrecordcgsubmitUser" />
+        <result column="AuditRecordGTYJSubmit2_time" property="auditrecordgtyjsubmit2Time" />
+        <result column="AuditRecordGTYJSubmit2_user" property="auditrecordgtyjsubmit2User" />
+        <result column="AuditRecordAgreeOrNot_time" property="auditrecordagreeornotTime" />
+        <result column="AuditRecordAgreeOrNot_user" property="auditrecordagreeornotUser" />
+        <result column="AuditRecordPublicFlag" property="auditRecordPublicFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditRecordId, AuditRecordOrgCode, AuditRecordIsFinished, AuditRecordIsdlt, AuditRecordCreate_time, AuditRecordCreate_user, AuditRecordType, AuditRecordName, AuditRecordDateTo, AuditRecordDateFrom, AuditRecordFinished_time, AuditrecordNoteAttachmenId, AuditRecordReprotAttachmentid, AuditRecordStatus, AuditRecordLeaveHospitalDate, AuditRecordArriveHospitalDate, AuditRecordMonth, AuditRecordYear, AuditRecordOverview, AuditRecordOverviewRemark, AuditRecordUpdate_time, AuditRecordUpdate_user, AuditRecordRejectReason, AuditRecordReprotConfirmAttachmentid, AuditRecordLockUser, AuditRecordParentId, AuditRecordReplyEvalateSubmitTime, AuditRecordReplyEvalateSubmitUser, AuditRecordReplyEvalateXx, AuditRecordReplyFinishTime, AuditRecordReplyIsFinish, AuditRecordCapability, orgMasterId, AuditRecordScore, AuditRecordRandomHG, AuditRecordOpenToHos, AuditRecordConfirmDatetime, AuditRecordConfirmUser, AuditRecordOpenToHosDeadline, AuditRecordTheme, AuditRecordOverviewRemark_user, AuditRecordOverviewRemark_time, AuditRecordFHreview_time, AuditRecordFHreview_user, AuditRecordCGSubmit_time, AuditRecordCGSubmit_user, AuditRecordGTYJSubmit2_time, AuditRecordGTYJSubmit2_user, AuditRecordAgreeOrNot_time, AuditRecordAgreeOrNot_user, AuditRecordPublicFlag
+    </sql>
+
+</mapper>

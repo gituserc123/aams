@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.aier</groupId>
+	<artifactId>aier-aams-api</artifactId>
+	<version>2.2.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>aier-aams-api</name>
+	<description>aier-aams-api for Spring Cloud web  api</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		
+		<!-- 版本升级需要修改的地方 -->
+		<aier.basic.version>3.1.0-SNAPSHOT</aier.basic.version>
+		<aier.api.version>3.1.0-SNAPSHOT</aier.api.version>
+	</properties>
+	
+	<distributionManagement>
+  		<repository>
+	  		<id>nexus-releases</id>
+	  		<name>Nexus Releases Repository</name>
+	  		<url>http://maven.acloud.com:8081/nexus/content/repositories/releases/</url>
+  		</repository>
+  		<snapshotRepository>
+	  		<id>nexus-snapshots</id>
+	  		<name>Nexus Snapshots Repository</name>
+	  		<url>http://maven.acloud.com:8081/nexus/content/repositories/snapshots/</url>
+  		</snapshotRepository>
+  	</distributionManagement>
+	
+	<dependencies>
+	  <!-- 引入公共api -->
+	  <dependency>
+		<groupId>com.aier</groupId>
+		<artifactId>aier-basic-api</artifactId>
+		<version>${aier.api.version}</version>
+	  </dependency>
+	  <dependency>
+		<groupId>com.aier</groupId>
+		<artifactId>aier-basic-common</artifactId>
+		<version>${aier.basic.version}</version>
+		<scope>provided</scope>
+	  </dependency>
+
+		<!-- lombok支持加入依赖 -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.8</version>
+		</dependency>
+        <!--<dependency>
+            <groupId>com.aier</groupId>
+            <artifactId>aier-center-common</artifactId>
+            <version>${aier.basic.version}</version>
+            <scope>compile</scope>
+        </dependency>-->
+
+    </dependencies>
+
+	<build>
+		<finalName>aier-aams-api</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<!-- <version>3.1</version> -->
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

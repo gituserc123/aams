@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.OrgMasterMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.OrgMaster">
+        <id column="OrgMasterId" property="orgMasterId" />
+        <result column="OrgMasterCode" property="orgMasterCode" />
+        <result column="OrgMasterName" property="orgMasterName" />
+        <result column="OrgMasterShort" property="orgMasterShort" />
+        <result column="OrgMasterRegion" property="orgMasterRegion" />
+        <result column="OrgMasterStatus" property="orgMasterStatus" />
+        <result column="OrgMasterModaility" property="orgMasterModaility" />
+        <result column="OrgMasterType" property="orgMasterType" />
+        <result column="OrgMasterParentCode" property="orgMasterParentCode" />
+        <result column="OrgMasterIsdlt" property="orgMasterIsdlt" />
+        <result column="OrgMasterCreate_time" property="orgmastercreateTime" />
+        <result column="OrgMasterUpdate_time" property="orgmasterupdateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        OrgMasterId, OrgMasterCode, OrgMasterName, OrgMasterShort, OrgMasterRegion, OrgMasterStatus, OrgMasterModaility, OrgMasterType, OrgMasterParentCode, OrgMasterIsdlt, OrgMasterCreate_time, OrgMasterUpdate_time
+    </sql>
+
+</mapper>

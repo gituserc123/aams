@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.PreAuditDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.PreAuditDetail">
+        <id column="PreAuditDetailId" property="preAuditDetailId" />
+        <result column="PreAuditItemId" property="preAuditItemId" />
+        <result column="AuditRecordId" property="auditRecordId" />
+        <result column="PreAuditDetailContent" property="preAuditDetailContent" />
+        <result column="PreAuditDetailRiskId" property="preAuditDetailRiskId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        PreAuditDetailId, PreAuditItemId, AuditRecordId, PreAuditDetailContent, PreAuditDetailRiskId
+    </sql>
+
+</mapper>

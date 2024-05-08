@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.ReportAuthorizedMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.ReportAuthorized">
+        <id column="ReportAuthorizedId" property="reportAuthorizedId" />
+        <result column="AuditRecordId" property="auditRecordId" />
+        <result column="SecUserId" property="secUserId" />
+        <result column="ReportAuthorizedCreate_time" property="reportauthorizedcreateTime" />
+        <result column="ReportAuthorizedCreate_user" property="reportauthorizedcreateUser" />
+        <result column="ReportAuthorizedIsdlt" property="reportAuthorizedIsdlt" />
+        <result column="ReportAuthorizedUpdate_time" property="reportauthorizedupdateTime" />
+        <result column="ReportAuthorizedUpdate_user" property="reportauthorizedupdateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ReportAuthorizedId, AuditRecordId, SecUserId, ReportAuthorizedCreate_time, ReportAuthorizedCreate_user, ReportAuthorizedIsdlt, ReportAuthorizedUpdate_time, ReportAuthorizedUpdate_user
+    </sql>
+
+</mapper>

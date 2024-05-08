@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.SysPermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.SysPermission">
+        <id column="id" property="id" />
+        <result column="perm_name" property="permName" />
+        <result column="perm_code" property="permCode" />
+        <result column="module_id" property="moduleId" />
+        <result column="remarks" property="remarks" />
+        <result column="create_date" property="createDate" />
+        <result column="modifer" property="modifer" />
+        <result column="modify_date" property="modifyDate" />
+        <result column="orders" property="orders" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List_1">
+        id, perm_name, perm_code, module_id, remarks, create_date, modifer, modify_date, orders
+    </sql>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id,
+        a.remarks,
+        a.modifer,
+        a.perm_name AS permName,
+        a.perm_code AS permCode,
+        a.module_id AS moduleId,
+        m.module_code AS moduleCode,
+        a.create_date AS createDate,
+        a.modify_date AS modifyDate
+    </sql>
+
+    <sql id="permission_Joins">
+        INNER JOIN T_SYS_MODULE m ON m.id = a.module_id
+    </sql>
+
+    <select id="selectAllList" resultType="com.aier.cloud.biz.aams.entity.SysPermission">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SYS_PERMISSION a
+        <include refid="permission_Joins"/>
+        <where>
+            <if test="platformCode != null and platformCode != ''">
+                m.platform_code = #{platformCode}
+            </if>
+        </where>
+    </select>
+
+    <!-- 获取用户当前机构当前平台的所有角色集合下的所有操作权限 -->
+    <select id="selectListByUserAndInst" resultType="com.aier.cloud.biz.aams.entity.SysPermission">
+        SELECT
+        a.id,
+        a.perm_name AS permName,
+        a.perm_code AS permCode,
+        a.module_id AS moduleId,
+        m.module_code AS moduleCode
+        FROM T_SYS_STAFF_INST_ROLE sir
+        INNER JOIN T_SYS_ROLE r ON sir.role_id = r.id
+        INNER JOIN T_SYS_ROLE_PERMISSION rp ON rp.role_id = r.id
+        INNER JOIN T_SYS_PERMISSION a ON a.id = rp.permission_id
+        INNER JOIN T_SYS_MODULE m ON m.id = a.module_id
+        WHERE sir.staff_id = #{staffId}
+        AND sir.institution_id = #{instId}
+    </select>
+
+    <select id="selectAllListByPortal" resultType="com.aier.cloud.biz.aams.entity.SysPermission">
+        SELECT
+        a.id,
+        a.perm_name AS permName,
+        a.perm_code AS permCode,
+        a.module_id AS moduleId,
+        m.module_code AS moduleCode
+        FROM T_SYS_STAFF_INST_ROLE sir
+        INNER JOIN T_SYS_ROLE r ON sir.role_id = r.id
+        INNER JOIN T_SYS_ROLE_PERMISSION rp ON rp.role_id = r.id
+        INNER JOIN T_SYS_PERMISSION a ON a.id = rp.permission_id
+        INNER JOIN T_SYS_MODULE m ON m.id = a.module_id
+        WHERE sir.staff_id = #{staffId}
+        AND sir.institution_id = #{instId}
+    </select>
+
+    <select id="selectPlatFormListByStaff" resultType="String">
+        SELECT
+        DISTINCT(m.platform_code) AS platFormCode
+        FROM T_SYS_STAFF_INST_ROLE sir
+        INNER JOIN T_SYS_ROLE r ON sir.role_id = r.id
+        INNER JOIN T_SYS_ROLE_PERMISSION rp ON rp.role_id = r.id
+        INNER JOIN T_SYS_PERMISSION a ON a.id = rp.permission_id
+        INNER JOIN T_SYS_MODULE m ON m.id = a.module_id
+        WHERE sir.staff_id = #{staffId}
+        AND m.module_code != 'Root'
+    </select>
+
+    <!-- 查看用户当前机构的所有角色集合下的所有操作权限 -->
+    <select id="selectMapByUserAndInst" resultType="com.aier.cloud.basic.core.base.db.CamelKeyMap">
+        SELECT
+        a.id,
+        a.perm_name AS text,
+        a.module_id AS moduleId,
+        a.orders,
+        'true' AS status
+        FROM T_SYS_STAFF_INST_ROLE sir
+        INNER JOIN T_SYS_ROLE r ON sir.role_id = r.id
+        INNER JOIN T_SYS_ROLE_PERMISSION rp ON rp.role_id = r.id
+        INNER JOIN T_SYS_PERMISSION a ON a.id = rp.permission_id
+        WHERE sir.staff_id = #{staffId}
+        AND sir.institution_id = #{instId}
+    </select>
+
+    <!-- 查看用户当前机构的所有角色集合下的所有操作权限 -->
+    <select id="selectModuleMapsByUserAndInst" resultType="com.aier.cloud.basic.core.base.db.CamelKeyMap">
+        SELECT DISTINCT
+        m.id,
+        m.module_name AS name,
+        m.parent AS pid,
+        'true' AS status
+        FROM T_SYS_STAFF_INST_ROLE sir
+        INNER JOIN T_SYS_ROLE r ON sir.role_id = r.id
+        INNER JOIN T_SYS_ROLE_PERMISSION rp ON rp.role_id = r.id
+        INNER JOIN T_SYS_PERMISSION a ON a.id = rp.permission_id
+        INNER JOIN T_SYS_MODULE m ON m.id = a.module_id
+        WHERE sir.staff_id = #{staffId}
+        AND sir.institution_id = #{instId}
+    </select>
+
+
+</mapper>

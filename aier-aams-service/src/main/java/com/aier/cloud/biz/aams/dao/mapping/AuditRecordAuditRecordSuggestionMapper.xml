@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditRecordAuditRecordSuggestionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditRecordAuditRecordSuggestion">
+        <id column="AuditRecordId" property="auditRecordId" />
+        <id column="AuditRecordSuggestionGuid" property="auditRecordSuggestionGuid" />
+        <result column="AuditRecordSuggestionTitle" property="auditRecordSuggestionTitle" />
+        <result column="AuditRecordSuggestionRemark" property="auditRecordSuggestionRemark" />
+        <result column="AuditRecordSuggestionUpdate_user" property="auditrecordsuggestionupdateUser" />
+        <result column="AuditRecordSuggestionUpdate_time" property="auditrecordsuggestionupdateTime" />
+        <result column="AuditRecordSuggestionIsdlt" property="auditRecordSuggestionIsdlt" />
+        <result column="AuditRecordSuggestionRemark_user" property="auditrecordsuggestionremarkUser" />
+        <result column="AuditRecordSuggestionRemark_time" property="auditrecordsuggestionremarkTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditRecordId, AuditRecordSuggestionGuid, AuditRecordSuggestionTitle, AuditRecordSuggestionRemark, AuditRecordSuggestionUpdate_user, AuditRecordSuggestionUpdate_time, AuditRecordSuggestionIsdlt, AuditRecordSuggestionRemark_user, AuditRecordSuggestionRemark_time
+    </sql>
+
+</mapper>

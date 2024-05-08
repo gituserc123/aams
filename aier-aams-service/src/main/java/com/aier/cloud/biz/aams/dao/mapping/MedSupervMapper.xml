@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.MedSupervMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.MedSuperv">
+        <id column="MedSupervId" property="medSupervId" />
+        <result column="MedSupervName" property="medSupervName" />
+        <result column="MedSupervType" property="medSupervType" />
+        <result column="MedSupervOrgCode" property="medSupervOrgCode" />
+        <result column="orgMasterId" property="orgMasterId" />
+        <result column="MedSupervCreate_user" property="medsupervcreateUser" />
+        <result column="MedSupervCreate_time" property="medsupervcreateTime" />
+        <result column="MedSupervUpdate_user" property="medsupervupdateUser" />
+        <result column="MedSupervUpdate_time" property="medsupervupdateTime" />
+        <result column="MedSupervIsdlt" property="medSupervIsdlt" />
+        <result column="MedSupervFinishTime" property="medSupervFinishTime" />
+        <result column="MedSupervStatus" property="medSupervStatus" />
+        <result column="MedSupervRectifyFinishTime" property="medSupervRectifyFinishTime" />
+        <result column="MedSupervRectifySubmit_user" property="medsupervrectifysubmitUser" />
+        <result column="MedSupervScore" property="medSupervScore" />
+        <result column="MedSupervDeptCode" property="medSupervDeptCode" />
+        <result column="MedSupervMonth" property="medSupervMonth" />
+        <result column="MedSupervYear" property="medSupervYear" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        MedSupervId, MedSupervName, MedSupervType, MedSupervOrgCode, orgMasterId, MedSupervCreate_user, MedSupervCreate_time, MedSupervUpdate_user, MedSupervUpdate_time, MedSupervIsdlt, MedSupervFinishTime, MedSupervStatus, MedSupervRectifyFinishTime, MedSupervRectifySubmit_user, MedSupervScore, MedSupervDeptCode, MedSupervMonth, MedSupervYear
+    </sql>
+
+</mapper>

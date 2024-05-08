@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.SysModuleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <!-- <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.SysModule">
+        <id column="id" property="id" />
+        <result column="module_name" property="moduleName" />
+        <result column="grade" property="grade" />
+        <result column="icon" property="icon" />
+        <result column="orders" property="orders" />
+        <result column="module_code" property="moduleCode" />
+        <result column="treepath" property="treepath" />
+        <result column="url" property="url" />
+        <result column="parent" property="parent" />
+        <result column="remarks" property="remarks" />
+        <result column="modifer" property="modifer" />
+        <result column="modify_date" property="modifyDate" />
+        <result column="create_date" property="createDate" />
+        <result column="first_spell" property="firstSpell" />
+        <result column="outurl" property="outurl" />
+        <result column="display" property="display" />
+        <result column="platform_code" property="platformCode" />
+        <result column="insts" property="insts" />
+    </resultMap>-->
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, module_name, grade, icon, orders, module_code, treepath, url, parent, remarks, modifer, modify_date, create_date, first_spell, outurl, display, platform_code, insts
+    </sql>
+
+    <!-- 通用查询结果列  -->
+    <sql id="baseColumnList" >
+        a.id,
+        a.url,
+        a.icon,
+        a.grade,
+        a.orders,
+        a.remarks,
+        a.modifer,
+        a.treepath,
+        a.outurl,
+        a.display,
+        a.insts,
+        a.platform_code AS platformCode,
+        a.first_spell AS firstSpell,
+        a.parent AS "parent.id",
+        a.module_name AS moduleName,
+        a.module_code AS moduleCode,
+        a.create_date AS createDate,
+        a.modify_date AS modifyDate
+    </sql>
+
+    <sql id="moduleJoinsColumn">
+        ,b.module_name AS "parent.moduleName"
+        ,b.treepath AS "parent.treepath"
+    </sql>
+
+    <sql id="moduleJoins">
+        INNER JOIN T_SYS_MODULE b ON a.parent = b.id
+    </sql>
+
+    <select id="getForTree" resultType="com.aier.cloud.biz.aams.entity.SysModule">
+        SELECT
+        <include refid="baseColumnList"/>
+        FROM T_SYS_MODULE a
+        START WITH a.id = #{id}
+        CONNECT BY PRIOR a.id = a.parent
+    </select>
+
+    <select id="getList" resultType="com.aier.cloud.biz.aams.entity.SysModule">
+        SELECT
+        <include refid="baseColumnList"/>
+        FROM T_SYS_MODULE a
+        WHERE a.platform_code = #{platformCode}
+        ORDER BY a.orders ASC
+    </select>
+
+    <select id="getListByPortal" resultType="com.aier.cloud.biz.aams.entity.SysModule">
+        SELECT
+        DISTINCT <include refid="baseColumnList"/>
+        FROM T_SYS_STAFF_INST_ROLE sir
+        INNER JOIN T_SYS_ROLE r ON sir.role_id = r.id
+        INNER JOIN T_SYS_ROLE_PERMISSION rp ON rp.role_id = r.id
+        INNER JOIN T_SYS_PERMISSION p ON p.id = rp.permission_id
+        INNER JOIN T_SYS_MODULE a ON a.id = p.module_id
+        WHERE sir.staff_id = #{staffId}
+        AND sir.institution_id = #{instId}
+        AND a.module_code != 'Root'
+        ORDER BY a.orders ASC
+    </select>
+
+    <select id="getAllListByPortal" resultType="com.aier.cloud.biz.aams.entity.SysModule">
+        SELECT
+        <include refid="baseColumnList"/>
+        FROM T_SYS_MODULE a
+        WHERE a.module_code != 'Root'
+        ORDER BY a.orders ASC
+    </select>
+
+    <select id="getListByInst" resultType="java.lang.Long">
+        SELECT
+        id
+        FROM T_SYS_MODULE a
+        WHERE a.insts LIKE concat(concat('%',#{instId}),'%')
+    </select>
+
+    <select id="getById" resultType="com.aier.cloud.biz.aams.entity.SysModule">
+        SELECT
+        <include refid="baseColumnList"/>
+        <include refid="moduleJoinsColumn"/>
+        FROM T_SYS_MODULE a
+        <include refid="moduleJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+</mapper>

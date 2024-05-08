@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.RemindTemplateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.RemindTemplate">
+        <id column="RemindTemplateId" property="remindTemplateId" />
+        <result column="RemindTemplateTheme" property="remindTemplateTheme" />
+        <result column="RemindTemplateContent" property="remindTemplateContent" />
+        <result column="RemindTemplateIsdlt" property="remindTemplateIsdlt" />
+        <result column="RemindTemplateCreate_time" property="remindtemplatecreateTime" />
+        <result column="RemindTemplateCreate_user" property="remindtemplatecreateUser" />
+        <result column="RemindTemplateUpdate_time" property="remindtemplateupdateTime" />
+        <result column="RemindTemplateUpdate_user" property="remindtemplateupdateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        RemindTemplateId, RemindTemplateTheme, RemindTemplateContent, RemindTemplateIsdlt, RemindTemplateCreate_time, RemindTemplateCreate_user, RemindTemplateUpdate_time, RemindTemplateUpdate_user
+    </sql>
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.HospitalInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.HospitalInfo">
+        <id column="HospitalInfoId" property="hospitalInfoId" />
+        <result column="orgMasterId" property="orgMasterId" />
+        <result column="HospitalInfoDesc" property="hospitalInfoDesc" />
+        <result column="HospitalInfoQualification" property="hospitalInfoQualification" />
+        <result column="HospitalInfoTarget" property="hospitalInfoTarget" />
+        <result column="HospitalInfoAccouts" property="hospitalInfoAccouts" />
+        <result column="HospitalInfoThirdparty" property="hospitalInfoThirdparty" />
+        <result column="HospitalInfoMyopiaprevention" property="hospitalInfoMyopiaprevention" />
+        <result column="HospitalInfoUpdate_user" property="hospitalinfoupdateUser" />
+        <result column="HospitalInfoUpdate_time" property="hospitalinfoupdateTime" />
+        <result column="HospitalInfoOpenDate" property="hospitalInfoOpenDate" />
+        <result column="HospitalInfoCorporate" property="hospitalInfoCorporate" />
+        <result column="HospitalInfoRegCapital" property="hospitalInfoRegCapital" />
+        <result column="HospitalInfoActualCapital" property="hospitalInfoActualCapital" />
+        <result column="HospitalInfoOperateArea" property="hospitalInfoOperateArea" />
+        <result column="HospitalInfoRentWithTax" property="hospitalInfoRentWithTax" />
+        <result column="HospitalInfoBedNum" property="hospitalInfoBedNum" />
+        <result column="HospitalInfoOperationRoom" property="hospitalInfoOperationRoom" />
+        <result column="HospitalInfoCommitteeMembers" property="hospitalInfoCommitteeMembers" />
+        <result column="HospitalInfoEquityStructure" property="hospitalInfoEquityStructure" />
+        <result column="HospitalInfoIsSelfBuild" property="hospitalInfoIsSelfBuild" />
+        <result column="HospitalInfoResidentPopulation" property="hospitalInfoResidentPopulation" />
+        <result column="HospitalInfoLongitude" property="hospitalInfoLongitude" />
+        <result column="HospitalInfoLatitude" property="hospitalInfoLatitude" />
+        <result column="HospitalInfoLevel" property="hospitalInfoLevel" />
+        <result column="HospitalInfoSpecIsMove" property="hospitalInfoSpecIsMove" />
+        <result column="HospitalInfoSpecMoveDate" property="hospitalInfoSpecMoveDate" />
+        <result column="HospitalInfoSpecIsExtend" property="hospitalInfoSpecIsExtend" />
+        <result column="HospitalInfoSpecExtendDate" property="hospitalInfoSpecExtendDate" />
+        <result column="HospitalInfoAuditRecordName" property="hospitalInfoAuditRecordName" />
+        <result column="HospitalInfoRectificationResponse" property="hospitalInfoRectificationResponse" />
+        <result column="HospitalInfoBusinessInformation" property="hospitalInfoBusinessInformation" />
+        <result column="HospitalInfoPersonSituation" property="hospitalInfoPersonSituation" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        HospitalInfoId, orgMasterId, HospitalInfoDesc, HospitalInfoQualification, HospitalInfoTarget, HospitalInfoAccouts, HospitalInfoThirdparty, HospitalInfoMyopiaprevention, HospitalInfoUpdate_user, HospitalInfoUpdate_time, HospitalInfoOpenDate, HospitalInfoCorporate, HospitalInfoRegCapital, HospitalInfoActualCapital, HospitalInfoOperateArea, HospitalInfoRentWithTax, HospitalInfoBedNum, HospitalInfoOperationRoom, HospitalInfoCommitteeMembers, HospitalInfoEquityStructure, HospitalInfoIsSelfBuild, HospitalInfoResidentPopulation, HospitalInfoLongitude, HospitalInfoLatitude, HospitalInfoLevel, HospitalInfoSpecIsMove, HospitalInfoSpecMoveDate, HospitalInfoSpecIsExtend, HospitalInfoSpecExtendDate, HospitalInfoAuditRecordName, HospitalInfoRectificationResponse, HospitalInfoBusinessInformation, HospitalInfoPersonSituation
+    </sql>
+
+</mapper>

@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-CN" />
+<title>读卡 - 爱尔医院</title>
+<link rel="stylesheet" type="text/css" media="all" href="js/lib/easyui/themes/gray/easyui.css" />
+<link type="text/css" rel="stylesheet" href="css/easy-plus.css" />
+<link type="text/css" rel="stylesheet" href="css/socss.css" />
+<link type="text/css" rel="stylesheet" href="css/plugins.css" />
+<link type="text/css" rel="stylesheet" href="css/base.css" />
+<style type="text/css">
+#container{width:900px;margin:10px auto;}
+</style>
+</head>
+<body id="container">
+    
+    <object classid="clsid:0BD75DDD-D4B8-4250-AE28-54362CB8CB91" id="EdzID" CODEBASE="GetEdzID.ocx#version=1,0,0,1" width=0
+        height=0></object>
+    <!--读串口的ACTIVEX控件-->
+    <object classid="clsid:3ADCC782-613D-4BC7-884E-55AC492E31C0" id="IcCard" CODEBASE="IcCard.ocx#version=1,0,0,1" width=0 height=0></object>
+
+    <form>
+        1、读二代证： 通讯端口 ;
+        <select class="drop w-120" id="Select1">
+            <option value="0" selected="selected">USB</option>
+            <option value="1">COM1</option>
+            <option value="2">COM2</option>
+            <option value="3">COM3</option>
+            <option value="4">COM4</option>
+            <option value="5">COM5</option>
+            <option value="6">COM6</option>
+            <option value="7">COM7</option>
+            <option value="8">COM8</option>
+        </select>
+        <input id="Button1" class="btn btn-primary btn-small" type="button" value="读二代证ID" onclick="f_ReadID()" />
+<br /><br />
+        <hr /> 
+        <br />
+        2、读M1卡：通讯端口 ;
+        <select id="Select3" class="drop w-80">
+            <option value="0" selected="selected">USB</option>
+            <option value="1">COM1</option>
+            <option value="2">COM2</option>
+            <option value="3">COM3</option>
+            <option value="4">COM4</option>
+            <option value="5">COM5</option>
+            <option value="6">COM6</option>
+            <option value="7">COM7</option>
+            <option value="8">COM8</option>
+        </select>
+        扇区号 <input id="Text2" class="txt w-60" type="text" value="0" /> 
+        块号 <input id="Text3" class="txt w-60" type="text" value="1" /> 
+        密钥类型 <select id="Select2" class="drop w-120">
+            <option value="1" selected="selected">A密钥</option>
+            <option value="2">B密钥</option>
+        </select>
+        密钥 <input id="Text4" style="width: 100px" type="text" value="FFFFFFFFFFFF" />
+        <input id="Button2" class="btn btn-primary btn-small" type="button" value="读M1卡" onclick="f_ReadM1()"
+        />
+<br /><br />
+        <hr /> <br />
+
+        <div class="mar-b10"><span class="fl w-150 right">读到的二代证ID信息是：</span><input id="Text1" style="width: 500px" type="text" /></div>
+
+        <div><span class="fl w-150 right">　读到的M1卡信息是：</span><input id="Text5" style="width: 500px" type="text" /></div>
+
+    </form>
+    </div>
+
+    
+    <script type="text/javascript" language="javascript">
+        function f_ReadID() {//读取二代身份证ID
+            var iRet = 0;
+            var obj = document.getElementById('Select1');
+            var index = obj.selectedIndex;
+            var text = obj.options[index].text;
+            //alert(text);
+
+            iRet = EdzID.GetEdz(text);   //获取二代证ID
+            //alert(iRet);
+            if (iRet == "1"){//返回1失败，0正常  
+                alert("读二代证失败！！！");
+            }else {//读到的二代证ID
+                document.getElementById("Text1").value = EdzID.EdzID           
+            }
+        }
+
+        function f_ReadM1() {
+            //打开通讯端口
+            var obj = document.getElementById('Select3');
+            var index = obj.selectedIndex;
+            var r_card = IcCard.OpenPort(index);//连接接口，非0即连接失败
+            //alert(r_card);
+            if (r_card != 0) {
+                alert("连接设备失败!" + r_card);
+                IcCard.IccClosePort();
+                return;
+            }
+            //m1卡激活
+            r_card = IcCard.M1ActiveCard();
+            if (r_card != 0) {
+                alert("激活M1卡失败:" + r_card);
+                IcCard.IccClosePort();
+                return;
+            }
+            //m1卡校验密码
+            var isector = document.getElementById('Text2').value;
+            var ktype = document.all.Select2.value;
+            IcCard.keydata = document.all.Text4.value;
+            r_card = IcCard.M1CheckCardPin(isector, ktype);
+            if (r_card != 0) {
+                alert("密码校验失败:" + r_card);
+                IcCard.IccClosePort();
+                return;
+            }
+            //m1读卡
+            var iblock = document.all.Text3.value;
+            var r_card = IcCard.M1ReadCard(iblock);
+            if (r_card != 0) {
+                IcCard.IccClosePort();
+                alert("读卡失败:" + r_card);
+            }
+            document.getElementById("Text5").value = IcCard.rdata
+            IcCard.IccClosePort();
+
+        }
+    </script>
+
+</body>
+</html>

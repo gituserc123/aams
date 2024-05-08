@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.SelfRiskMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.SelfRisk">
+        <id column="SelfRiskId" property="selfRiskId" />
+        <result column="SelfRiskCode" property="selfRiskCode" />
+        <result column="SelfRiskTitle" property="selfRiskTitle" />
+        <result column="SelfRiskDesc" property="selfRiskDesc" />
+        <result column="SelfRiskBussinessType" property="selfRiskBussinessType" />
+        <result column="SelfRiskFirstLevel" property="selfRiskFirstLevel" />
+        <result column="SelfRiskSecondLevel" property="selfRiskSecondLevel" />
+        <result column="SelfRiskEvalucationBasis" property="selfRiskEvalucationBasis" />
+        <result column="SelfRiskMethod" property="selfRiskMethod" />
+        <result column="SelfRiskGuide" property="selfRiskGuide" />
+        <result column="SelfRiskType" property="selfRiskType" />
+        <result column="SelfRiskIsdlt" property="selfRiskIsdlt" />
+        <result column="SelfRiskCreate_time" property="selfriskcreateTime" />
+        <result column="SelfRiskCreate_user" property="selfriskcreateUser" />
+        <result column="SelfRiskUpdate_time" property="selfriskupdateTime" />
+        <result column="SelfRiskUpdate_user" property="selfriskupdateUser" />
+        <result column="SelfRiskForHospType" property="selfRiskForHospType" />
+        <result column="SelfRiskDeductCriterion" property="selfRiskDeductCriterion" />
+        <result column="SelfRiskScore" property="selfRiskScore" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        SelfRiskId, SelfRiskCode, SelfRiskTitle, SelfRiskDesc, SelfRiskBussinessType, SelfRiskFirstLevel, SelfRiskSecondLevel, SelfRiskEvalucationBasis, SelfRiskMethod, SelfRiskGuide, SelfRiskType, SelfRiskIsdlt, SelfRiskCreate_time, SelfRiskCreate_user, SelfRiskUpdate_time, SelfRiskUpdate_user, SelfRiskForHospType, SelfRiskDeductCriterion, SelfRiskScore
+    </sql>
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.MedSupervLevelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.MedSupervLevel">
+        <id column="MedSupervLevelId" property="medSupervLevelId" />
+        <result column="MedSupervId" property="medSupervId" />
+        <result column="MedSupervLevelCode" property="medSupervLevelCode" />
+        <result column="MedSupervLevelScore" property="medSupervLevelScore" />
+        <result column="MedSupervLevelRectifyUpdate_time" property="medsupervlevelrectifyupdateTime" />
+        <result column="MedSupervLevelRectifyUpdate_user" property="medsupervlevelrectifyupdateUser" />
+        <result column="MedSupervLevelRectifyStatus" property="medSupervLevelRectifyStatus" />
+        <result column="MedSupervLevelUpdate_time" property="medsupervlevelupdateTime" />
+        <result column="MedSupervLevelUpdate_user" property="medsupervlevelupdateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        MedSupervLevelId, MedSupervId, MedSupervLevelCode, MedSupervLevelScore, MedSupervLevelRectifyUpdate_time, MedSupervLevelRectifyUpdate_user, MedSupervLevelRectifyStatus, MedSupervLevelUpdate_time, MedSupervLevelUpdate_user
+    </sql>
+
+</mapper>

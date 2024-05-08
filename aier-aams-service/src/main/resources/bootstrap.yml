@@ -1,0 +1,34 @@
+######################## 引入步骤 #################################
+# 1.各位组长只需要将spring.application.name 改为自己服务的名称
+# 2.各位组长根据项目是否已经上线，选择对应的分支，如果是long分支
+#   请切换到最后一行namespace，并注解掉online分支的 namespace
+# 3.文件存放到{当前微服务}/src/main/resources目录下
+# 4.将{当前微服务}/src/main/resources目录的除了application-prod.yml,bootstrap.yml外的所有.yml文件删除掉
+##################################################################
+spring:
+  application:
+    ############################需要修改的地方############################
+    name: aier-aams-service
+    ############################需要修改的地方############################
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      config:
+        server-addr: nacos.acloud.com:8848
+        file-extension: yaml
+        #需要修改的地方:各位组长根据项目是否已经上线，选择对应的分支，如果是long分支,
+        #请切换到最后一行namespace，并注解掉online分支的 namespace
+        ############################需要修改的地方############################
+        namespace: a97861cd-be73-4837-90d8-af51a7a19f6c   # dev_online分支
+        #namespace: ca04362b-b350-4b51-903e-e481eb5a075e   # dev_online分支
+        #namespace: e8b7026a-d778-45b5-8512-1085123d86fb   # dev_long分支
+        ##############################需要修改的地方#######################
+logging:
+  level:
+    root: WARN
+
+aier-service-file:
+  ribbon:
+    listOfServers: 127.0.0.1:8024,10.201.17.10:8024
+    NFLoadBalancerPingInterval: 3

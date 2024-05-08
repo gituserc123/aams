@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scan：当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。 
+	scanPeriod：设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒当scan为true时，此属性生效。默认的时间间隔为1分钟。 
+	debug：当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
+<configuration>
+	<!-- 定义日志文件名称 先定义一个 property 变量，再 定义 springProperty ， property 必须在 springProperty 上方！！！！ 否则会出现 undefined！ -->
+	<property scope="context" name="appName" value="aier" />
+	<springProperty scope="context" name="appName" source="spring.application.name" defaultValue="aier" />
+	<!-- 定义日志的根目录 -->
+	<property name="LOG_HOME" value="/app/log" />
+
+	<appender name="SystemOut" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%d{HH:mm:ss}]%level %caller{1} %msg%n%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<onMatch>DENY</onMatch>
+			<onMismatch>NEUTRAL</onMismatch>
+		</filter>
+
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>DENY</onMatch>
+			<onMismatch>NEUTRAL</onMismatch>
+		</filter>
+	</appender>
+
+	<!-- warn和error的信息输入到 SystemError，在ide下有颜色区分，容易看到 -->
+	<appender name="SystemError" class="ch.qos.logback.core.ConsoleAppender">
+		<target>System.err</target>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>[%d{HH:mm:ss}]%level %caller{1} %msg%n%n</Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>WARN</level>
+		</filter>
+	</appender>
+	<appender name="RollingFileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/${appName}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/${appName}-%d{yyyy-MM-dd}-%i.log
+			</fileNamePattern>
+			<MaxHistory>30</MaxHistory>
+
+			<!-- 当日志文件超过maxFileSize指定的大小是，根据上面提到的%i进行日志文件滚动 注意此处配置SizeBasedTriggeringPolicy是无法实现按文件大小进行滚动的，必须配置timeBasedFileNamingAndTriggeringPolicy -->
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+		<!-- 日志输出格式：%d表示日期时间，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %logger{50} 表示logger名字最长50个字符，否则按照句点分割。 
+			%msg：日志消息，%n是换行符 -->
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}]%level [%thread][%logger{50}:%line]-> %msg%n</pattern>
+		</layout>
+
+	</appender>
+	
+	<!-- 正式环境关闭大部分日志,只保留WARN/ERROR/FATAL -->
+	<springProfile name="prod">
+		<logger name="io.undertow.servlet.api.LoggingExceptionHandler" level="OFF" additivity="true"></logger>
+		<logger name="org.apache" level="OFF" additivity="true"></logger>
+		<root level="WARN">
+			<appender-ref ref="SystemOut" />
+			<appender-ref ref="SystemError" />
+			<appender-ref ref="RollingFileAppender" />
+		</root>
+	</springProfile>
+	
+	<!-- 开发及测试环境 -->
+	<springProfile name="local,sit,uat">
+		<logger name="io" level="WARN" additivity="true"></logger>
+		<logger name="com" level="WARN" additivity="true"></logger>
+		<logger name="org" level="WARN" additivity="true"></logger>
+		<logger name="freemarker" level="WARN" additivity="true"></logger>
+		<logger name="feign" level="WARN" additivity="true"></logger>
+		<logger name="com.aier.cloud.ui.config.web.GlobalFreemarkerView" level="WARN" additivity="true"></logger>
+		<logger name="io.undertow.servlet.api.LoggingExceptionHandler" level="OFF" additivity="true"></logger>
+		<logger name="org.apache" level="OFF" additivity="true"></logger>
+		<logger name="org.springframework" level="INFO" additivity="true"></logger>
+		<logger name="org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener" level="OFF" additivity="true"></logger>
+		<logger name="com.aier" level="INFO" additivity="true"></logger>
+		<logger name="com.aier.sql" level="DEBUG" additivity="true"></logger>
+		<root level="DEBUG">
+			<appender-ref ref="SystemOut" />
+			<appender-ref ref="SystemError" />
+			<appender-ref ref="RollingFileAppender" />
+		</root>
+	</springProfile>
+	
+
+</configuration>

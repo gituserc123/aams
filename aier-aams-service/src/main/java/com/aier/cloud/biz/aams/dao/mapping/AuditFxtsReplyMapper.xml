@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.AuditFxtsReplyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.AuditFxtsReply">
+        <id column="AuditFxtsReplyId" property="auditFxtsReplyId" />
+        <result column="AuditRecordId" property="auditRecordId" />
+        <result column="AuditFxtsReplyUser" property="auditFxtsReplyUser" />
+        <result column="AuditFxtsReplyText" property="auditFxtsReplyText" />
+        <result column="AuditFxtsReplyNum" property="auditFxtsReplyNum" />
+        <result column="AuditFxtsReplyCrtTime" property="auditFxtsReplyCrtTime" />
+        <result column="AuditFxtsReplyUpdTime" property="auditFxtsReplyUpdTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        AuditFxtsReplyId, AuditRecordId, AuditFxtsReplyUser, AuditFxtsReplyText, AuditFxtsReplyNum, AuditFxtsReplyCrtTime, AuditFxtsReplyUpdTime
+    </sql>
+
+</mapper>

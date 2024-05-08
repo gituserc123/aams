@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aier.cloud.biz.aams.dao.CodeMasterMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.CodeMaster">
+        <id column="CodeMasterId" property="codeMasterId" />
+        <result column="CodeMasterCode" property="codeMasterCode" />
+        <result column="CodeMasterName" property="codeMasterName" />
+        <result column="CodeMasterType" property="codeMasterType" />
+        <result column="CodeMasterIsdlt" property="codeMasterIsdlt" />
+        <result column="CodeMasterCreate_time" property="codemastercreateTime" />
+        <result column="CodeMasterUpdate_time" property="codemasterupdateTime" />
+        <result column="CodeMasterTypeCode" property="codeMasterTypeCode" />
+        <result column="CodeMasterNameDesc" property="codeMasterNameDesc" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        CodeMasterId, CodeMasterCode, CodeMasterName, CodeMasterType, CodeMasterIsdlt, CodeMasterCreate_time, CodeMasterUpdate_time, CodeMasterTypeCode, CodeMasterNameDesc
+    </sql>
+
+</mapper>
