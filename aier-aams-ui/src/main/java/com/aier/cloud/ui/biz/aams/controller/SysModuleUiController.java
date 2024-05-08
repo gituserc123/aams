@@ -33,7 +33,7 @@ public class SysModuleUiController  extends BaseController {
     private InstitutionService instService;
     @Autowired
     private AierUiProperties aierUiProperties;
-
+    // 测试Git提交
     private static final String CREATE = "sys/module/create";
     private static final String UPDATE = "sys/module/update";
     private static final String LIST = "sys/module/list";
