@@ -27,7 +27,7 @@ public class SysRoleCondition extends PageCondition {
     private String roleName;
 
     // 角色类别(1集团角色2医院角色）
-    private Boolean roleType;
+    private Integer roleType;
 
     // 角色编码
     private String roleCode;

@@ -41,7 +41,7 @@ import java.util.Map;
  * @since 2018-03-12 16:28:03
  */
 @Controller
-@RequestMapping("/ui/sys/role")
+@RequestMapping("/ui/sys/role/common")
 public class RoleController extends BaseController {
  
 	@Autowired

@@ -53,7 +53,7 @@ public interface SysModuleFeignService {
     @PostMapping(value = "/api/service/biz/aams/sysModule/getCodeUnique")
     @ResponseBody Boolean getCodeUnique(@RequestParam("previousCode") String previousCode, @RequestParam("currentCode") String currentCode);
 
-    @PostMapping(value = "/getNameUnique")
+    @PostMapping(value = "/api/service/biz/aams/sysModule/getNameUnique")
     @ResponseBody Boolean getNameUnique(@RequestParam("previousName") String previousName, @RequestParam("currentName") String currentName);
 
 }

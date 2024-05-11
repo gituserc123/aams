@@ -39,9 +39,9 @@ public class SysRoleController extends BaseController {
     @ApiParam(name="id", value="角色信息的id", required=true)
     @PostMapping(value = "/getForTree")
     public @ResponseBody List getForTree(@RequestBody SysRole r) {
-        add("pid", "t_crs_sys_role|id|role_name", "parentName");
+        add("pid", "t_sys_role|id|role_name", "parentName");
         add("roleType", RoleTypeEnum.class,"roleTypeName");
-        add("modifer", "t_crs_sys_staff|id|name");
+        add("modifer", "t_sys_staff|id|name");
         return rs.getForTree(r);
     }
 

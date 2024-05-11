@@ -28,13 +28,13 @@ public class SysRole extends TreeEntity<SysRole> implements Serializable {
     private String roleName;
 
     // 角色类别(1集团角色2医院角色）
-    private Boolean roleType;
+    private Integer roleType;
 
     // 角色编码
     private String roleCode;
 
     // 数据范围
-    private Boolean dataScope;
+    private Integer dataScope;
 
     // 备注
     private String remarks;

@@ -44,8 +44,10 @@
             AND role_type = #{roleType}
         </if>
         <if test="id != null and id != ''">
-            START WITH a.id = #{id}
-            CONNECT BY PRIOR a.id = a.parent
+            AND FIND_IN_SET(id, (
+             SELECT GROUP_CONCAT(id ORDER BY id, orders ASC SEPARATOR ',')
+             FROM T_SYS_ROLE WHERE  parent = #{id}
+            ))
         </if>
         ORDER BY
         a.grade, a.orders asc

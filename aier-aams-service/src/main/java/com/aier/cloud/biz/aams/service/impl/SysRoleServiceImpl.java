@@ -282,7 +282,7 @@ public class SysRoleServiceImpl extends TreeServiceImpl<SysRoleMapper, SysRole> 
 
     @Override
     public String getTruePlatformCode(String code) {
-        return "ahis";
+        return "aams";
     }
 
     @Override

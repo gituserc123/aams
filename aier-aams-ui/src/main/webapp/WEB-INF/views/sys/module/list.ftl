@@ -154,8 +154,6 @@ $grid.newGrid("#gridBox",{
         url:'${base}/ui/sys/module/tree',
         flatData: true,
         onBeforeLoad : function(node,param){
-          console.log('#ul-moduleTree');
-          console.log(param);
     		if(!param.platformCode){return false;}
         },
         onClick : function (node) {
