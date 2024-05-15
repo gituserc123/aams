@@ -63,13 +63,13 @@ public class SysModuleUiController  extends BaseController {
         }
 
         List<SysPermission> permissions = Lists.newArrayList();
-        for (SysPermission permission : module.getSysPermissions()) {
+        for (SysPermission permission : module.getPermissions()) {
             if (StringUtils.isNotBlank(permission.getPermCode())) {
                 permission.setModifer(ShiroUtils.getId());
                 permissions.add(permission);
             }
         }
-        module.setSysPermissions(permissions);
+        module.setPermissions(permissions);
         try {
             sysModuleFeignService.create(module);
         } catch (BizException e) {
@@ -95,7 +95,7 @@ public class SysModuleUiController  extends BaseController {
         if(StringUtils.isNotEmpty(message))  {
             return fail(message);
         }
-        for (SysPermission permission : module.getSysPermissions()) {
+        for (SysPermission permission : module.getPermissions()) {
             if (StringUtils.isNotBlank(permission.getPermCode())) {
                 permission.setModifer(ShiroUtils.getId());
             }

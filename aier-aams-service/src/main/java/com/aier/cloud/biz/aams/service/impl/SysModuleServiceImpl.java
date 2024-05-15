@@ -6,21 +6,18 @@ import com.aier.cloud.basic.core.base.service.impl.TreeServiceImpl;
 import com.aier.cloud.biz.aams.dao.SysModuleMapper;
 import com.aier.cloud.biz.aams.entity.SysModule;
 import com.aier.cloud.biz.aams.entity.SysPermission;
-import com.aier.cloud.biz.aams.entity.SysRolePermission;
 import com.aier.cloud.biz.aams.service.SysModuleService;
 import com.aier.cloud.biz.aams.service.SysPermissionService;
 import com.aier.cloud.biz.aams.service.SysRolePermissionService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,11 +56,11 @@ public class SysModuleServiceImpl extends TreeServiceImpl<SysModuleMapper, SysMo
         w.eq("platform_code", entity.getPlatformCode());
         BizAssert.empty(baseMapper.selectList(w), BizException.ERROR, "此平台已注册,禁止重复注册!");
         super.insert(entity);
-        if (CollectionUtils.isNotEmpty(entity.getSysPermissions())) {
-            for (SysPermission p : entity.getSysPermissions()) {
+        if (CollectionUtils.isNotEmpty(entity.getPermissions())) {
+            for (SysPermission p : entity.getPermissions()) {
                 p.setModuleId(entity.getId());
             }
-            sysPermissionService.insertBatch(entity.getSysPermissions());
+            sysPermissionService.insertBatch(entity.getPermissions());
         }
         return true;
     }
@@ -76,7 +73,7 @@ public class SysModuleServiceImpl extends TreeServiceImpl<SysModuleMapper, SysMo
         List<SysPermission> newPermissions = Lists.newArrayList();
         List<Long> delPermissions = Lists.newArrayList();
         // 模块自定义权限，删除过后新增报错，会有validate的验证错误。有删除的，新增的情况
-        for (SysPermission permission : sysModule.getSysPermissions()) {
+        for (SysPermission permission : sysModule.getPermissions()) {
             // 已选中的
             if (StringUtils.isNotBlank(permission.getPermCode()))
             {
@@ -84,8 +81,11 @@ public class SysModuleServiceImpl extends TreeServiceImpl<SysModuleMapper, SysMo
                 if (null == permission.getId())
                 {
                     permission.setModuleId(sysModule.getId());
+                    permission.setCreateDate(new Date());
+                    permission.setModifyDate(new Date());
                     newPermissions.add(permission);
                 } else {
+                    permission.setModifyDate(new Date());
                     editPermissions.add(permission);
                 }
             }

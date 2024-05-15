@@ -151,7 +151,7 @@ public class SysModuleController extends BaseController {
     public @ResponseBody SysModule getModulePermissionsById(@RequestParam("id") Long id) {
         SysModule module = sysModuleService.getById(id);
         if (!ObjectUtils.isEmpty(module)) {
-            module.setSysPermissions(sysPermissionService.selectList(new EntityWrapper<SysPermission>().eq("module_id", id)));
+            module.setPermissions(sysPermissionService.selectList(new EntityWrapper<SysPermission>().eq("module_id", id)));
         }
         return module;
     }

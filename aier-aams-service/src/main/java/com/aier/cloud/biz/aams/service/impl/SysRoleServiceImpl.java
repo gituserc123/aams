@@ -187,7 +187,8 @@ public class SysRoleServiceImpl extends TreeServiceImpl<SysRoleMapper, SysRole> 
 
         EntityWrapper em;
         em = new EntityWrapper<>();
-        em.setSqlSelect(DbUtil.camel("permissionId"));
+        // em.setSqlSelect(DbUtil.camel("permissionId"));
+        em.setSqlSelect("permission_id");
         em.eq("role_id", roleId);
         DbUtil.in(em, "permission_id", permissionIds);
         List<Map> rolePermissions = rps.selectMaps(em);
@@ -198,7 +199,8 @@ public class SysRoleServiceImpl extends TreeServiceImpl<SysRoleMapper, SysRole> 
         List<Long> moduleIds = SysUtil.getIds(modules, "id");
         EntityWrapper em;
         em = new EntityWrapper<>();
-        em.setSqlSelect(DbUtil.camel("id", "permName", "permCode", "moduleId", "remarks", "orders"));
+        // 通过mybatis.configuration.map-underscore-to-camel-case=true,直接都转驼峰了
+        em.setSqlSelect("id", "perm_name", "perm_code", "module_id", "remarks", "orders");
         DbUtil.in(em, "module_id", moduleIds);
 
         List<Map> permissions = ps.selectMaps(em);
@@ -207,7 +209,8 @@ public class SysRoleServiceImpl extends TreeServiceImpl<SysRoleMapper, SysRole> 
 
     private List<Map> getAllModules(String platformCode) {
         EntityWrapper em = new EntityWrapper<>();
-        em.setSqlSelect(DbUtil.camel("id", "parent", "moduleName", "grade","moduleCode"));
+        // 通过mybatis.configuration.map-underscore-to-camel-case=true,直接都转驼峰了
+        em.setSqlSelect("id", "parent", "module_Name", "grade", "module_Code");
         //em.eq("platform_code", platformCode);
         List<Map> modules = ms.selectMaps(em);
         return modules;

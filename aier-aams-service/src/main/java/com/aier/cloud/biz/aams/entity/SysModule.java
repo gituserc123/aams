@@ -112,7 +112,7 @@ public class SysModule extends TreeEntity<SysModule> implements Serializable {
 
     /** 模块操作集合 */
     @TableField(exist=false)
-    private List<SysPermission> sysPermissions = Lists.newArrayList();
+    private List<SysPermission> permissions = Lists.newArrayList();
 
 
     @TableField(exist=false)

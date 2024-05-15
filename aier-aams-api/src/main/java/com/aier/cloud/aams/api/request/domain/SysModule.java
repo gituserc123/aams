@@ -1,7 +1,6 @@
 package com.aier.cloud.aams.api.request.domain;
 
 import com.aier.cloud.basic.api.domain.base.TreeEntity;
-import com.baomidou.mybatisplus.annotations.TableField;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -89,7 +88,7 @@ public class SysModule extends TreeEntity<SysModule> implements Serializable {
     private List<SysModule> children = Lists.newArrayList();
 
     /** 模块操作集合 */
-    private List<SysPermission> sysPermissions = Lists.newArrayList();
+    private List<SysPermission> permissions = Lists.newArrayList();
 
 
     @Override
