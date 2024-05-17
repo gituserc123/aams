@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -39,4 +40,11 @@ public class SysPermissionController extends BaseController {
     public @ResponseBody List<SysPermission> selectListByUserAndInst(@RequestParam("staffId") Long staffId, @RequestParam("instId") Long instId, @RequestParam("platformCode") String platformCode) {
         return sysPermissionService.selectListByUserAndInst(staffId, instId, platformCode);
     }
+
+    @ApiOperation(value="查看当前用户在某医院的所有访问权限", notes="查看当前用户在某医院的所有访问权限")
+    @PostMapping(value = "/lookUpAuthorize")
+    public List<Map<String, Object>> lookUpAuthorize(@RequestParam("staffId")Long staffId, @RequestParam("instId") Long instId, @RequestParam("platformCode") String platformCode){
+        return sysPermissionService.lookUpAuthorize(staffId, instId, platformCode);
+    }
+
 }

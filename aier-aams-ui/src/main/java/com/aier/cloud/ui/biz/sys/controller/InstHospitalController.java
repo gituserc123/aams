@@ -32,7 +32,7 @@ import com.aier.cloud.basic.web.controller.BaseController;
 import com.aier.cloud.basic.web.shiro.ShiroUtils;
 import com.aier.cloud.ui.biz.sys.service.InstitutionService;
 import com.aier.cloud.ui.biz.sys.service.LoginCodeService;
-import com.aier.cloud.ui.biz.sys.service.StaffService;
+import com.aier.cloud.basic.starter.ui.feign.StaffService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;

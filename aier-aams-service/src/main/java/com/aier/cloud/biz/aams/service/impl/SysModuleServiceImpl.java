@@ -55,10 +55,14 @@ public class SysModuleServiceImpl extends TreeServiceImpl<SysModuleMapper, SysMo
         w.eq("module_Code", entity.getModuleCode());
         w.eq("platform_code", entity.getPlatformCode());
         BizAssert.empty(baseMapper.selectList(w), BizException.ERROR, "此平台已注册,禁止重复注册!");
+        if(entity.getId() == null){
+            entity.setCreateDate(new Date());
+        }
         super.insert(entity);
         if (CollectionUtils.isNotEmpty(entity.getPermissions())) {
             for (SysPermission p : entity.getPermissions()) {
                 p.setModuleId(entity.getId());
+                p.setCreateDate(new Date());
             }
             sysPermissionService.insertBatch(entity.getPermissions());
         }

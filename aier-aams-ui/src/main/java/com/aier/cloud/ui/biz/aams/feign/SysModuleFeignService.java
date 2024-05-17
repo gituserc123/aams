@@ -2,7 +2,6 @@ package com.aier.cloud.ui.biz.aams.feign;
 
 import com.aier.cloud.aams.api.request.domain.SysModule;
 import com.aier.cloud.basic.api.request.condition.sys.ModuleCondition;
-import com.aier.cloud.basic.api.response.domain.sys.Module;
 import com.aier.cloud.basic.api.response.domain.base.PageResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
