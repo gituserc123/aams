@@ -59,12 +59,12 @@
               <form id="sbox2" class="soform form-enter">
                     <input type="hidden" class="txt" name="init" value="1" />
                     <label class="lab-inline">医院/总部：</label>
-                    <select id="institution-staff" name="institution" style="width:150px;"></select>
+                    <select id="institution-staff" name="instId" style="width:150px;"></select>
                     <!-- 
                     <label class="lab-inline">科室/部门：</label>
                     <input id="txt-deptTree-staff" class="txt w-150" type="text" name="dept"/>
                     -->
-                    <input class="txt inline w-150" type="text" name="keyword" placeholder="工号、姓名、手机号码">
+                    <input class="txt inline w-150" type="text" name="staffKey" placeholder="工号、姓名、手机号码">
                     [@shiro.hasPermission name = "Authorize:view"]
                     <button type="button" class="btn btn-small btn-primary so-search"  data-opt="{grid:'#gridBox-1',scope:'#sbox2'}">查 询</button>
                     [/@shiro.hasPermission]
@@ -304,16 +304,16 @@ requirejs(['pub'],function () {
           columns:[[
             {title:'id',field:'ID',hidden:true},
             {title:'操作',field:'op',width:90,formatter :function (v,row,index) {
-                   var institution = staffParam.institution
+                   var institution = staffParam.instId
                  return '[@shiro.hasPermission name = "Authorize:view"]<span class="s-op icon-eye s-op-look" rel="'+row.ID+'" longsrc="'+institution+'" title="查看权限"></span>[/@shiro.hasPermission] [@shiro.hasPermission name = "Authorize:view"]&nbsp;&nbsp;&nbsp;<span class="icon-users s-op-edit s-op-role" rel="'+row.ID+'" longsrc="'+institution+'" title="分配角色"></span>[/@shiro.hasPermission][@shiro.hasPermission name = "Authorize:dataScope"]&nbsp;&nbsp;&nbsp;<span class="icon-key21 s-op-edit s-op-dataScope" rel="'+row.id+'" title="分配数据权限"></span>[/@shiro.hasPermission]'
             }},
-            {title:'所属机构',field:'INSTITUTION_ID',align:'left',width:150},
-            {title:'姓名',field:'NAME',width:120,titletip:true},
             {title:'工号',field:'CODE',width:120},
+            {title:'姓名',field:'NAME',width:120,titletip:true},
+            {title:'性别',field:'SEX',width:100, formatter: function(val,row,index){if(val == 1){return '男';}else{return '女';}}},
             {title:'联系方式',field:'TEL',width:100},
-            {title:'性别',field:'SEX',width:100},
             //{title:'角色名称',field:'rolename',align:'left',width:320,titletip:true},
-            {title:'所属科室/部门',field:'DEPT_NAME',align:'left',width:100,titletip:true},
+            {title:'所属科室/部门',field:'DEPTNAME',align:'left',width:100,titletip:true},
+            {title:'所属机构',field:'INSTNAME',align:'left',width:150},
             //{title:'授权人',field:'creator',width:220,titletip:true},
             {title:'授权时间',field:'MODIFYDATE',width:220,titletip:true},
           ]],
@@ -357,7 +357,7 @@ requirejs(['pub'],function () {
            [/@shiro.hasPermission]
           },
          
-          url:'${base}/ui/sys/authorize/searchStaffAuthorize',
+          url:'${base}/ui/sys/staff/getStaffByCondition',
           offset :-36
       });
 

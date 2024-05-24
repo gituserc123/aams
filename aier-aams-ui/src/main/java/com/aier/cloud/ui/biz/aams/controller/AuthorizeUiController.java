@@ -18,9 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Controller
@@ -57,17 +58,11 @@ public class AuthorizeUiController   extends BaseController {
     private StaffService staffService;
 
 
-    @RequestMapping(value = "/getStaffTest", method = {RequestMethod.POST,RequestMethod.GET})
-    public @ResponseBody Object getStaffTest() {
-        StaffCondition sc = new StaffCondition();
-        sc.setInstId(100002L);
-        sc.setStaffKey("陈");
-        sc.setRows(500);
-        Object obj = staffService.getAllStaffByCondition(sc);
-
-        return obj;
+    // 自定义过滤方法，根据键值对去重
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
     }
-
 
 
     @RequiresPermissions(PERMISSION_CODE_VIEW)

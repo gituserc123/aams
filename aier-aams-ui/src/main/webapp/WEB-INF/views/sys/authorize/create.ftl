@@ -19,11 +19,11 @@
         <input type="hidden" class="txt" name="init" value="1" />
         <input type="hidden" class="txt" name="roleId" id="roleId" value="${role.id!}" />
         <label class="lab-inline">医院/总部：</label>
-        <select id="institution" name="institution" style="width:150px;" data-options="required:true"></select>
+        <select id="instId" name="instId" style="width:150px;" data-options="required:true"></select>
         
-        <label class="lab-inline">科室/部门：</label>
-        <input id="txt-deptTree" class="txt w-150" type="text" name="dept"/>
-        <input class="txt inline w-150" type="text" name="keyword" placeholder="工号、姓名、手机号码">
+        <!--<label class="lab-inline">科室/部门：</label>
+        <input id="txt-deptTree" class="txt w-150" type="text" name="dept"/>-->
+        <input class="txt inline w-150" type="text" name="staffKey" placeholder="工号、姓名、手机号码">
        
         <button type="button" class="btn btn-small btn-primary so-search" data-opt="{grid:'#gridBox',scope:'#sbox'}">查 询</button>
     </form>
@@ -45,11 +45,12 @@
 <script type="text/javascript">
 require(["pub"],function(){
 
-	$('#institution').combogrid({
+	$('#instId').combogrid({
 		delay: 500,    	  
 		mode: 'remote',   
 		panelWidth:250,  
-		fitColumns:true,  
+		fitColumns:true,
+        clearIcon:true,
 		idField:'ID',   
 		textField:'NAME', 
 		url:'${base}/ui/sys/autoComplete/query', 
@@ -84,23 +85,24 @@ require(["pub"],function(){
 	      selectOnCheck : false,
 	      singleSelect : false,
 	      ctrlSelect : true,
-	      pagination : false,
+	      pagination : true,
 	      fitColumns : false,
 	      columns:[[
 	        {title:'id',field:'ID',checkbox:true},
             {title:'工号',field:'CODE',width:120},
             {title:'姓名',field:'NAME',width:100},
-            {title:'性别',field:'SEX',width:100},
-            {title:'科室/部门',field:'DEPT_NAME',width:120},
-            {title:'所属机构',field:'INSTITUTION_ID',width:180}
+            {title:'性别',field:'SEX',width:100, formatter: function(val,row,index){if(val == 1){return '男';}else{return '女';}}},
+            {title:'科室/部门',field:'DEPTNAME',width:120},
+            {title:'所属机构',field:'INSTNAME',width:180}
 	      ]],
 	      onBeforeLoad: function (param) {
-	          if(!param.institution){
+	          if(!param.instId){
                 return false;
               }
 	      },
-	      url:'${base}/ui/sys/authorize/getStaffListNotAuthorize', 
-	      offset : -55
+	      // url:'${base}/ui/sys/authorize/getStaffListNotAuthorize',
+         url:'${base}/ui/sys/staff/getStaffByCondition',
+         offset : -55
 	});
 
     $('.btn-ok').click(function () {
@@ -112,7 +114,7 @@ require(["pub"],function(){
       });
       var sendData = {
      	roleId : $('#roleId').val(),
-     	instId : $('#institution').combobox('getValue'),
+     	instId : $('#instId').combobox('getValue'),
      	staffIds : idArr.join(',')
       };
       
