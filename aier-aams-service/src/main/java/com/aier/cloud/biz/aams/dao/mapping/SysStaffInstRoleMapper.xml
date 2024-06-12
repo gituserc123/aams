@@ -16,7 +16,64 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, role_id, institution_id, create_date, modify_date, staff_id, creator, modifer
+        id, staff_id, institution_id,creator, create_date, modify_date,role_id,   modifer
     </sql>
+
+
+    <sql id="sql_where">
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            1=1
+            <if test="roleId != null and roleId > 0">
+                and t.role_id = #{roleId}
+            </if>
+            <if test="institutionId != null and institutionId > 0">
+                and t.institution_id = #{institutionId}
+            </if>
+            <if test="staffId != null and staffId > 0">
+                and t.staff_id = #{staffId}
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="sql_where_cond">
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            1=1
+            <if test="cond.roleId != null and cond.roleId > 0">
+                and t.role_id = #{cond.roleId}
+            </if>
+            <if test="cond.institution != null and cond.institution > 0">
+                and t.institution_id = #{cond.institution}
+            </if>
+            <if test="cond.staffIds != null and cond.staffIds.size() > 0">
+                and t.staff_id in
+                <foreach collection="cond.staffIds" index="index" item="item"
+                         separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getStaffRoleInstList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SYS_STAFF_INST_ROLE t
+        <include refid="sql_where"/>
+    </select>
+
+    <select id="getStaffRoleInstByCond" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SYS_STAFF_INST_ROLE t
+        <include refid="sql_where_cond"/>
+    </select>
+
+    <select id="getStaffRoleInstInfo" resultType="Map">
+        select
+        t.id, t.staff_id, t.institution_id,creator, t.create_date, t.modify_date,t.role_id,t.modifer,tr.role_name
+        from T_SYS_STAFF_INST_ROLE t LEFT JOIN T_SYS_ROLE tr on t.role_id=tr.id
+        <include refid="sql_where_cond"/>
+    </select>
+
 
 </mapper>

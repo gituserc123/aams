@@ -26,4 +26,13 @@ public interface AuthorizeFeignService {
     @PostMapping(value = "/api/sys/authorize/getListNotAuthorize")
     List<Map<String,Object>> getListNotAuthorize(@RequestBody AuthorizeAamsCondition authorizeCondition);
 
+    @PostMapping(value = "/api/sys/authorize/updateByRole")
+    Boolean update(@RequestParam("staffIds") String staffIds, @RequestParam("instId") Long instId, @RequestParam(name="roleId") Long roleId);
+
+    @PostMapping(value = "/api/sys/authorize/delete")
+    Boolean delete(@RequestParam("id") Long id);
+
+    @PostMapping(value = "/api/sys/authorize/updateByStaff")
+    Boolean update(@RequestParam("staffId") Long staffId, @RequestParam("instId") Long instId, @RequestParam(name="roleIds") String roleIds);
+
 }

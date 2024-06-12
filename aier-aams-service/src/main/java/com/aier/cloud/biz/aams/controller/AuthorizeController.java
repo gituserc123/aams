@@ -1,6 +1,7 @@
 package com.aier.cloud.biz.aams.controller;
 
 import com.aier.cloud.aams.api.request.condition.AuthorizeAamsCondition;
+import com.aier.cloud.basic.api.domain.constant.CommSymbol;
 import com.aier.cloud.basic.api.domain.enums.RoleTypeEnum;
 import com.aier.cloud.basic.api.response.domain.base.PageResponse;
 import com.aier.cloud.basic.common.exception.BizAssert;
@@ -17,9 +18,8 @@ import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -85,10 +85,10 @@ public class AuthorizeController  extends BaseController {
     @PostMapping(value = "/getListByRoleAuthorize")
     public PageResponse<Map<String,Object>> getListByRoleAuthorize(@RequestBody AuthorizeAamsCondition authorizeCondition){
         Page<Map<String,Object>> page = tranToPage(authorizeCondition);
-        add("INSTITUTIONID", "t_sys_institution|ID|NAME", "instName");
-        add("STAFFID", "t_sys_staff|ID|NAME", "staffName");
-        add("ROLEID", "db:t_sys_role|ID|role_NAME", "roleName1");
-        EntityWrapper<SysStaffInstRole> wrapper = new EntityWrapper<>();
+        add("institutionId", "t_sys_institution|id|name", "instName");
+        add("staffId", "t_sys_staff|id|name", "staffName");
+        // add("roleid", "sj.T_SYS_ROLE|ID|role_NAME", "roleName1");
+        /*EntityWrapper<SysStaffInstRole> wrapper = new EntityWrapper<>();
         wrapper.eq("role_id", authorizeCondition.getRoleId());
         if(authorizeCondition.getInstitution() != null && authorizeCondition.getInstitution().intValue() > 0){
             wrapper.eq("institution_id", authorizeCondition.getInstitution());
@@ -97,7 +97,9 @@ public class AuthorizeController  extends BaseController {
             wrapper.in("staff_id",authorizeCondition.getStaffIds());
         }
         Page<Map<String, Object>> pages = staffInstRoleService.selectMapsPage(page,wrapper);
-        return returnPageResponse(pages);
+        return returnPageResponse(pages);*/
+        List<Map<String, Object>> retLists = staffInstRoleService.getStaffRoleInstByCond(page,authorizeCondition);
+        return  returnPageResponse(page,retLists);
     }
 
     @ApiOperation(value="获取还未授权当前医院当前角色的用户", notes="获取还未授权当前医院当前角色的用户")
@@ -105,6 +107,52 @@ public class AuthorizeController  extends BaseController {
     public List<Map<String,Object>> getListNotAuthorize(@RequestBody AuthorizeAamsCondition authorizeCondition){
         // 暂未实现
         return Lists.newArrayList();
+    }
+
+
+
+    @PostMapping(value = "/updateByRole")
+    public Boolean update(@RequestParam("staffIds") String staffIds,
+                          @RequestParam("instId") Long instId,
+                          @RequestParam(name="roleId", defaultValue = "") Long roleId) {
+        BizAssert.notEmpty(staffIds,  BizException.ERROR, "用户 staffIds 不能为空");
+        BizAssert.notNull(roleId, BizException.ERROR, "角色 roleId 不能为空");
+        BizAssert.notNull(instId,   BizException.ERROR, "机构 instId 不能为空");
+
+        // 先将staffIds中，根据instId，roleId查询出来的重复staffId去掉
+        List<SysStaffInstRole> staffInstRoles = staffInstRoleService.getStaffRoleInstList(roleId,instId,null);
+        List<Long> existStaffIds = staffInstRoles.stream().map(SysStaffInstRole::getStaffId).collect(Collectors.toList());
+        List<Long> paramStaffIds = Arrays.asList(staffIds.split(CommSymbol.SEPARATOR_COMMA)).stream().map(Long::parseLong).collect(Collectors.toList());
+        Set<Long> existSetStaffIds = new HashSet<>(existStaffIds);
+        paramStaffIds.removeIf(existSetStaffIds::contains);
+
+        return staffInstRoleService.batchUpdateStaffInstRoleByRole(paramStaffIds,instId,roleId);
+    }
+
+    @PostMapping(value = "/updateByStaff")
+    Boolean update(@RequestParam(name="staffId", defaultValue = "") Long staffId,
+                   @RequestParam("instId") Long instId,
+                   @RequestParam(name="roleIds") String roleIds){
+        BizAssert.notNull(staffId,  BizException.ERROR, "用户 staffId 不能为空");
+        //BizAssert.notEmpty(roleIds, BizException.ERROR, "角色 roleIds 不能为空");
+        BizAssert.notNull(instId,   BizException.ERROR, "机构 instId 不能为空");
+
+        // 先将roleIds中，根据instId，staffId查询出来的重复roleId去掉
+        /*List<SysStaffInstRole> staffInstRoles = staffInstRoleService.getStaffRoleInstList(null,instId,staffId);
+        List<Long> existRoleIds = staffInstRoles.stream().map(SysStaffInstRole::getRoleId).collect(Collectors.toList());
+        List<Long> paramRoleIds = Arrays.asList(roleIds.split(CommSymbol.SEPARATOR_COMMA)).stream().map(Long::parseLong).collect(Collectors.toList());
+        Set<Long> existSetRoleIds = new HashSet<>(existRoleIds);
+        paramRoleIds.removeIf(existSetRoleIds::contains);*/
+        List<Long> paramRoleIds = Arrays.asList(roleIds.split(CommSymbol.SEPARATOR_COMMA)).stream().map(Long::parseLong).collect(Collectors.toList());
+        staffInstRoleService.batchDeleteStaffInstRoleByStaff(staffId,instId,paramRoleIds);
+        return staffInstRoleService.batchUpdateStaffInstRoleByStaff(staffId,instId, paramRoleIds);
+    }
+
+    @PostMapping(value = "/delete")
+    public Boolean delete(@RequestParam("id") Long id){
+        SysStaffInstRole staffInstRole = staffInstRoleService.selectById(id);
+        BizAssert.notNull(staffInstRole, BizException.ERROR, "授权id不存在");
+        return staffInstRoleService.deleteById(id);
     }
 
 }

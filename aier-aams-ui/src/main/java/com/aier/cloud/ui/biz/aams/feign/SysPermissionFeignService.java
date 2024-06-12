@@ -2,9 +2,8 @@ package com.aier.cloud.ui.biz.aams.feign;
 
 import com.aier.cloud.aams.api.request.domain.SysPermission;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,8 @@ public interface SysPermissionFeignService {
     @PostMapping(value = "/api/service/biz/aams/sysPermission/selectListByUserAndInst")
     @ResponseBody List<SysPermission> selectListByUserAndInst(@RequestParam("staffId") Long staffId, @RequestParam("instId") Long instId, @RequestParam("platformCode") String platformCode);
 
-    @PostMapping(value = "/api/service/biz/aams/sysPermission/lookUpAuthorize")
+    @RequestMapping(value = "/api/service/biz/aams/sysPermission/lookUpAuthorize", method= RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     List<Map<String, Object>> lookUpAuthorize(@RequestParam("staffId")Long staffId, @RequestParam("instId") Long instId, @RequestParam("platformCode") String platformCode);
 
 }

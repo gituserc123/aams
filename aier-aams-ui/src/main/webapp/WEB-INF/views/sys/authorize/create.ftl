@@ -19,7 +19,7 @@
         <input type="hidden" class="txt" name="init" value="1" />
         <input type="hidden" class="txt" name="roleId" id="roleId" value="${role.id!}" />
         <label class="lab-inline">医院/总部：</label>
-        <select id="instId" name="instId" style="width:150px;" data-options="required:true"></select>
+        <select id="instId" name="instId" style="width:150px;" data-options="required:false"></select>
         
         <!--<label class="lab-inline">科室/部门：</label>
         <input id="txt-deptTree" class="txt w-150" type="text" name="dept"/>-->
@@ -96,6 +96,7 @@ require(["pub"],function(){
             {title:'所属机构',field:'INSTNAME',width:180}
 	      ]],
 	      onBeforeLoad: function (param) {
+              param.instId=100002;
 	          if(!param.instId){
                 return false;
               }
@@ -110,11 +111,14 @@ require(["pub"],function(){
       var chkRows = $('#gridBox').datagrid('getChecked');
       var idArr = [];
       $.each(chkRows,function(i,v){
-      	idArr.push(v.ID);
+          if (!idArr.includes(v.ID)) {
+              idArr.push(v.ID);
+          }
       });
       var sendData = {
      	roleId : $('#roleId').val(),
-     	instId : $('#instId').combobox('getValue'),
+     	//instId : $('#instId').combobox('getValue'),
+        instId : 100002,
      	staffIds : idArr.join(',')
       };
       

@@ -3,6 +3,7 @@ package com.aier.cloud.ui.biz.aams.controller;
 import cn.hutool.json.JSONUtil;
 import com.aier.cloud.aams.api.request.condition.AuthorizeAamsCondition;
 import com.aier.cloud.aams.api.request.domain.SysRole;
+import com.aier.cloud.basic.api.domain.constant.CommSymbol;
 import com.aier.cloud.basic.api.request.condition.sys.StaffCondition;
 import com.aier.cloud.basic.api.response.domain.base.PageResponse;
 import com.aier.cloud.basic.common.properties.AierUiProperties;
@@ -13,6 +14,7 @@ import com.aier.cloud.basic.web.controller.BaseController;
 import com.aier.cloud.ui.biz.aams.feign.AuthorizeFeignService;
 import com.aier.cloud.ui.biz.sys.service.InstitutionService;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -148,6 +150,50 @@ public class AuthorizeUiController   extends BaseController {
         return CREATE;
     }
 
+    @RequiresPermissions(PERMISSION_CODE_SAVE)
+    @PostMapping(value = "/create")
+    public @ResponseBody Map<String,Object> create(Long roleId, Long instId, String staffIds){
+        if (StringUtils.isBlank(staffIds) || null == roleId || null == instId) {
+            fail("参数为空，用户授权失败！");
+        }
+
+        if (authorizeService.update(staffIds, instId,roleId)) {
+            return success("用户授权成功");
+        }
+        return fail("用户授权失败");
+    }
+
+    @RequiresPermissions(PERMISSION_CODE_DELETE)
+    @PostMapping(value = "/delete")
+    public @ResponseBody Map<String,Object> delete(Long id) {
+        Boolean b = authorizeService.delete(id);
+        return b ? success("解除角色授权成功！") : fail("解除角色授权失败！");
+    }
+
+    @RequiresPermissions(PERMISSION_CODE_UPDATE)
+    @GetMapping(value="/update/{staffId}/{instId}")
+    public String preUpdate(Map<String, Object> map, @PathVariable Long staffId, @PathVariable Long instId) {
+        map.put("staffId", staffId);
+        map.put("instId", instId);
+        return UPDATE;
+    }
+
+    @RequiresPermissions(PERMISSION_CODE_UPDATE)
+    @PostMapping(value = "/update")
+    public @ResponseBody Map<String,Object> update(Long instId, Long staffId, String roleIds) {
+        if (Objects.isNull(staffId) || Objects.isNull(instId)) {
+            fail("参数为空，用户授权角色失败！");
+        }
+
+        if (StringUtils.isEmpty(roleIds)) {
+            roleIds = CommSymbol.SEPARATOR_COMMA;
+        }
+
+        if (authorizeService.update(staffId, instId, roleIds)) {
+            return success("用户授权角色成功");
+        }
+        return fail("用户授权角色失败");
+    }
 
 
 }

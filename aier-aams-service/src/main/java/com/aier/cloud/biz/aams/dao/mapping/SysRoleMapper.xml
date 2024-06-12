@@ -60,11 +60,11 @@
         parent AS "pid",
         role_name AS "name",
         (
-        SELECT NVL2(sir.role_id,'true','false') FROM T_SYS_STAFF_INST_ROLE sir
+        SELECT IF(sir.role_id,'true','false') FROM T_SYS_STAFF_INST_ROLE sir
         WHERE sir.ROLE_ID = a.ID
         AND sir.institution_id = #{instId}
         AND sir.staff_id = #{staffId}
-        and rownum = 1
+        LIMIT 1
         ) AS checked
         FROM T_SYS_ROLE a
         WHERE a.platform_code = #{platformCode}
@@ -78,7 +78,7 @@
         parent AS "pid",
         role_name  AS "name",
         (
-        SELECT NVL2(sir.role_id,'true','false') FROM T_SYS_STAFF_INST_ROLE sir INNER JOIN t_crs_sys_staff s ON sir.staff_id = s.id
+        SELECT IF(sir.role_id,'true','false') FROM T_SYS_STAFF_INST_ROLE sir INNER JOIN t_crs_sys_staff s ON sir.staff_id = s.id
         WHERE sir.ROLE_ID = a.ID
         AND sir.institution_id = #{instId}
         AND sir.staff_id = #{staffId}

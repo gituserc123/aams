@@ -42,7 +42,8 @@ public class SysPermissionController extends BaseController {
     }
 
     @ApiOperation(value="查看当前用户在某医院的所有访问权限", notes="查看当前用户在某医院的所有访问权限")
-    @PostMapping(value = "/lookUpAuthorize")
+    @RequestMapping(value = "/lookUpAuthorize")
+    @ResponseBody
     public List<Map<String, Object>> lookUpAuthorize(@RequestParam("staffId")Long staffId, @RequestParam("instId") Long instId, @RequestParam("platformCode") String platformCode){
         return sysPermissionService.lookUpAuthorize(staffId, instId, platformCode);
     }

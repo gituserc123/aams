@@ -155,6 +155,7 @@ requirejs(['pub'],function () {
 			tag:'sys.institution',   
 		},
 		onSelect: function(v,record){
+            debugger;
 			$txtDeptTree.combotree('clear');
 			$txtDeptTree.combotree('reload', "${base}/ui/sys/authorize/getTreeByParent?parentId="+record.ID);	
 		},
@@ -182,7 +183,7 @@ requirejs(['pub'],function () {
 		panelWidth:250, 
 		clearIcon:true,
 		fitColumns:true,  
-		required: true,
+		required: false,
 		idField:'ID',   
 		textField:'NAME', 
 		url:'${base}/ui/sys/autoComplete/query', 
@@ -259,7 +260,7 @@ requirejs(['pub'],function () {
             {title:'id',field:'id',hidden:true},
             [@shiro.hasPermission name = "Authorize:delete"]
             {title:'操作',field:'op',width:60,formatter :function (v,row,index) {
-                 return '<span class="icon-del s-op-del" rel="'+row.ID+'" title="解除角色授权"></span>'
+                 return '<span class="icon-del s-op-del" rel="'+row.id+'" title="解除角色授权"></span>'
             }},
             [/@shiro.hasPermission]
             {title:'所属机构',field:'instName',width:180},
@@ -268,7 +269,7 @@ requirejs(['pub'],function () {
             {title:'角色名称',field:'roleId',width:120,formatter: function(value,index,row){
             	return roleName;
             }},
-            {title:'授权时间',field:'CREATEDATE',width:100},
+            {title:'授权时间',field:'modifyDate',width:150},
           ]],
           onBeforeLoad : function (param) {
               if(!param.roleId){
@@ -311,8 +312,8 @@ requirejs(['pub'],function () {
             {title:'姓名',field:'NAME',width:120,titletip:true},
             {title:'性别',field:'SEX',width:100, formatter: function(val,row,index){if(val == 1){return '男';}else{return '女';}}},
             {title:'联系方式',field:'TEL',width:100},
-            //{title:'角色名称',field:'rolename',align:'left',width:320,titletip:true},
-            {title:'所属科室/部门',field:'DEPTNAME',align:'left',width:100,titletip:true},
+            {title:'角色名称',field:'roleNames',align:'left',width:300,titletip:true},
+            {title:'所属科室/部门',field:'DEPTNAME',align:'left',width:300,titletip:true},
             {title:'所属机构',field:'INSTNAME',align:'left',width:150},
             //{title:'授权人',field:'creator',width:220,titletip:true},
             {title:'授权时间',field:'MODIFYDATE',width:220,titletip:true},
@@ -322,6 +323,7 @@ requirejs(['pub'],function () {
                 return false;
               }
               staffParam = param;
+              staffParam.instId=100002;
           },
           
           onLoadSuccess : function (data) {
