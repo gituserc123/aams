@@ -92,7 +92,7 @@
     </select>
 
     <!-- 获取当前用户的角色集合 -->
-    <select id="selectRolesByStaff" resultType="String">
+    <select id="selectRolesByStaff" resultType="java.lang.String">
         SELECT
         a.role_name AS "roleName"
         FROM T_SYS_ROLE a

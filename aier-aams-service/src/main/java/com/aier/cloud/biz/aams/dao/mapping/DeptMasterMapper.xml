@@ -18,4 +18,9 @@
         deptMasterCode, deptMasterName, OrgMasterId, deptMasterParentCode, deptMasterIsdlt, DeptMasterCreate_time, DeptMasterUpdate_time
     </sql>
 
+    <select id="selectByDeptMasterCode" resultMap="BaseResultMap">
+        select * from DeptMaster t
+        where deptMasterIsdlt = 0 and deptMasterCode = #{deptMasterCode,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

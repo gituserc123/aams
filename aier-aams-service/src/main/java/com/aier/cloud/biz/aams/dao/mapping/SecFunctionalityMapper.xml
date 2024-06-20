@@ -17,4 +17,13 @@
         SecFunctionalityId, SecFunctionalityKey, SecFunctionalityDescription, SecFunctionalityType, SecParentFunctionalityId, SecFunctionalityActive
     </sql>
 
+    <select id="queryJoinRoles" resultMap="BaseResultMap">
+        select * from SecFunctionality t
+        where t.SecFunctionalityId in (
+           select distinct t1.SecFunctionalityId  from SecFunctionalityRole t1 where t1.SecRoleId in
+            <foreach item="item" index="index" collection="secRoleIds.split(',')"
+                     open="(" separator="," close=")">${item}</foreach>
+        )
+    </select>
+
 </mapper>

@@ -7,11 +7,19 @@
         <id column="SecRoleId" property="secRoleId" />
         <result column="SecRoleName" property="secRoleName" />
         <result column="SecRoleDescription" property="secRoleDescription" />
+        <result column="SecUserId" property="secUserId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         SecRoleId, SecRoleName, SecRoleDescription
     </sql>
+
+    <select id="queryRoleByUserId"  resultMap="BaseResultMap">
+        SELECT
+          sur.SecUserId,sr.*
+        from SecUserRole sur LEFT JOIN SecRole sr on sur.SecRoleId=sr.SecRoleId
+        where sur.SecUserId=#{secUserId}
+    </select>
 
 </mapper>

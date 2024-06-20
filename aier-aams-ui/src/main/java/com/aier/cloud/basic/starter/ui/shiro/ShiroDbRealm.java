@@ -1,7 +1,7 @@
 package com.aier.cloud.basic.starter.ui.shiro;
 
-import com.aier.cloud.aams.api.request.domain.SysModule;
-import com.aier.cloud.aams.api.request.domain.SysPermission;
+import com.aier.cloud.aams.api.request.condition.SecUserCondition;
+import com.aier.cloud.aams.api.request.domain.*;
 import com.aier.cloud.basic.api.domain.enums.InstEnum;
 import com.aier.cloud.basic.api.response.domain.sys.Institution;
 import com.aier.cloud.basic.api.response.domain.sys.Permission;
@@ -14,12 +14,9 @@ import com.aier.cloud.basic.starter.ui.feign.InstitutionService;
 import com.aier.cloud.basic.starter.ui.feign.StaffService;
 import com.aier.cloud.basic.web.shiro.BaseShiroDbRealm;
 import com.aier.cloud.basic.web.shiro.InstitutionUserCodePasswordToken;
-import com.aier.cloud.basic.web.shiro.ShiroUser;
 import com.aier.cloud.basic.web.shiro.exception.IncorrectInstException;
 import com.aier.cloud.basic.web.shiro.interfaces.IShiroDbRealmService;
-import com.aier.cloud.basic.web.shiro.interfaces.IShiroUser;
-import com.aier.cloud.ui.biz.aams.feign.SysModuleFeignService;
-import com.aier.cloud.ui.biz.aams.feign.SysPermissionFeignService;
+import com.aier.cloud.ui.biz.aams.feign.*;
 import com.google.common.collect.Sets;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -36,6 +33,7 @@ import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -53,29 +51,32 @@ import java.util.*;
  */
 //@Component(value = "shiroDbRealm")
 public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmService{
-	
+
 	private final static Logger log = LoggerFactory.getLogger(ShiroDbRealm.class);
-	
+
 	/** 用户组织层级分隔符 */
 	public static final String USER_ORG_GRADE_SEPARATOR = ",";
-	
+
 	/** 最大失败尝试次数 */
 	public static final int MAX_TRY_TIMES = 10;
-	
+
 	/** 默认密码 */
 	public static final String DEFAULT_PASSWORD = "Aier123456";
-	
+
 	/**
 	 * 登录用户
 	 */
-	public final static String LOGIN_USER = "login_user"; 
-	
+	public final static String LOGIN_USER = "login_user";
+
 	@Resource
     private InstitutionService instService;
-	
+
 	@Resource
 	private StaffService staffService;
-	
+
+	@Autowired
+	private SecUserFeignService secUserFeignService;
+
 	@Resource
     private AierUiProperties aierUiProperties;
 
@@ -84,7 +85,19 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
 
 	@Autowired
 	private SysPermissionFeignService sysPermissionFeignService;
-	
+
+	@Autowired
+	private SysRoleFeignService sysRoleFeignService;
+
+	@Autowired
+	private SecRoleFeignService secRoleFeignService;
+
+	@Autowired
+	private DeptMasterFeignService deptMasterFeignService;
+
+	@Autowired
+	private SecFunctionalityFeignService secFunctionalityFeignService;
+
 	/**
 	 * 给ShiroDbRealm提供编码信息，用于密码比对
 	 */
@@ -94,7 +107,7 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
 		matcher.setHashIterations(INTERATIONS);
 		setCredentialsMatcher(matcher);
 	}
-	
+
 	/**
 	 * 认证回调函数, 登录时调用.</br>
 	 * 1. 获取登录用户的所属医院/集团 的 机构编码</br>
@@ -104,22 +117,21 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
 	 */
 	@Override
 	public AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
-	    /**
+		/**
          * 1. 获取登录用户的所属医院/集团 的 机构编码
          * 2. 登录验证，失败，返回信息
          * 3. 验证通过，记录最后登录机构等信息
          * 4. 保存用户会话信息，如租户信息等
          */
-	    InstitutionUserCodePasswordToken token = (InstitutionUserCodePasswordToken) authcToken; 
+		InstitutionUserCodePasswordToken token = (InstitutionUserCodePasswordToken) authcToken;
 		String  username         = token.getUsername();
 		String  password         = new String(token.getPassword());
 		Long    institution      = token.getInstitution();
 		Long    dept             = token.getDept();
 		String  ip               = token.getHost();
-		
-		if (StringUtils.isNotBlank(username)) 
-		{
-		    Staff staff = staffService.getByName(username);
+
+		if (StringUtils.isNotBlank(username)) {
+			Staff staff = staffService.getByName(username);
             if (staff == null) {
                 throw new IncorrectCredentialsException("未知账号错误");
             }
@@ -138,23 +150,21 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
             {
                 throw new UnknownAccountException("未知账户错误");
             }
-		}
-		else 
-		{
-		    throw new UnknownAccountException("未知账户错误");
+		} else {
+			throw new UnknownAccountException("未知账户错误");
 		}
 	}
 
-	
+
 	private AuthenticationInfo validationLogin (Staff staff, String password, Long institution, Long dept, String ip, Boolean ischangePassword) {
-	    
-	    if (!staff.getStatus()) {
+
+		if (!staff.getStatus()) {
             throw new DisabledAccountException("对不起，账号已经暂停使用");
         }
-	    
-	    /**
-	     * 防暴力登录限制，10秒内不能重复登录同一个账号，暂未处理
-	     */
+
+		/**
+		 * 防暴力登录限制，10秒内不能重复登录同一个账号，暂未处理
+		 */
         Institution loginInst = instService.getById(institution);
         if (ObjectUtils.isEmpty(loginInst)) {
             throw new IncorrectInstException("未授权或不存在的机构");
@@ -231,6 +241,33 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
          */
         AamsUiUser shiroUser = new AamsUiUser(staff.getId(), staff.getCode(), staff.getName(), institution, loginInst.getName(), !Objects.isNull(loginInst.getAhisHosp()) ? Long.valueOf(loginInst.getAhisHosp()) : 0L, ischangePassword, staff.getAdmin(), loginInst.getInstType().equals(InstEnum.HOSP.getInstType()), depts, dept);
         shiroUser.setDeptName(loginDept.getName());
+
+		// AAS审计系统中当前登录用户信息查询 --start
+		// 1.根据当前登录用户ADP的用户工号和机构,查询AAS中SecUser表,DeptMaster表,OrgMaster表等的信息
+		/**
+		 *  ADP平台用户(T_SYS_STAFF)和SecUser表的关联
+		 *    T_SYS_STAFF.code = SecUser.SecUserMainCode
+		 *  ADP平台机构(T_SYS_INSTITUTION)和DeptMaster表的关联
+		 *    T_SYS_INSTITUTION.id=DeptMaster.deptMasterCode
+		 */
+		SecUserCondition cond = new SecUserCondition();
+		cond.setSecUserMainCode(staff.getCode());
+		cond.setDeptMasterCode(String.valueOf(dept));
+		List<SecUser> secUsers = secUserFeignService.getSecUserByCond(cond);
+		if(Objects.nonNull(secUsers) && secUsers.size() > 0){
+			shiroUser.setSecUser(secUsers.get(0));
+			shiroUser.setSecUserId(secUsers.get(0).getSecuserid());
+			List<SecRole> auditRoles = secRoleFeignService.queryRoleByUserId(secUsers.get(0).getSecuserid());
+			List<DeptMaster> deptMasters = deptMasterFeignService.getDepartmentHierarchy(secUsers.get(0).getDeptmastercode());
+			shiroUser.setAuditRoles(auditRoles);
+			shiroUser.setDeptMasters(deptMasters);
+			if(CollectionUtils.isNotEmpty(auditRoles) && auditRoles.size()>0){
+				String roles = auditRoles.stream().map(ars -> String.valueOf(ars.getSecRoleId())).collect(Collectors.joining(","));
+				List<SecFunctionality> secFunctionalities = secFunctionalityFeignService.queryJoinRoles(roles);
+				shiroUser.setSecFunctionalities(secFunctionalities);
+			}
+		}
+		// AAS审计系统中当前登录用户信息查询 --end
         
         byte[] salt = EncodeUtils.decodeHex(staff.getSalt());
         return new SimpleAuthenticationInfo(shiroUser, staff.getPassword(),ByteSource.Util.bytes(salt), getName());
@@ -241,28 +278,29 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
 	 */
 	@Override
 	public AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-	    log.info("##################执行Shiro授权##################");
+		log.info("##################执行Shiro授权##################");
 		Collection<?> collection = principals.fromRealm(getName());
 		if (CollectionUtils.isEmpty(collection)) {
 			return null;
 		}
-        ShiroUser shiroUser = (ShiroUser) collection.iterator().next();
+		AamsUiUser shiroUser = (AamsUiUser) collection.iterator().next();
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		// 角色  + 站点权限 
+		// 角色  + 站点权限
 		info.addStringPermissions(makePermissions(shiroUser));
-		info.addRoles(new ArrayList<>());
+		info.addRoles(sysRoleFeignService.selectRolesByStaff(shiroUser.getId(),shiroUser.getInstId()));
 		if (log.isInfoEnabled()) {
             log.info("{}拥有的角色:{}", shiroUser.getLoginName(), info.getRoles());
 		}
+
 		return info;
 	}
-	
+
 	/**
 	 * 构建权限资源
 	 * @param shiroUser
 	 * @return
 	 */
-	private Collection<String> makePermissions(IShiroUser<Long> shiroUser) {
+	private Collection<String> makePermissions(AamsUiUser shiroUser) {
 		if (isActiveRoot()) {
 			if (shiroUser.getIsAdmin()) {
 				List<SysModule> modules = sysModuleFeignService.getModulesByPlatform(aierUiProperties.getSiteCode());
@@ -287,6 +325,7 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
 			}
 		}
 
+		// ADP中当前登录用户新的权限查询   --start
 		List<SysPermission> permissions = sysPermissionFeignService.selectListByUserAndInst(shiroUser.getId(), shiroUser.getInstId(), aierUiProperties.getSiteCode());
 
 		Collection<String> stringPermissions = Sets.newHashSet();
@@ -297,19 +336,29 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
 		if (log.isInfoEnabled()) {
 			log.info("{}拥有的权限:{}", shiroUser.getLoginName(), stringPermissions);
 		}
+		// ADP中当前登录用户新的权限查询   --end
+
+		// Genexus审计系统中当前登录用户权限查询   --start
+		List<SecFunctionality> secFunctionalities = shiroUser.getSecFunctionalities();
+		if(CollectionUtils.isNotEmpty(secFunctionalities) && secFunctionalities.size()>0){
+			stringPermissions.addAll(secFunctionalities.stream().map(SecFunctionality::getSecFunctionalityKey).collect(Collectors.toList()));
+		}
+		// Genexus审计系统中当前登录用户权限查询   --end
+
 		return stringPermissions;
 	}
 
-	
+
 	public static class HashPassword {
 		public String salt;
 		public String password;
+
 		@Override
 		public String toString() {
 			return "HashPassword [salt=" + salt + ", password=" + password + "]";
 		}
 	}
-	
+
 	/**
 	 * 加密密码
 	 * @param plainPassword
@@ -324,9 +373,9 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
 		result.password = EncodeUtils.encodeHex(hashPassword);
 		return result;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 验证密码
 	 * @param plainPassword 明文密码
 	 * @param password 密文密码
@@ -338,27 +387,27 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
 		String oldPassword = EncodeUtils.encodeHex(hashPassword);
 		return password.equals(oldPassword);
 	}
-	
+
 	/**
 	 * 生成随机密码
 	 * @param length 密码位数
 	 * @return
 	 */
 	public static String getRandomPassword(int length) {
-	       char[] ss = new char[length];
-	       int i=0;
-	       while(i<length) {
-	           int f = (int) (Math.random()*3);
-	           if(f==0)  
-	            ss[i] = (char) ('A'+Math.random()*26);
-	           else if(f==1)  
-	            ss[i] = (char) ('a'+Math.random()*26);
-	           else 
-	            ss[i] = (char) ('0'+Math.random()*10);    
-	           i++;
-	        }
-	        String str = new String(ss);
-	        return str;
-	   }
-	
+		char[] ss = new char[length];
+		int i=0;
+		while(i<length) {
+			int f = (int) (Math.random()*3);
+			if(f==0)
+				ss[i] = (char) ('A'+Math.random()*26);
+			else if(f==1)
+				ss[i] = (char) ('a'+Math.random()*26);
+			else
+				ss[i] = (char) ('0'+Math.random()*10);
+			i++;
+		}
+		String str = new String(ss);
+		return str;
+	}
+
 }

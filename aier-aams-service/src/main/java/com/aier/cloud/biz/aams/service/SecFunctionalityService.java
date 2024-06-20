@@ -3,6 +3,8 @@ package com.aier.cloud.biz.aams.service;
 import com.aier.cloud.biz.aams.entity.SecFunctionality;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -12,5 +14,5 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2024-04-20 11:52:58
  */
 public interface SecFunctionalityService extends IService<SecFunctionality> {
-
+    List<SecFunctionality> queryJoinRoles(String secRoleIds);
 }

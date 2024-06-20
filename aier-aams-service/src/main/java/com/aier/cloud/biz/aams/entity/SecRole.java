@@ -37,5 +37,8 @@ public class SecRole implements Serializable {
     @TableField("SecRoleDescription")
     private String secRoleDescription;
 
+    @TableField(exist=false)
+    private Long secUserId;
+
 
 }

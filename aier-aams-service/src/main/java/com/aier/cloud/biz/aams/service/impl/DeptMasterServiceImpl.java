@@ -6,6 +6,9 @@ import com.aier.cloud.biz.aams.service.DeptMasterService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -17,4 +20,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class DeptMasterServiceImpl extends ServiceImpl<DeptMasterMapper, DeptMaster> implements DeptMasterService {
 
+
+    @Override
+    public List<DeptMaster> getDepartmentHierarchy(String deptMasterCode) {
+        List<DeptMaster> result = new ArrayList<>();
+        findParentDepartments(deptMasterCode, result);
+        return result;
+    }
+
+    private void findParentDepartments(String deptMasterCode, List<DeptMaster> result) {
+        DeptMaster department = this.baseMapper.selectByDeptMasterCode(deptMasterCode);
+        if (department != null) {
+            result.add(department);
+            if (department.getDeptMasterParentCode() != null && !department.getDeptMasterParentCode().trim().equals("")) {
+                findParentDepartments(department.getDeptMasterParentCode(), result);
+            }
+        }
+    }
 }

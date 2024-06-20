@@ -60,4 +60,6 @@ public interface SecRoleMapper extends BaseMapper<SecRole> {
      */
     List<String> selectRolesByStaff(@Param("staffId") Long staffId, @Param("instId") Long instId);
 
+    List<SecRole> queryRoleByUserId(@Param("secUserId") Long secUserId);
+
 }

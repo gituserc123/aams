@@ -1,5 +1,9 @@
 package com.aier.cloud.basic.starter.ui.shiro;
 
+import com.aier.cloud.aams.api.request.domain.DeptMaster;
+import com.aier.cloud.aams.api.request.domain.SecFunctionality;
+import com.aier.cloud.aams.api.request.domain.SecRole;
+import com.aier.cloud.aams.api.request.domain.SecUser;
 import com.aier.cloud.basic.web.shiro.ShiroUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -16,6 +20,23 @@ import java.util.List;
 public class AamsUiUser extends ShiroUser{
 	private Long projectId = 0L;
 	private String projectName = "";
+
+	private Long secUserId;
+
+	private String secUserMainCode;
+
+	private String deptMasterCode;
+
+	private SecUser secUser;
+
+	// 登录用户Genexus审计系统所有角色
+	List<SecRole> auditRoles;
+
+	// 登录用户Genexus审计系统所有部门
+	List<DeptMaster> deptMasters;
+
+	List<SecFunctionality> secFunctionalities;
+
 	public AamsUiUser(Long id, String loginCode, String loginName, Long instId, String instName, Long tenantId, Boolean isChangePassword, Boolean isAdmin, Boolean isHosp, List<?> depts, Long deptId) {
 		super(id, loginCode, loginName, instId, instName, tenantId, isChangePassword, isAdmin,isHosp, depts, deptId);
 	}
@@ -31,7 +52,62 @@ public class AamsUiUser extends ShiroUser{
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-	
+
+	public Long getSecUserId() {
+		return secUserId;
+	}
+
+	public void setSecUserId(Long secUserId) {
+		this.secUserId = secUserId;
+	}
+
+	public String getSecUserMainCode() {
+		return secUserMainCode;
+	}
+
+	public void setSecUserMainCode(String secUserMainCode) {
+		this.secUserMainCode = secUserMainCode;
+	}
+
+	public String getDeptMasterCode() {
+		return deptMasterCode;
+	}
+
+	public void setDeptMasterCode(String deptMasterCode) {
+		this.deptMasterCode = deptMasterCode;
+	}
+
+	public List<SecRole> getAuditRoles() {
+		return auditRoles;
+	}
+
+	public void setAuditRoles(List<SecRole> auditRoles) {
+		this.auditRoles = auditRoles;
+	}
+
+	public List<DeptMaster> getDeptMasters() {
+		return deptMasters;
+	}
+
+	public void setDeptMasters(List<DeptMaster> deptMasters) {
+		this.deptMasters = deptMasters;
+	}
+
+	public List<SecFunctionality> getSecFunctionalities() {
+		return secFunctionalities;
+	}
+
+	public void setSecFunctionalities(List<SecFunctionality> secFunctionalities) {
+		this.secFunctionalities = secFunctionalities;
+	}
+
+	public SecUser getSecUser() {
+		return secUser;
+	}
+
+	public void setSecUser(SecUser secUser) {
+		this.secUser = secUser;
+	}
 
 	/**
 	 * 获取当前登陆账号

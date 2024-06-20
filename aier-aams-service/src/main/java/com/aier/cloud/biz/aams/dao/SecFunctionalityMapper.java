@@ -3,6 +3,9 @@ package com.aier.cloud.biz.aams.dao;
 import com.aier.cloud.biz.aams.entity.SecFunctionality;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +18,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SecFunctionalityMapper extends BaseMapper<SecFunctionality> {
 
+    List<SecFunctionality> queryJoinRoles(@Param("secRoleIds") String secRoleIds);
 }

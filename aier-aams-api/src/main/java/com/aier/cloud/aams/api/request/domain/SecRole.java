@@ -25,5 +25,7 @@ public class SecRole extends BaseEntity implements Serializable {
 
     private String secRoleDescription;
 
+    private Long secUserId;
+
 
 }

@@ -2,24 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aier.cloud.biz.aams.dao.SecUserMapper">
   <resultMap id="BaseResultMap" type="com.aier.cloud.biz.aams.entity.SecUser">
-    <id column="SecUserId" jdbcType="BIGINT" property="secuserid" />
-    <result column="SecUserName" jdbcType="VARCHAR" property="secusername" />
-    <result column="SecUserPassword" jdbcType="VARCHAR" property="secuserpassword" />
-    <result column="SecUserCode" jdbcType="VARCHAR" property="secusercode" />
-    <result column="SecUserCreate_time" jdbcType="TIMESTAMP" property="secusercreateTime" />
-    <result column="SecUserUpdate_time" jdbcType="TIMESTAMP" property="secuserupdateTime" />
-    <result column="SecUserIsdlt" jdbcType="BIT" property="secuserisdlt" />
-    <result column="SecUserMainCode" jdbcType="VARCHAR" property="secusermaincode" />
-    <result column="SecUserPosCode" jdbcType="VARCHAR" property="secuserposcode" />
-    <result column="SecUserLeaderPosCode" jdbcType="VARCHAR" property="secuserleaderposcode" />
-    <result column="SecUserPosName" jdbcType="VARCHAR" property="secuserposname" />
-    <result column="deptMasterCode" jdbcType="VARCHAR" property="deptmastercode" />
-    <result column="SecUserGender" jdbcType="VARCHAR" property="secusergender" />
-    <result column="SecUserEmail" jdbcType="VARCHAR" property="secuseremail" />
-    <result column="SecUserPhoneNumber" jdbcType="VARCHAR" property="secuserphonenumber" />
-    <result column="SecUserLoginCount" jdbcType="SMALLINT" property="secuserlogincount" />
-    <result column="SecUserLastLoginTime" jdbcType="TIMESTAMP" property="secuserlastlogintime" />
-    <result column="SecUserLoginIp" jdbcType="VARCHAR" property="secuserloginip" />
+    <id column="SecUserId" property="secUserId" />
+    <result column="SecUserName" property="secUserName" />
+    <result column="SecUserPassword" property="secUserPassword" />
+    <result column="SecUserCode" property="secUserCode" />
+    <result column="SecUserCreate_time" property="secusercreateTime" />
+    <result column="SecUserUpdate_time" property="secuserupdateTime" />
+    <result column="SecUserIsdlt" property="secUserIsdlt" />
+    <result column="SecUserMainCode" property="secUserMainCode" />
+    <result column="SecUserPosCode" property="secUserPosCode" />
+    <result column="SecUserLeaderPosCode" property="secUserLeaderPosCode" />
+    <result column="SecUserPosName" property="secUserPosName" />
+    <result column="deptMasterCode" property="deptMasterCode" />
+    <result column="SecUserGender" property="secUserGender" />
+    <result column="SecUserEmail" property="secUserEmail" />
+    <result column="SecUserPhoneNumber" property="secUserPhoneNumber" />
+    <result column="SecUserLoginCount" property="secUserLoginCount" />
+    <result column="SecUserLastLoginTime" property="secUserLastLoginTime" />
+    <result column="SecUserLoginIp" property="secUserLoginIp" />
   </resultMap>
   <sql id="Base_Column_List">
     SecUserId, SecUserName, SecUserPassword, SecUserCode, SecUserCreate_time, SecUserUpdate_time,
@@ -52,6 +52,28 @@
   <sql id="Base_Column_List">
     SecUserId, SecUserName, SecUserPassword, SecUserCode, SecUserCreate_time, SecUserUpdate_time, SecUserIsdlt, SecUserMainCode, SecUserPosCode, SecUserLeaderPosCode, SecUserPosName, deptMasterCode, SecUserGender, SecUserEmail, SecUserPhoneNumber, SecUserLoginCount, SecUserLastLoginTime, SecUserLoginIp
   </sql> -->
+
+  <sql id="sql_where">
+    <trim prefix="WHERE" prefixOverrides="AND | OR">
+        t.SecUserIsdlt &lt;&gt; 1
+      <if test="cond.secUserId != null and cond.secUserId > 0">
+        and t.SecUserId = #{cond.secUserId,jdbcType=BIGINT}
+      </if>
+      <if test="cond.secUserMainCode != null and cond.secUserMainCode != ''">
+        and t.SecUserMainCode = #{cond.secUserMainCode}
+      </if>
+      <if test="cond.deptMasterCode != null and cond.deptMasterCode != ''">
+        and t.deptMasterCode = #{cond.deptMasterCode}
+      </if>
+    </trim>
+  </sql>
+
+  <select id="getSecUserByCond" resultType="com.aier.cloud.biz.aams.entity.SecUser">
+    select
+    <include refid="Base_Column_List"/>
+    from SecUser t
+    <include refid="sql_where"/>
+  </select>
 
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="com.aier.cloud.biz.aams.entity.SecUser">

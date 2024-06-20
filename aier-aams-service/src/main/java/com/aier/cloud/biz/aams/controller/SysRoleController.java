@@ -4,6 +4,7 @@ import com.aier.cloud.basic.api.request.condition.sys.RoleCondition;
 import com.aier.cloud.basic.common.exception.BizAssert;
 import com.aier.cloud.basic.common.exception.BizException;
 import com.aier.cloud.biz.aams.dao.SecRoleMapper;
+import com.aier.cloud.biz.aams.dao.SysRoleMapper;
 import com.aier.cloud.biz.aams.entity.SysRole;
 import com.aier.cloud.biz.aams.service.SysRoleService;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +33,7 @@ public class SysRoleController extends BaseController {
     private SysRoleService rs;
 
     @Autowired
-    private SecRoleMapper roleMapper;
+    private SysRoleMapper roleMapper;
 
 
     @ApiOperation(value="根据id查询角色Tree实体")

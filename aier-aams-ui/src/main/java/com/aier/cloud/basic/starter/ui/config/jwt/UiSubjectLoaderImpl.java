@@ -2,14 +2,17 @@ package com.aier.cloud.basic.starter.ui.config.jwt;
 
 import com.aier.cloud.basic.common.properties.AierUiProperties;
 import com.aier.cloud.basic.common.util.SpringUtils;
+import com.aier.cloud.basic.starter.ui.shiro.AamsUiUser;
 import com.aier.cloud.basic.web.shiro.ShiroUser;
 import com.aier.cloud.basic.web.shiro.ShiroUtils;
 import com.aier.cloud.center.common.context.AierUser;
 import com.aier.cloud.center.common.context.SubjectLoader;
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * ui层获取登录用户的实现
@@ -18,6 +21,9 @@ import java.util.Random;
  * @since 2018年2月5日 上午9:40:11
  */
 public class UiSubjectLoaderImpl implements SubjectLoader{
+
+	private final static Logger log = LoggerFactory.getLogger(UiSubjectLoaderImpl.class);
+
 
 	@Override
 	public AierUser getUser() {
@@ -39,11 +45,24 @@ public class UiSubjectLoaderImpl implements SubjectLoader{
         au.setDateScopeInstIds(su.getDateScopeInstIds());
         AierUiProperties aierUiProperties = SpringUtils.getBean(AierUiProperties.class);
         au.setPlatform(aierUiProperties.getSiteCode());
-		Random random = new Random(); // 创建Random对象
-		Map<String,String> userMap = Maps.newHashMap();
-		userMap.put("userName","测试姓名11");
-		userMap.put("userAge",String.valueOf(random.nextInt(100)));
-		au.setMasterSlaveCookie(userMap);
+		// 更新JWT中的UserContext信息
+		try{
+			AamsUiUser shiroUser = (AamsUiUser)su;
+			Map<String,String> userMap = Maps.newHashMap();
+			userMap.put("secUser", JSON.toJSONString(shiroUser.getSecUser()));
+			userMap.put("auditRoles", JSON.toJSONString(shiroUser.getAuditRoles()));
+			userMap.put("deptMasters", JSON.toJSONString(shiroUser.getDeptMasters()));
+			System.out.println("shiroUser.getSecFunctionalities():" + JSON.toJSONString(shiroUser.getSecFunctionalities()));
+			/* 调用这段代码就报错，很神奇! 猜测是查询出来的数据问题
+			userMap.put("secFunctionalities", JSON.toJSONString(shiroUser.getSecFunctionalities()));
+			*/
+			Random random = new Random();
+			userMap.put("random",String.valueOf(random.nextInt(100)));
+			userMap.put("secUser11", JSON.toJSONString(shiroUser.getSecUser()));
+			au.setMasterSlaveCookie(userMap);
+		}catch (Exception e){
+			log.error("更新UserContext失败！" + e.getMessage());
+		}
 		return au;
 	}
 
