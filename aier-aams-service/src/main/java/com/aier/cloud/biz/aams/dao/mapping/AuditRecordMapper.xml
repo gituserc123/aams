@@ -55,11 +55,48 @@
         <result column="AuditRecordAgreeOrNot_time" property="auditrecordagreeornotTime" />
         <result column="AuditRecordAgreeOrNot_user" property="auditrecordagreeornotUser" />
         <result column="AuditRecordPublicFlag" property="auditRecordPublicFlag" />
+        <result column="OrgMasterRegion" property="orgMasterRegion" />
+        <result column="OrgMasterName" property="orgMasterName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         AuditRecordId, AuditRecordOrgCode, AuditRecordIsFinished, AuditRecordIsdlt, AuditRecordCreate_time, AuditRecordCreate_user, AuditRecordType, AuditRecordName, AuditRecordDateTo, AuditRecordDateFrom, AuditRecordFinished_time, AuditrecordNoteAttachmenId, AuditRecordReprotAttachmentid, AuditRecordStatus, AuditRecordLeaveHospitalDate, AuditRecordArriveHospitalDate, AuditRecordMonth, AuditRecordYear, AuditRecordOverview, AuditRecordOverviewRemark, AuditRecordUpdate_time, AuditRecordUpdate_user, AuditRecordRejectReason, AuditRecordReprotConfirmAttachmentid, AuditRecordLockUser, AuditRecordParentId, AuditRecordReplyEvalateSubmitTime, AuditRecordReplyEvalateSubmitUser, AuditRecordReplyEvalateXx, AuditRecordReplyFinishTime, AuditRecordReplyIsFinish, AuditRecordCapability, orgMasterId, AuditRecordScore, AuditRecordRandomHG, AuditRecordOpenToHos, AuditRecordConfirmDatetime, AuditRecordConfirmUser, AuditRecordOpenToHosDeadline, AuditRecordTheme, AuditRecordOverviewRemark_user, AuditRecordOverviewRemark_time, AuditRecordFHreview_time, AuditRecordFHreview_user, AuditRecordCGSubmit_time, AuditRecordCGSubmit_user, AuditRecordGTYJSubmit2_time, AuditRecordGTYJSubmit2_user, AuditRecordAgreeOrNot_time, AuditRecordAgreeOrNot_user, AuditRecordPublicFlag
     </sql>
+
+    <sql id="sql_where">
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="cond.auditRecordId != null and cond.auditRecordId > 0">
+                and t.AuditRecordId = #{cond.auditRecordId}
+            </if>
+            <if test="cond.auditRecordType != null and cond.auditRecordType != ''">
+                and t.AuditRecordType = #{cond.auditRecordType}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getAllFxts" resultMap="BaseResultMap">
+        select
+        t.*,
+        (select OrgMasterName from OrgMaster where orgMasterId=th.orgMasterRegion) as orgMasterRegion,
+        th.OrgMasterName
+        from AuditRecord t INNER JOIN OrgMaster th on t.orgMasterId=th.orgMasterId
+        where AuditRecordIsdlt= false
+         and AuditRecordType='AuditRecordTypeFXTS'
+         and AuditRecordIsFinished=1
+         and th.orgmasterType &lt;&gt; 'orgmasterType10'
+         <if test="cond.auditRecordYear != null and cond.auditRecordYear > 0">
+             and t.AuditRecordYear = #{cond.auditRecordYear}
+         </if>
+        <if test="cond.auditRecordMonth != null and cond.auditRecordMonth > 0">
+            and t.AuditRecordMonth = #{cond.auditRecordMonth}
+        </if>
+         <if test="cond.orgMasterId != null and cond.orgMasterId != ''">
+             and th.orgMasterId = #{cond.orgMasterId}
+         </if>
+         <if test="cond.orgMasterName != null and cond.orgMasterName != ''">
+             and th.orgMasterName like  concat(concat('%',#{cond.orgMasterName}),'%')
+         </if>
+    </select>
 
 </mapper>

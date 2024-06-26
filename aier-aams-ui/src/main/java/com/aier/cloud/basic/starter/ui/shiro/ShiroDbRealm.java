@@ -96,6 +96,9 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
 	private DeptMasterFeignService deptMasterFeignService;
 
 	@Autowired
+	private OrgMasterFeignService orgMasterFeignService;
+
+	@Autowired
 	private SecFunctionalityFeignService secFunctionalityFeignService;
 
 	/**
@@ -265,6 +268,13 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
 				String roles = auditRoles.stream().map(ars -> String.valueOf(ars.getSecRoleId())).collect(Collectors.joining(","));
 				List<SecFunctionality> secFunctionalities = secFunctionalityFeignService.queryJoinRoles(roles);
 				shiroUser.setSecFunctionalities(secFunctionalities);
+			}
+			if(CollectionUtils.isNotEmpty(deptMasters) && deptMasters.size()>0){
+				Optional<DeptMaster> parentDm = deptMasters.stream().filter(dm -> dm.getDeptMasterCode().equals(secUsers.get(0).getDeptmastercode())).findFirst();
+				if(parentDm.isPresent()){
+					List<OrgMaster> orgMasters = orgMasterFeignService.getOrgMasterHierarchy(parentDm.get().getOrgMasterId());
+					shiroUser.setOrgMasters(orgMasters);
+				}
 			}
 		}
 		// AAS审计系统中当前登录用户信息查询 --end

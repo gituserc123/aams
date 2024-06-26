@@ -122,5 +122,9 @@ public class AuditRecordCondition extends PageCondition {
 
     private Integer auditRecordPublicFlag;
 
+    private String orgMasterRegion;
+
+    private String orgMasterName;
+
 
 }

@@ -52,13 +52,12 @@ public class UiSubjectLoaderImpl implements SubjectLoader{
 			userMap.put("secUser", JSON.toJSONString(shiroUser.getSecUser()));
 			userMap.put("auditRoles", JSON.toJSONString(shiroUser.getAuditRoles()));
 			userMap.put("deptMasters", JSON.toJSONString(shiroUser.getDeptMasters()));
-			System.out.println("shiroUser.getSecFunctionalities():" + JSON.toJSONString(shiroUser.getSecFunctionalities()));
 			/* 调用这段代码就报错，很神奇! 猜测是查询出来的数据问题
 			userMap.put("secFunctionalities", JSON.toJSONString(shiroUser.getSecFunctionalities()));
 			*/
 			Random random = new Random();
 			userMap.put("random",String.valueOf(random.nextInt(100)));
-			userMap.put("secUser11", JSON.toJSONString(shiroUser.getSecUser()));
+			userMap.put("orgMasters", JSON.toJSONString(shiroUser.getOrgMasters()));
 			au.setMasterSlaveCookie(userMap);
 		}catch (Exception e){
 			log.error("更新UserContext失败！" + e.getMessage());

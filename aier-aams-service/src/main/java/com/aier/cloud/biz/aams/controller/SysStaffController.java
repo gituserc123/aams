@@ -67,6 +67,7 @@ public class SysStaffController extends BaseController {
                 List<Institution> institutions = institutionService.getDeptListByStaffCodeAndInst(jsonInst.getString("CODE"),jsonInst.getLong("INSTITUTION_ID"));
                 String deptName = institutions.stream().map(Institution::getName).collect(Collectors.joining(","));
                 jsonInst.put("DEPTNAME",deptName);
+                jsonInst.put("Institutions",institutions);
                 if(sirLen){
                     String roleNames = sirInfos.stream().filter(si -> MapUtils.getLong(si,"staffId").longValue() == ((JSONObject) instItem).getLong("ID").longValue())
                             .map(si -> MapUtils.getString(si,"roleName")).distinct().collect(Collectors.joining(","));

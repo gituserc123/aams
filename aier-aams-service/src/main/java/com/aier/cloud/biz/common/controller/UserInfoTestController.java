@@ -4,6 +4,7 @@ import com.aier.cloud.aams.api.request.domain.DeptMaster;
 import com.aier.cloud.aams.api.request.domain.SecFunctionality;
 import com.aier.cloud.aams.api.request.domain.SecRole;
 import com.aier.cloud.aams.api.request.domain.SecUser;
+import com.aier.cloud.biz.aams.entity.OrgMaster;
 import com.aier.cloud.center.common.context.AierUser;
 import com.aier.cloud.center.common.context.UserContext;
 import com.alibaba.fastjson.JSON;
@@ -27,8 +28,9 @@ public class UserInfoTestController {
         SecUser secUser = JSON.parseObject(aamsUser.getMasterSlaveCookie().get("secUser"), SecUser.class);
         List<SecRole> auditRoles = JSONArray.parseArray(aamsUser.getMasterSlaveCookie().get("auditRoles"), SecRole.class);
         List<DeptMaster> deptMasters = JSONArray.parseArray(aamsUser.getMasterSlaveCookie().get("deptMasters"),DeptMaster.class);
+        List<OrgMaster> orgMasters = JSONArray.parseArray(aamsUser.getMasterSlaveCookie().get("orgMasters"),OrgMaster.class);
         //List<SecFunctionality> secFunctionalities = JSONArray.parseArray(aamsUser.getMasterSlaveCookie().get("secFunctionalities"),SecFunctionality.class);
 
-        return testStr + "---:" + JSON.toJSONString(secUser) + "<p>"  + JSON.toJSONString(auditRoles)  + "<p>" +  JSON.toJSONString(deptMasters);
+        return testStr + "---:" + JSON.toJSONString(secUser) + "<p>"  + JSON.toJSONString(auditRoles)  + "<p>" +  JSON.toJSONString(deptMasters) + "<p>" +  JSON.toJSONString(orgMasters);
     }
 }

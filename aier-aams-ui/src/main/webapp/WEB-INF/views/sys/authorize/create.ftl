@@ -96,7 +96,7 @@ require(["pub"],function(){
             {title:'所属机构',field:'INSTNAME',width:180}
 	      ]],
 	      onBeforeLoad: function (param) {
-              param.instId=100002;
+              // param.instId=100002;
 	          if(!param.instId){
                 return false;
               }
@@ -117,8 +117,8 @@ require(["pub"],function(){
       });
       var sendData = {
      	roleId : $('#roleId').val(),
-     	//instId : $('#instId').combobox('getValue'),
-        instId : 100002,
+     	instId : $('#instId').combobox('getValue'),
+        //instId : 100002,
      	staffIds : idArr.join(',')
       };
       

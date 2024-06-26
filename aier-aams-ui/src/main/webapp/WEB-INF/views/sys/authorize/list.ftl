@@ -323,7 +323,7 @@ requirejs(['pub'],function () {
                 return false;
               }
               staffParam = param;
-              staffParam.instId=100002;
+              // staffParam.instId=100002;
           },
           
           onLoadSuccess : function (data) {

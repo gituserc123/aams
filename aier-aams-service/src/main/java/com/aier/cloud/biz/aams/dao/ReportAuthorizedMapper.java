@@ -3,6 +3,9 @@ package com.aier.cloud.biz.aams.dao;
 import com.aier.cloud.biz.aams.entity.ReportAuthorized;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +18,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ReportAuthorizedMapper extends BaseMapper<ReportAuthorized> {
 
+    List<ReportAuthorized> selectByAuditRecordId(@Param("auditRecordId") Long auditRecordId,@Param("secUserId") Long secUserId,
+                                                 @Param("reportAuthorizedIsdlt") Boolean reportAuthorizedIsdlt);
 }

@@ -182,5 +182,11 @@ public class AuditRecord implements Serializable {
     @TableField("AuditRecordPublicFlag")
     private Integer auditRecordPublicFlag;
 
+    @TableField(exist=false)
+    private String orgMasterRegion;
+
+    @TableField(exist=false)
+    private String orgMasterName;
+
 
 }

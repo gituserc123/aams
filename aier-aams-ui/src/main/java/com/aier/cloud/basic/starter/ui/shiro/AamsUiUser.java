@@ -1,9 +1,6 @@
 package com.aier.cloud.basic.starter.ui.shiro;
 
-import com.aier.cloud.aams.api.request.domain.DeptMaster;
-import com.aier.cloud.aams.api.request.domain.SecFunctionality;
-import com.aier.cloud.aams.api.request.domain.SecRole;
-import com.aier.cloud.aams.api.request.domain.SecUser;
+import com.aier.cloud.aams.api.request.domain.*;
 import com.aier.cloud.basic.web.shiro.ShiroUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -36,6 +33,8 @@ public class AamsUiUser extends ShiroUser{
 	List<DeptMaster> deptMasters;
 
 	List<SecFunctionality> secFunctionalities;
+
+	List<OrgMaster> orgMasters;
 
 	public AamsUiUser(Long id, String loginCode, String loginName, Long instId, String instName, Long tenantId, Boolean isChangePassword, Boolean isAdmin, Boolean isHosp, List<?> depts, Long deptId) {
 		super(id, loginCode, loginName, instId, instName, tenantId, isChangePassword, isAdmin,isHosp, depts, deptId);
@@ -107,6 +106,14 @@ public class AamsUiUser extends ShiroUser{
 
 	public void setSecUser(SecUser secUser) {
 		this.secUser = secUser;
+	}
+
+	public List<OrgMaster> getOrgMasters() {
+		return orgMasters;
+	}
+
+	public void setOrgMasters(List<OrgMaster> orgMasters) {
+		this.orgMasters = orgMasters;
 	}
 
 	/**

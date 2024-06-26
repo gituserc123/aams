@@ -53,5 +53,11 @@ public class ReportAuthorized implements Serializable {
     @TableField("ReportAuthorizedUpdate_user")
     private String reportauthorizedupdateUser;
 
+    @TableField(exist = false)
+    private String secUserMainCode;
+
+    @TableField(exist = false)
+    private String secUserName;
+
 
 }

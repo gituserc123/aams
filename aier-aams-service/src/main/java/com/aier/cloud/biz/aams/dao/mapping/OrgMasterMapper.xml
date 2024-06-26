@@ -23,4 +23,9 @@
         OrgMasterId, OrgMasterCode, OrgMasterName, OrgMasterShort, OrgMasterRegion, OrgMasterStatus, OrgMasterModaility, OrgMasterType, OrgMasterParentCode, OrgMasterIsdlt, OrgMasterCreate_time, OrgMasterUpdate_time
     </sql>
 
+    <select id="selectByOrgMasterId" resultMap="BaseResultMap">
+        select * from OrgMaster t
+        where OrgMasterIsdlt = 0 and OrgMasterId = #{orgMasterId,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

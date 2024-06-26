@@ -15,4 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OrgMasterMapper extends BaseMapper<OrgMaster> {
 
+    OrgMaster selectByOrgMasterId(String orgMasterId);
+
 }

@@ -6,6 +6,9 @@ import com.aier.cloud.biz.aams.service.OrgMasterService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -17,4 +20,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrgMasterServiceImpl extends ServiceImpl<OrgMasterMapper, OrgMaster> implements OrgMasterService {
 
+    @Override
+    public List<OrgMaster> getOrgMasterHierarchy(String orgMasterId) {
+        List<OrgMaster> result = new ArrayList<>();
+        findParentDepartments(orgMasterId, result);
+        return result;
+    }
+
+    private void findParentDepartments(String orgMasterId, List<OrgMaster> result) {
+        OrgMaster orgMaster = this.baseMapper.selectByOrgMasterId(orgMasterId);
+        if (orgMaster != null) {
+            result.add(orgMaster);
+            if (orgMaster.getOrgMasterParentCode() != null && !orgMaster.getOrgMasterParentCode().trim().equals("")) {
+                findParentDepartments(orgMaster.getOrgMasterParentCode(), result);
+            }
+        }
+    }
 }

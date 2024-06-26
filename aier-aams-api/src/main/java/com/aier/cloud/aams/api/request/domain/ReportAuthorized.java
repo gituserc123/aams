@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Getter
 @Setter
-public class ReportAuthorized extends BaseEntity implements Serializable { 
+public class ReportAuthorized implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,6 +35,12 @@ public class ReportAuthorized extends BaseEntity implements Serializable {
     private Date reportauthorizedupdateTime;
 
     private String reportauthorizedupdateUser;
+
+    private String secUserMainCode;
+
+    private String secUserName;
+
+    private String deptMasterCode;
 
 
 }

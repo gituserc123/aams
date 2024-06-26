@@ -12,11 +12,25 @@
         <result column="ReportAuthorizedIsdlt" property="reportAuthorizedIsdlt" />
         <result column="ReportAuthorizedUpdate_time" property="reportauthorizedupdateTime" />
         <result column="ReportAuthorizedUpdate_user" property="reportauthorizedupdateUser" />
+        <result column="SecUserMainCode" property="secUserMainCode" />
+        <result column="SecUserName" property="secUserName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         ReportAuthorizedId, AuditRecordId, SecUserId, ReportAuthorizedCreate_time, ReportAuthorizedCreate_user, ReportAuthorizedIsdlt, ReportAuthorizedUpdate_time, ReportAuthorizedUpdate_user
     </sql>
+
+    <select id="selectByAuditRecordId" resultMap="BaseResultMap">
+        select t.*,tu.SecUserName,tu.SecUserMainCode
+        from ReportAuthorized t left join SecUser tu on t.SecUserId = tu.SecUserId
+        where t.AuditRecordId = #{auditRecordId}
+        <if test="secUserId != null and secUserId > 0">
+            and t.SecUserId = #{secUserId}
+        </if>
+        <if test="reportAuthorizedIsdlt != null">
+            and t.ReportAuthorizedIsdlt = #{reportAuthorizedIsdlt}
+        </if>
+    </select>
 
 </mapper>
