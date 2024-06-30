@@ -120,7 +120,7 @@ public class AamsUiUser extends ShiroUser{
 	 * 获取当前登陆账号
 	 * @return
 	 */
-	public static AamsUiUser getAcrsUser() {
+	public static AamsUiUser getAamsUser() {
 		Subject subject = SecurityUtils.getSubject();
 		return (AamsUiUser)subject.getPrincipal();
 	}

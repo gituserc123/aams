@@ -92,13 +92,30 @@
             },["#gridBox"]);
         });
 
+        $('.cont-grid').on('click', '.s-op-reply', function () {
+            var idx = $(this).attr('relIndex');
+            var rowData = $("#gridBox").datagrid("getRows")[idx];
+            $pop.iframePop({
+                title: "风险提示查看(报告编号:"+rowData.auditRecordName+ ";主题:" + rowData.auditRecordTheme + ")",//标题
+                content: '/ui/aams/auditRecordFxts/auditFxtsView?auditRecordId=' + rowData.auditRecordId,//请求地址
+                area: ['100%', '100%'],//窗口大小
+                // postData : {mainId:row.id},//往子页面传值
+                end : function(iframeSendData){
+                    //关闭执行函数，子页面可通过 $pop.closePop 返回参数
+                    $grid.load('#gridBox');
+                },
+                sureback : function (iframeSendData){
+                    //表单提交| 或成功 执行函数，子页面可通过 $pop.closePop 返回参数
+                }
+            },'#gridBox');
+        });
+
         $('.cont-grid').on('click', '.s-op-reportview', function () {
             var idx = $(this).attr('relIndex');
             var rowData = $("#gridBox").datagrid("getRows")[idx];
             console.log(rowData);
             $pop.alert("正在开发中...");
         });
-
 
 
     });

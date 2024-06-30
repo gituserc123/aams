@@ -2,23 +2,20 @@ package com.aier.cloud.ui.biz.aams.controller;
 
 import com.aier.cloud.aams.api.request.condition.AuditRecordCondition;
 import com.aier.cloud.aams.api.request.condition.SecUserCondition;
+import com.aier.cloud.aams.api.request.domain.AuditFxtsReply;
 import com.aier.cloud.aams.api.request.domain.ReportAuthorized;
 import com.aier.cloud.aams.api.request.domain.SecUser;
 import com.aier.cloud.basic.api.request.condition.sys.StaffCondition;
 import com.aier.cloud.basic.api.response.domain.base.PageResponse;
+import com.aier.cloud.basic.starter.ui.shiro.AamsUiUser;
 import com.aier.cloud.basic.web.controller.BaseController;
-import com.aier.cloud.ui.biz.aams.feign.AuditRecordFeignService;
-import com.aier.cloud.ui.biz.aams.feign.ReportAuthorizedFeignService;
-import com.aier.cloud.ui.biz.aams.feign.SecUserFeignService;
-import com.aier.cloud.ui.biz.aams.feign.SysStaffFeignService;
+import com.aier.cloud.basic.web.shiro.ShiroUtils;
+import com.aier.cloud.ui.biz.aams.feign.*;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -40,8 +37,12 @@ public class AuditRecordFxtsUiController extends BaseController {
     @Autowired
     private SysStaffFeignService staffFeignService;
 
+    @Autowired
+    private AuditFxtsReplyFeignService auditFxtsReplyFeignService;
+
     private static final String AUDIT_FXTS_HOME = "aams/fxts/auditfxtshome";
     private static final String AUDIT_FXTS_AUDITREPORTAUTHORIZE = "aams/fxts/auditReportAuthorize";
+    private static final String AUDIT_FXTS_AUDITFXTSVIEW = "aams/fxts/auditFxtsView";
 
     @RequestMapping(value = "/auditfxtshome", method = { RequestMethod.GET, RequestMethod.POST })
     public String adaList(Map<String, Object> map) {
@@ -113,6 +114,32 @@ public class AuditRecordFxtsUiController extends BaseController {
         }
 
         return result;
+    }
+
+    @RequestMapping(value = "/auditFxtsView", method = { RequestMethod.GET, RequestMethod.POST })
+    public String auditFxtsView(Long auditRecordId, Model model) {
+        AamsUiUser shiroUser = AamsUiUser.getAamsUser();
+        if(Objects.nonNull(shiroUser.getSecUser())){
+            model.addAttribute("secUserId", shiroUser.getSecUser().getSecuserid());
+        }
+        model.addAttribute("auditRecordId", auditRecordId);
+        return AUDIT_FXTS_AUDITFXTSVIEW;
+    }
+
+    @RequestMapping(value = "/selectReply", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    List<Map<String,Object>> selectReplyByAuditRecordId(Long auditRecordId){
+        return auditFxtsReplyFeignService.selectByAuditRecordId(auditRecordId);
+    }
+
+    @RequestMapping(value = "/saveReply", method = { RequestMethod.POST })
+    @ResponseBody
+    Object saveReply(AuditFxtsReply auditFxtsReply){
+        if (auditFxtsReplyFeignService.save(auditFxtsReply)){
+            return this.success("保存成功！");
+        }else{
+            return this.fail();
+        }
     }
 
 }

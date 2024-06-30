@@ -3,6 +3,10 @@ package com.aier.cloud.biz.aams.dao;
 import com.aier.cloud.biz.aams.entity.FxglGroupAuth;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -14,5 +18,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface FxglGroupAuthMapper extends BaseMapper<FxglGroupAuth> {
+
+    List<Map<String,Object>> selectBySecUserId(@Param("secUserId") Long secUserId);
 
 }

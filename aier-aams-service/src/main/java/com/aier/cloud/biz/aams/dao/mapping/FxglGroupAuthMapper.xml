@@ -20,4 +20,17 @@
         FxglGroupAuthId, SecUserId, FxglGroupAuthBusiCode, FxglGroupAuthCreate_user, FxglGroupAuthCreate_time, FxglGroupAuthIsDlt, FxglGroupAuthUpdate_user, FxglGroupAuthUpdate_time, FxglGroupAuthOrgMasterId
     </sql>
 
+
+    <select id="selectBySecUserId"  resultType="com.aier.cloud.basic.core.base.db.CamelKeyMap">
+        select
+        t.*,
+        su.SecUserName,
+        dept.deptMasterName
+        from FxglGroupAuth t
+        left join SecUser su on t.SecUserId = su.SecUserId
+        left join DeptMaster dept on su.deptMasterCode = dept.deptMasterCode
+        where t.SecUserId = #{secUserId}
+    </select>
+
+
 </mapper>

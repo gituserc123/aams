@@ -18,4 +18,18 @@
         AuditFxtsReplyId, AuditRecordId, AuditFxtsReplyUser, AuditFxtsReplyText, AuditFxtsReplyNum, AuditFxtsReplyCrtTime, AuditFxtsReplyUpdTime
     </sql>
 
+    <select id="selectByAuditRecordId"  resultType="com.aier.cloud.basic.core.base.db.CamelKeyMap">
+        select
+           t.*,
+           su.SecUserId,
+           su.SecUserName,
+           dept.deptMasterName,
+           om.orgMasterType
+        from AuditFxtsReply t
+           left join SecUser su on t.auditFxtsReplyUser = su.SecUserId
+           left join DeptMaster dept on su.deptMasterCode = dept.deptMasterCode
+           left join OrgMaster om on dept.OrgMasterId = om.OrgMasterId
+        where t.auditRecordId = #{auditRecordId}
+    </select>
+
 </mapper>
