@@ -44,7 +44,11 @@
 
     requirejs(['pub'], function () {
 
-         $grid.newGrid("#gridBox", {
+        $('#auditRecordYear').combobox('loadData',eval(generateYearRangeJSON()));
+
+        $('#auditRecordMonth').combobox('loadData',eval(generateMonthJSON()));
+
+        $grid.newGrid("#gridBox", {
             pagination: true,
             fitColumns: false,
             columns: [[
@@ -97,7 +101,7 @@
             var rowData = $("#gridBox").datagrid("getRows")[idx];
             $pop.iframePop({
                 title: "风险提示查看(报告编号:"+rowData.auditRecordName+ ";主题:" + rowData.auditRecordTheme + ")",//标题
-                content: '/ui/aams/auditRecordFxts/auditFxtsView?auditRecordId=' + rowData.auditRecordId,//请求地址
+                content: '${base}/ui/aams/auditRecordFxts/auditFxtsView?auditRecordId=' + rowData.auditRecordId,//请求地址
                 area: ['100%', '100%'],//窗口大小
                 // postData : {mainId:row.id},//往子页面传值
                 end : function(iframeSendData){
@@ -116,9 +120,40 @@
             console.log(rowData);
             $pop.alert("正在开发中...");
         });
-
-
     });
+
+    function generateYearRangeJSON() {
+        // 获取当前年份
+        var currentYear = new Date().getFullYear();
+        var yearRange = [];
+
+        // 生成前后6年的年份对象数组
+        for (var i = -3; i <= 2; i++) {
+            var year = currentYear + i;
+            yearRange.push({ "id": year, "name": year + "年" });
+        }
+
+        // 将年份对象数组转换为JSON字符串
+        var yearRangeJSON = JSON.stringify(yearRange);
+        return yearRangeJSON;
+    };
+
+    function generateMonthJSON() {
+        var months = [
+            "一月", "二月", "三月", "四月", "五月", "六月",
+            "七月", "八月", "九月", "十月", "十一月", "十二月"
+        ];
+        var monthArray = [];
+
+        // 生成月份对象数组
+        for (var i = 0; i < months.length; i++) {
+            monthArray.push({ "id": i + 1, "name": months[i] });
+        }
+
+        // 将月份对象数组转换为JSON字符串
+        var monthJSON = JSON.stringify(monthArray);
+        return monthJSON;
+    }
 
 </script>
 

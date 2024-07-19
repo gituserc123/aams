@@ -4,6 +4,7 @@ import com.aier.cloud.basic.api.domain.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -75,6 +76,28 @@ public class Risk extends BaseEntity implements Serializable {
     private Boolean riskIsQueDescStd;
 
     private String riskDigitalModel;
+
+    private String riskCapabilityDesc;
+
+    private String riskBussinessTypeDesc;
+
+    private String riskLevelDesc;
+
+    private Boolean big;
+
+    private Boolean medium;
+
+    private Boolean small;
+
+    private Boolean newhosp;
+
+    private Boolean county;
+
+    private Boolean outpatient;
+
+    private BigDecimal riskLevelScore;
+
+
 
 
 }

@@ -30,4 +30,9 @@
         SelfRiskId, SelfRiskCode, SelfRiskTitle, SelfRiskDesc, SelfRiskBussinessType, SelfRiskFirstLevel, SelfRiskSecondLevel, SelfRiskEvalucationBasis, SelfRiskMethod, SelfRiskGuide, SelfRiskType, SelfRiskIsdlt, SelfRiskCreate_time, SelfRiskCreate_user, SelfRiskUpdate_time, SelfRiskUpdate_user, SelfRiskForHospType, SelfRiskDeductCriterion, SelfRiskScore
     </sql>
 
+    <select id="getAll" resultMap="BaseResultMap">
+        select * from SelfRisk t
+        where SelfRiskIsdlt = false
+    </select>
+
 </mapper>

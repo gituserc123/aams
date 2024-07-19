@@ -39,4 +39,21 @@
         RiskId, RiskName, RiskDesc, RiskBussinessType, RiskProject, RiskLevel, RiskIsdlt, RiskCreate_time, RiskCreate_user, RiskUpdate_time, RiskUpdate_user, RiskIsPost, RiskMethod, RiskInstitution, RiskRemote, RiskType, RiskCode, RiskCapability, RiskSenstivity, RiskRectifyType, RiskIsRandom, SelfRiskId, RiskSenstivityDesc, RiskEmergencyRef, RiskRectifyAttribute, RiskCategory, RiskIsQueDescStd, RiskDigitalModel
     </sql>
 
+    <select id="getAll" resultMap="BaseResultMap">
+        select * from Risk t
+        where RiskIsdlt = false
+        <if test="cond.riskBussinessType != null and cond.riskBussinessType != ''">
+            and t.RiskBussinessType = #{cond.riskBussinessType}
+        </if>
+        <if test="cond.riskProject != null and cond.riskProject != ''">
+            and t.RiskProject like  concat(concat('%',#{cond.riskProject}),'%')
+        </if>
+        <if test="cond.riskType != null and cond.riskType != ''">
+            and t.RiskType like  concat(concat('%',#{cond.riskType}),'%')
+        </if>
+        <if test="cond.riskName != null and cond.riskName != ''">
+            and t.RiskName like  concat(concat('%',#{cond.riskName}),'%')
+        </if>
+    </select>
+
 </mapper>

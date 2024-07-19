@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>欢迎使用爱尔眼科AMWS医废管理系统</title>
+    <title>欢迎使用爱尔眼科AAMS审计管理系统</title>
     [#include "/WEB-INF/views/common/include_resources.ftl"]
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
@@ -17,9 +17,9 @@
 <div id="topHead" class="header" data-options="region:'north'">
     <h1 class="h1-logo">
         [#if profile=='uat' || profile=='sit' || profile=='hotfix']
-            <img src="${base}/static/images/acrm-logo-s.png" height="25" width="385" alt="欢迎使用爱尔眼科AMWS医废管理系统" />
+            <img src="${base}/static/images/acrm-logo-s.png" height="25" width="385" alt="欢迎使用爱尔眼科AAMS审计管理系统" />
         [#else]
-            <img src="${base}/static/images/acrm-logo.png" height="25" width="330" alt="欢迎使用爱尔眼科AMWS医废管理系统" />
+            <img src="${base}/static/images/acrm-logo.png" height="25" width="330" alt="欢迎使用爱尔眼科AAMS审计管理系统" />
         [/#if]
     </h1>
     <div class="userInfo">

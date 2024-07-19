@@ -1,8 +1,14 @@
 package com.aier.cloud.biz.aams.dao;
 
+import com.aier.cloud.aams.api.request.condition.SelfRiskCondition;
 import com.aier.cloud.biz.aams.entity.SelfRisk;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -14,5 +20,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SelfRiskMapper extends BaseMapper<SelfRisk> {
-
+    List<SelfRisk> getAll(Page<Map<String, Object>> page, @Param("cond") SelfRiskCondition cond);
 }

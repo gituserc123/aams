@@ -58,5 +58,9 @@ public class SelfRisk extends BaseEntity implements Serializable {
 
     private Integer selfRiskScore;
 
+    private Long selfRiskIdShow;
+
+    private String selfRiskBussinessTypeTxt;
+
 
 }
