@@ -7,7 +7,6 @@ import com.aier.cloud.biz.aams.service.AuditFxtsReplyService;
 import com.aier.cloud.center.common.context.AierUser;
 import com.aier.cloud.center.common.context.UserContext;
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

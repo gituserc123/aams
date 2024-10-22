@@ -1,6 +1,8 @@
 package com.aier.cloud.ui.biz.aams.controller;
 
 
+import cn.hutool.core.util.StrUtil;
+import com.aier.cloud.aams.api.domain.enums.ForHospTypeEnum;
 import com.aier.cloud.aams.api.domain.enums.OrgCapabilityEnum;
 import com.aier.cloud.aams.api.request.condition.RiskCondition;
 import com.aier.cloud.aams.api.request.condition.SelfRiskCondition;
@@ -19,8 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.beans.BeanInfo;
-import java.beans.Introspector;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.*;
@@ -102,6 +102,17 @@ public class ManualOfAuditUiController  extends BaseController {
         risk.setRiskLevelScore(new BigDecimal(cmRiskLevel.stream().filter(cmr->cmr.getCodeMasterTypeCode().equals(risk.getRiskLevel())).findFirst().get().getCodeMasterNameDesc()));
         if(risk.getSelfRiskId()!=null){
           SelfRisk selfRisk = selfRiskFeignService.getSelfRiskById(risk.getSelfRiskId());
+          if(selfRisk.getSelfRiskForHospType()!=null && selfRisk.getSelfRiskForHospType().intValue()>0){
+              Arrays.stream(ForHospTypeEnum.values()).forEach(fhte -> {
+                  if((selfRisk.getSelfRiskForHospType().intValue() & fhte.getValue()) == fhte.getValue()){
+                      try {
+                          setBooleanField(selfRisk, StrUtil.lowerFirst(fhte.getCode()),true);
+                      } catch (Exception e) {
+                          throw new RuntimeException(e);
+                      }
+                  }
+              });
+          }
           model.addAttribute("selfRisk",selfRisk);
         }
         model.addAttribute("riskId",riskId);

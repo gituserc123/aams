@@ -1,7 +1,6 @@
 package com.aier.cloud.biz.aams.service.impl;
 
 import com.aier.cloud.aams.api.request.condition.AuthorizeAamsCondition;
-import com.aier.cloud.basic.api.domain.constant.CommSymbol;
 import com.aier.cloud.biz.aams.dao.SysStaffInstRoleMapper;
 import com.aier.cloud.biz.aams.entity.SysStaffInstRole;
 import com.aier.cloud.biz.aams.service.SysStaffInstRoleService;
@@ -14,7 +13,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Wrapper;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

@@ -56,7 +56,7 @@ public class RiskServiceImpl extends ServiceImpl<RiskMapper, Risk> implements Ri
                 risk.setRiskcreateTime(new Date());
                 risk.setRiskDesc("  ");
                 risk.setRiskIsdlt(false);
-                risk.setRiskCapability(4L);
+                //risk.setRiskCapability(4L);
                 if(risk.getRiskIsPost()==null){
                     risk.setRiskIsPost(false);
                 }

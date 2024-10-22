@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
     <meta http-equiv="X-UA-Compatible" content="IE=9"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>新增风险点 - 爱尔医院</title>
+    <title>编辑风险点 - 爱尔医院</title>
     [#include "/WEB-INF/views/common/include_resources.ftl"]
 </head>
 <style type="text/css">
@@ -19,10 +19,11 @@
 </script>
 <body>
 <!-- <div class="row" style="margin-top: 5px;">-->
-<form id="addManualForm"  class="soform formA form-validate form-enter pad-t3 manualRiskForm">
+<form id="editManualForm"  class="soform formA form-validate form-enter pad-t3 manualRiskForm">
     <input class="txt hide" type="text" id="id" name="id" value=""/>
     <input type="hidden" id="hospId" name="hospId" value="" />
     <input type="hidden" id="instId" name="instId" value="" />
+    <input type="hidden" name="riskId" value="${risk.riskId!}" />
     <div class="basicInfo">
         <h2 class="h2-title-a">
             <span class="s-title">基本信息</span>
@@ -174,31 +175,31 @@
                           name="riskRectifyAttribute" cols="200" row="10" placeholder="请填写内控点整改属性">${risk.riskRectifyAttribute!}</textarea>
             </span>
         </div>
-        <div class="clearfix mar-l20 mar-b30" style="margin-left: 30px !important;">
+        <div class="clearfix mar-l20 mar-b30 orgCapabilityDiv" style="margin-left: 30px !important;">
             <div class="easyui-panel" title="体量" style="width:1068px;padding:10px 10px 10px 20px;">
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">大体量：</label>
-                    <input type="checkbox" id="big" name="big" value="true" [#if '${risk.big }' == true ] checked="checked" [/#if]>
+                    <input type="checkbox" id="big" name="big" value="true" orgCapabilityEnum="1" [#if '${risk.big }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">中体量：</label>
-                    <input type="checkbox" id="medium" name="medium" value="true" [#if '${risk.medium }' == true ] checked="checked" [/#if]>
+                    <input type="checkbox" id="medium" name="medium" value="true" orgCapabilityEnum="2"  [#if '${risk.medium }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">小体量：</label>
-                    <input type="checkbox" id="small" name="small" value="true" [#if '${risk.small }' == true ] checked="checked" [/#if]>
+                    <input type="checkbox" id="small" name="small" value="true" orgCapabilityEnum="4"  [#if '${risk.small }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">新院：</label>
-                    <input type="checkbox" id="newhosp" name="newhosp" value="true" [#if '${risk.newhosp }' == true ] checked="checked" [/#if]>
+                    <input type="checkbox" id="newhosp" name="newhosp" value="true" orgCapabilityEnum="8"  [#if '${risk.newhosp }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">县级：</label>
-                    <input type="checkbox" id="county" name="county" value="true" [#if '${risk.county }' == true ] checked="checked" [/#if]>
+                    <input type="checkbox" id="county" name="county" value="true" orgCapabilityEnum="16"  [#if '${risk.county }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">视光/门诊：</label>
-                    <input type="checkbox" id="outpatient" name="outpatient" value="true" [#if '${risk.outpatient }' == true ] checked="checked" [/#if]>
+                    <input type="checkbox" id="outpatient" name="outpatient" value="true" orgCapabilityEnum="32"  [#if '${risk.outpatient }' == true ] checked="checked" [/#if]>
                 </div>
             </div>
         </div>
@@ -215,6 +216,7 @@
                 <textarea class="txta txt-validate adaptiveTextarea" style="width:1024px" dataOptions="" noNull="" id="riskFindTemplateDetail"
                           name="riskFindTemplateDetail" cols="200" row="10" placeholder="请填写模板内容"></textarea>
             </span>
+            <input type="hidden" id="riskFindTemplateId" name="riskFindTemplateId" value="" />
         </div>
         <div class="cont-grid-template" style="margin: 0px 0px 0px 11px !important;">
             <div id="gridBox-template"></div>
@@ -225,7 +227,7 @@
             <span class="s-title">扣分标准</span>
         </h2>
         <hr class="mar-l10 mar-r10 mar-t0 mar-b20" style="border-color:#b2def4;margin-bottom: 0px !important;">
-        <input type="button" class="btn btn-small btn-primary mar-5 so-template-add" style="margin: 5px 5px 5px 10px !important;" value="新增扣分标准"/>
+        <input type="button" class="btn btn-small btn-primary mar-5 so-riskscorestandard-add" style="margin: 5px 5px 5px 10px !important;" value="新增扣分标准"/>
         <div class="cont-grid-template" style="margin: 0px 0px 0px 11px !important;">
             <div id="gridBox-scoreStandrd"></div>
         </div>
@@ -235,7 +237,7 @@
             <span class="s-title">问题标准</span>
         </h2>
         <hr class="mar-l10 mar-r10 mar-t0 mar-b20" style="border-color:#b2def4;margin-bottom: 0px !important;">
-        <input type="button" class="btn btn-small btn-primary mar-5 so-template-add" style="margin: 5px 5px 5px 10px !important;" value="新增问题标准"/>
+        <input type="button" class="btn btn-small btn-primary mar-5 so-riskquestionstandard-add" style="margin: 5px 5px 5px 10px !important;" value="新增问题标准"/>
         <div class="cont-grid-template" style="margin: 0px 0px 0px 11px !important;">
             <div id="gridBox-queStandrd"></div>
         </div>
@@ -253,7 +255,7 @@
             <div class="p3">
                 <div class="item-one solab-l">
                     <label class="lab-item">关联自评风险点Id：</label>
-                    <input class="txt txt-validate" style="width: 58% !important;"  readonly="true" type="text" id="selfRiskid" name="selfRiskid" value="" autocomplete="off" data-options=""/>
+                    <input class="txt txt-validate" style="width: 58% !important;"  readonly="true" type="text" id="selfRiskid" name="selfRiskid" value="${selfRisk.selfRiskId!}" autocomplete="off" data-options=""/>
                     <img class="selfRisk-prompt" style="vertical-align: middle !important;margin-bottom: 3px;margin-left: 2px;" src="${base}/static/images/base/prompt.png" />
                 </div>
             </div>
@@ -337,23 +339,23 @@
                           name="selfRiskDeductCriterion" cols="200" row="10" placeholder="请填写扣分标准">${selfRisk.selfRiskDeductCriterion!}</textarea>
             </span>
         </div>
-        <div class="clearfix mar-l20 mar-b30" style="margin-left: 30px !important;">
+        <div class="clearfix mar-l20 mar-b30 forHospTypeDiv" style="margin-left: 30px !important;">
             <div class="easyui-panel" title="体量" style="width:1068px;padding:10px 10px 10px 20px;">
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">医院：</label>
-                    <input type="checkbox" id="hospital" name="hospital" value="true">
+                    <input type="checkbox" id="hospital" name="hospital" value="true" forHospTypeEnum="1" [#if '${selfRisk.hospital }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">眼科门诊：</label>
-                    <input type="checkbox" id="outPatient" name="outPatient" value="true">
+                    <input type="checkbox" id="outPatient" name="outPatient" value="true" forHospTypeEnum="2" [#if '${selfRisk.outPatient }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item" style="width: 72px !important;">眼视光诊所：</label>
-                    <input type="checkbox" id="eyeOpticClinic" name="eyeOpticClinic" value="true">
+                    <input type="checkbox" id="eyeOpticClinic" name="eyeOpticClinic" value="true" forHospTypeEnum="4" [#if '${selfRisk.eyeOpticClinic }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">眼镜店：</label>
-                    <input type="checkbox" id="spectacleStore" name="spectacleStore" value="true">
+                    <input type="checkbox" id="spectacleStore" name="spectacleStore" value="true" forHospTypeEnum="8" [#if '${selfRisk.spectacleStore }' == true ] checked="checked" [/#if]>
                 </div>
             </div>
         </div>
@@ -365,6 +367,66 @@
     <p class="row-btn pad-t5" style="padding-top: 20px !important;"></p>
 </form>
 
+<script id="editRiskScoreStandard" type="text/html">
+    <input type="text" style="position: absolute; left: -1000px;" id="hide-input"/>
+    <form id="mainRiskScoreStandardForm" class="soform formA form-validate pad-t20 riskScoreStandardForm" method="post"
+          action="${base}/ui/aams/riskscorestandard/save">
+        <input class="txt hide" type="text" id="riskScoreStandardId" name="riskScoreStandardId" value=""/>
+        <input class="txt hide" type="text" id="riskScoreStandardManualId" name="riskScoreStandardManualId" value="${risk.riskId!}"/>
+        <input class="txt hide" type="text" id="riskScoreStandardType" name="riskScoreStandardType" value="1"/>
+        <input class="txt hide" type="text" id="riskScoreStandardCode" name="riskScoreStandardCode" value=""/>
+        <div class="row">
+            <div class="p4">
+                [#--<div class="item-one">
+                    <label class="lab-item">分值：</label>
+                    <input class="txt txt-validate easyui-numberbox" type="text" id="riskScoreStandardScore" name="riskScoreStandardScore" validType="number['必须为数字']" data-options="min:0,precision:0" value=""
+                           autocomplete="off" data-options=""/>
+                </div>--]
+                <div class="item-one solab-c">
+                    <label class="lab-item solab-c">分值：</label>
+                    <input type="text" class="txt inline easyui-numberbox required" id="riskScoreStandardScore" data-options="min:0,precision:0,required:true" name="riskScoreStandardScore"  validType="number['必须为数字']">
+                </div>
+            </div>
+            <div class="p8">
+                <div class="item-one solab-c">
+                    <label class="lab-item solab-c">扣分描述：</label>
+                    <input class="txt txt-validate required " type="text" id="riskScoreStandardDesc" name="riskScoreStandardDesc" noNull="扣分描述必填" autocomplete="off"/>
+                </div>
+            </div>
+        </div>
+
+        <p class="row-btn pad-t5">
+            <input type="button" class="btn btn-primary btn-save" name="btnSubmit" value="保 存"/>
+            <input type="button" class="btn btn-cancel-cus-riskscorestandard" name="btnCancel" value="取 消"/>
+        </p>
+    </form>
+</script>
+
+<script id="editRiskQuestionStandard" type="text/html">
+    <input type="text" style="position: absolute; left: -1000px;" id="hide-input"/>
+    <form id="mainRiskQuestionStandardForm" class="soform formA form-validate pad-t20 riskQuestionStandardForm" method="post"
+          action="${base}/ui/aams/riskquestionstandard/save">
+        <input class="txt hide" type="text" id="riskQuestionStandardId" name="riskQuestionStandardId" value=""/>
+        <input class="txt hide" type="text" id="riskId" name="riskId" value="${risk.riskId!}"/>
+        <input class="txt hide" type="text" id="riskQuestionStandardCode" name="riskQuestionStandardCode" value=""/>
+        <input class="txt hide" type="text" id="riskQuestionStandardIsDlt" name="riskQuestionStandardIsDlt" value=""/>
+        <input class="txt hide" type="text" id="riskQuestionStandardValue" name="riskQuestionStandardValue" value=""/>
+        <input class="txt hide" type="text" id="riskQuestionStandardRemark" name="riskQuestionStandardRemark" value=""/>
+        <div class="row">
+            <div class="p8">
+                <div class="item-one solab-c">
+                    <label class="lab-item solab-c">描述：</label>
+                    <input class="txt txt-validate required " type="text" id="riskQuestionStandardDesc" name="riskQuestionStandardDesc" noNull="扣分描述必填" autocomplete="off"/>
+                </div>
+            </div>
+        </div>
+
+        <p class="row-btn pad-t5">
+            <input type="button" class="btn btn-primary btn-save" name="btnSubmit" value="保 存"/>
+            <input type="button" class="btn btn-cancel-cus-riskquestionstandard" name="btnCancel" value="取 消"/>
+        </p>
+    </form>
+</script>
 
 </body>
 
@@ -373,29 +435,32 @@
 <script type="text/javascript">
 
     requirejs(['pub'], function () {
-        // 下拉表初始化
-        $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskBussinessType',null,false,false).done(function (rst) {
-            $('#riskBussinessType').combobox('loadData', rst);          // 业务类别
+        $(document).ready(function() {
+            // 下拉表初始化
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskBussinessType',null,false,false).done(function (rst) {
+                $('#riskBussinessType').combobox('loadData', rst);          // 业务类别
+            });
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskLevel',null,false,false).done(function (rst) {
+                $('#riskLevel').combobox('loadData', rst);                   // 风险级别
+            });
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskCategory',null,false,false).done(function (rst) {
+                $('#riskCategory').combobox('loadData', rst);               // 内控点类别
+            });
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskRectifyType',null,false,false).done(function (rst) {
+                $('#riskRectifyType').combobox('loadData', rst);            // 整改类型
+            });
+            $("#riskBussinessType").combobox('setValue', '${risk.riskBussinessType!}')
+            $("#riskLevel").combobox('setValue', '${risk.riskLevel!}');
+            $("#riskCategory").combobox('setValue', '${risk.riskCategory!}');
+            $("#riskRectifyType").combobox('setValue', '${risk.riskRectifyType!}');
+            $("#selfRiskBussinessType").combobox('setValue', '${selfRisk.selfRiskBussinessType!}');
         });
-        $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskLevel',null,false,false).done(function (rst) {
-            $('#riskLevel').combobox('loadData', rst);                   // 风险级别
-        });
-        $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskCategory',null,false,false).done(function (rst) {
-            $('#riskCategory').combobox('loadData', rst);               // 内控点类别
-        });
-        $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskRectifyType',null,false,false).done(function (rst) {
-            $('#riskRectifyType').combobox('loadData', rst);            // 整改类型
-        });
-        $("#riskBussinessType").combobox('setValue', '${risk.riskBussinessType!}')
-        $("#riskLevel").combobox('setValue', '${risk.riskLevel!}');
-        $("#riskCategory").combobox('setValue', '${risk.riskCategory!}');
-        $("#riskRectifyType").combobox('setValue', '${risk.riskRectifyType!}');
 
-        if('${risk.riskRemote }' == true){
+        if(eval('${risk.riskRemote }') == true){
             $('#digitalModelDiv').show();
             $('#riskDigitalModel').prop('disabled', false);
         }
-        if('${risk.riskIsPost }' == true){
+        if(eval('${risk.riskIsPost }') == true){
             $('#riskIsRandomDiv').show();
             $('#riskIsRandom').prop('disabled', false);
         }
@@ -442,7 +507,19 @@
         $('.btn-risk-add').click(function () {
             var data = $(".manualRiskForm").sovals();
             // 数据处理
-
+            var total = 0;
+            // 找到特定的div，并选择其中所有的checkbox
+            $(".clearfix.mar-l20.mar-b30.orgCapabilityDiv input[type='checkbox']").each(function() {
+                // 检查该复选框是否被选中
+                if ($(this).is(':checked')) {
+                    // 获取orgCapabilityEnum属性值并转换为整数
+                    var orgCapabilityEnumValue = parseInt($(this).attr("orgCapabilityEnum"), 10);
+                    // 累加orgCapabilityEnumValue
+                    total += orgCapabilityEnumValue;
+                }
+            });
+            data.riskCapability=total;
+            let current = $(document).scrollTop();
             $ajax.post({
                 url: "${base}/ui/aams/manualofaudit/saveManual",
                 data: data,
@@ -452,31 +529,30 @@
                     window.location.href='${base}/ui/aams/manualofaudit/editManual?riskId=' + rst.riskId;
                 },
                 cancelback: function (rst) {
-                    $pop.closePop();
+                    //$pop.closePop();
+                    // 页面动画滚动效果
+                    $("body, html").stop().animate({
+                        scrollTop: current
+                    });
                 },
             })
-
-
         });
 
         // 审计发现模板Grid初始化
         $grid.newGrid("#gridBox-template", {
-            pagination: true,
+            pagination: false,
             fitColumns: false,
             columns: [[
-                {title: 'auditRecordId', field: 'auditRecordId', hidden: true,width: 150,},
-                {title: '省区', field: 'orgMasterRegion', width: 100},
-                {title: '机构名称', field: 'orgMasterName', width: 200},
-                {title: '主题', field: 'auditRecordTheme', width: 300},
-                {title: '报告编号', field: 'auditRecordName', width: 150},
-                {title: '日期', field: 'auditRecordYear', width: 150,formatter(v,row,index){
-                        return v + '年' + row.auditRecordMonth + '月';
-                    }},
-                {title:'操作',field:'op',width:300,formatter :function (v,row,index) {
-                        var s = '&nbsp;<span class="icon-plus_sign hand s-op-auth" rel="'+row.auditRecordId+'"  relIndex='+ index +' title="风险提示授权"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                        s += '<span class="s-op  blue hand s-op-reply" rel="'+row.auditRecordId+'"  relIndex= ' +index + ' >风险提示回复</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class=" s-op-edit s-op-reportview" rel="'+row.id+'" relIndex= ' + index + 'title="">报告查看</span>'
-                        return s;
-                    }},
+                {title: "操作", field: "op", width: 70, formatter: function (v, row, index) {
+                        let opStr = '';
+                        opStr = '<span class="s-op s-op-edit icon-edit" title="修改" rel="' + index + '"></span>';
+                        opStr = opStr + '&nbsp;&nbsp;<span class="s-op s-op-del icon-del" title="删除" rel="' + index + '"></span>';
+                        return opStr;
+                    }
+                },
+                {title: 'riskfindtemplateid', field: 'riskfindtemplateid', hidden: true,width: 150},
+                {title: 'riskid', field: 'riskid', hidden: true,width: 150},
+                {title: '模板内容', field: 'riskfindtemplatedetail', width: 1000},
             ]],
             rowStyler: function (index, row) {
             },
@@ -485,9 +561,29 @@
                 return true;
             },
             onLoadSuccess: function (data) {
+                $('.s-op-edit').click(function () {
+                    var ix = $(this).attr('rel');
+                    var row = data.rows[ix];
+                    $('#riskFindTemplateDetail').val(row.riskfindtemplatedetail);
+                    $('#riskFindTemplateId').val('');
+                    $('#riskFindTemplateId').val(row.riskfindtemplateid);
+                });
 
+                $('.cont-grid-template').on('click', '.s-op-del', function () {
+                    var index = $(this).attr("rel");
+                    var rowData = $('#gridBox-template').datagrid("getRows")[index];
+                    $pop.confirm('是否删除该记录？', function (r) {//确定
+                        var riskTemplate = {riskFindTemplateIsdlt : 1,riskFindTemplateId:rowData.riskfindtemplateid,riskId:${risk.riskId!},riskFindTemplateDetail:rowData.riskfindtemplatedetail};
+                        if(rowData.riskfindtemplateid){
+                            $ajax.post('${base}/ui/aams/riskTemplate/save',JSON.stringify(riskTemplate),false, true).done(function (rst) {$('#gridBox-template').datagrid('reload');});
+                        }
+                        return true;
+                    }, function () {//取消
+                        return true;
+                    });
+                });
             },
-            url: '${base}/ui/aams/auditRecordFxts/getAllFxts',
+            url: '${base}/ui/aams/riskTemplate/getRiskTemplatesByRiskId?riskId=' + ${risk.riskId!},
             height: 200,
             width: '80%',
             offset: -5
@@ -495,22 +591,23 @@
 
         // 扣分标准Grid初始化
         $grid.newGrid("#gridBox-scoreStandrd", {
-            pagination: true,
+            pagination: false,
             fitColumns: false,
             columns: [[
-                {title: 'auditRecordId', field: 'auditRecordId', hidden: true,width: 150,},
-                {title: '省区', field: 'orgMasterRegion', width: 100},
-                {title: '机构名称', field: 'orgMasterName', width: 200},
-                {title: '主题', field: 'auditRecordTheme', width: 300},
-                {title: '报告编号', field: 'auditRecordName', width: 150},
-                {title: '日期', field: 'auditRecordYear', width: 150,formatter(v,row,index){
-                        return v + '年' + row.auditRecordMonth + '月';
-                    }},
-                {title:'操作',field:'op',width:300,formatter :function (v,row,index) {
-                        var s = '&nbsp;<span class="icon-plus_sign hand s-op-auth" rel="'+row.auditRecordId+'"  relIndex='+ index +' title="风险提示授权"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                        s += '<span class="s-op  blue hand s-op-reply" rel="'+row.auditRecordId+'"  relIndex= ' +index + ' >风险提示回复</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class=" s-op-edit s-op-reportview" rel="'+row.id+'" relIndex= ' + index + 'title="">报告查看</span>'
-                        return s;
-                    }},
+                {title: "操作", field: "op", width: 70, formatter: function (v, row, index) {
+                        let opStr = '';
+                        opStr = '<span class="s-op s-op-score-edit icon-edit" title="修改" rel="' + row.riskScoreStandardId + '" relIndex="' + index +'"></span>';
+                        opStr = opStr + '&nbsp;&nbsp;<span class="s-op s-op-score-del icon-del" style="color: #f16666;" title="删除" rel="' + row.riskScoreStandardId + '"></span>';
+                        return opStr;
+                    }
+                },
+                {title: 'riskScoreStandardId', field: 'riskScoreStandardId', hidden: true,width: 150},
+                {title: 'riskScoreStandardManualId', field: 'riskScoreStandardManualId', hidden: true,width: 150},
+                {title: 'riskScoreStandardType', field: 'riskScoreStandardType', hidden: true,width: 150},
+                {title: 'riskScoreStandardIsDlt', field: 'riskScoreStandardIsDlt', hidden: true,width: 150},
+                {title: 'riskScoreStandardCode', field: 'riskScoreStandardCode', hidden: true,width: 150},
+                {title: '分值', field: 'riskScoreStandardScore', width: 100},
+                {title: '扣分描述', field: 'riskScoreStandardDesc', width: 1000},
             ]],
             rowStyler: function (index, row) {
             },
@@ -519,9 +616,79 @@
                 return true;
             },
             onLoadSuccess: function (data) {
+                $('.s-op-score-edit').click(function () {
+                    var riskScoreStandardId = $(this).attr('rel');
+                    var idx = $(this).attr('relIndex');
+                    var rowData = $("#gridBox-scoreStandrd").datagrid("getRows")[idx];
+                    let current = $(document).scrollTop();
+                    var p = $pop.popTemForm({
+                        title: "编辑扣分标准",
+                        temId: 'editRiskScoreStandard',
+                        area: ['810px', '300px'],
+                        temData: rowData,
+                        data: rowData,
+                        zIndex: 2,
+                        grid: '#gridBox',
+                        onPop: function ($p) {
+                            $('#riskScoreStandardType').val('1');
+                            $('#riskScoreStandardId').val(riskScoreStandardId);
+                            $('.btn-save').click(function () {
+                                if ($('#mainRiskScoreStandardForm').form('validate')) {
+                                    var data = $(".riskScoreStandardForm").sovals();
+                                    $ajax.post({
+                                        url: "${base}/ui/aams/riskscorestandard/save",
+                                        data: data,
+                                        tip: "是否保存扣分标准？",
+                                        calltip: true,
+                                        success: function (rst) {
+                                            $pop.tips(rst.msg);
+                                            setTimeout(function () {
+                                                $pop.close(p);
+                                                //$grid.load('#gridBox-scoreStandrd');
+                                                $("#gridBox-scoreStandrd").datagrid("reload");
+                                                // 页面动画滚动效果
+                                                $("body, html").stop().animate({
+                                                    scrollTop: current
+                                                });
+                                            }, 100);
+                                        },
+                                        cancelback: function (rst) {},
+                                    })
+                                }
+                            });
+                            $(".btn-cancel-cus-riskscorestandard").click(function () {
+                                $pop.close(p);
+                            });
+                        }
+                    });
+                });
 
+                $('.s-op-score-del').click(function () {
+                    let current = $(document).scrollTop();
+                    var riskScoreStandardId = $(this).attr('rel');
+                    $ajax.post({
+                        url: '${base}/ui/aams/riskscorestandard/delete?id='+riskScoreStandardId,
+                        jsonData: true,
+                        tip: '确定删除吗？',
+                        callback: function (rst) {
+                            $grid.reload('#gridBox-scoreStandrd');
+                        },
+                        success: function (rst) {
+                            // 页面动画滚动效果
+                            $("body, html").stop().animate({
+                                scrollTop: current
+                            });
+                        },
+                        cancelback: function (rst) {
+                            // 页面动画滚动效果
+                            $("body, html").stop().animate({
+                                scrollTop: current
+                            });
+                        },
+                    });
+                });
             },
-            url: '${base}/ui/aams/auditRecordFxts/getAllFxts',
+            url: '${base}/ui/aams/riskscorestandard/queryRiskScoreStandard?riskScoreStandardManualId=' + ${risk.riskId!} + '&riskScoreStandardType=1&riskScoreStandardIsDlt=0',
             height: 200,
             width: '80%',
             offset: -5
@@ -529,22 +696,23 @@
 
         // 问题标准Grid初始化
         $grid.newGrid("#gridBox-queStandrd", {
-            pagination: true,
+            pagination: false,
             fitColumns: false,
             columns: [[
-                {title: 'auditRecordId', field: 'auditRecordId', hidden: true,width: 150,},
-                {title: '省区', field: 'orgMasterRegion', width: 100},
-                {title: '机构名称', field: 'orgMasterName', width: 200},
-                {title: '主题', field: 'auditRecordTheme', width: 300},
-                {title: '报告编号', field: 'auditRecordName', width: 150},
-                {title: '日期', field: 'auditRecordYear', width: 150,formatter(v,row,index){
-                        return v + '年' + row.auditRecordMonth + '月';
-                    }},
-                {title:'操作',field:'op',width:300,formatter :function (v,row,index) {
-                        var s = '&nbsp;<span class="icon-plus_sign hand s-op-auth" rel="'+row.auditRecordId+'"  relIndex='+ index +' title="风险提示授权"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                        s += '<span class="s-op  blue hand s-op-reply" rel="'+row.auditRecordId+'"  relIndex= ' +index + ' >风险提示回复</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class=" s-op-edit s-op-reportview" rel="'+row.id+'" relIndex= ' + index + 'title="">报告查看</span>'
-                        return s;
-                    }},
+                {title: "操作", field: "op", width: 70, formatter: function (v, row, index) {
+                        let opStr = '';
+                        opStr = '<span class="s-op s-op-question-edit icon-edit" title="修改" rel="' + row.riskQuestionStandardId + '" relIndex="' + index +'"></span>';
+                        opStr = opStr + '&nbsp;&nbsp;<span class="s-op s-op-question-del icon-del" style="color: #f16666;" title="删除" rel="' + row.riskQuestionStandardId + '"></span>';
+                        return opStr;
+                    }
+                },
+                {title: 'riskQuestionStandardId', field: 'riskQuestionStandardId', hidden: true,width: 150},
+                {title: 'riskId', field: 'riskId', hidden: true,width: 150},
+                {title: 'riskQuestionStandardCode', field: 'riskQuestionStandardCode', hidden: true,width: 150},
+                {title: 'riskQuestionStandardIsDlt', field: 'riskQuestionStandardIsDlt', hidden: true,width: 150},
+                {title: 'riskQuestionStandardValue', field: 'riskQuestionStandardValue', hidden: true,width: 150},
+                {title: 'riskQuestionStandardRemark', field: 'riskQuestionStandardRemark', hidden: true,width: 150},
+                {title: '描述', field: 'riskQuestionStandardDesc', width: 1000},
             ]],
             rowStyler: function (index, row) {
             },
@@ -553,9 +721,78 @@
                 return true;
             },
             onLoadSuccess: function (data) {
+                $('.s-op-question-edit').click(function () {
+                    var riskQuestionStandardId = $(this).attr('rel');
+                    var idx = $(this).attr('relIndex');
+                    var rowData = $("#gridBox-queStandrd").datagrid("getRows")[idx];
+                    let current = $(document).scrollTop();
+                    var p = $pop.popTemForm({
+                        title: "编辑问题标准",
+                        temId: 'editRiskQuestionStandard',
+                        area: ['810px', '300px'],
+                        temData: rowData,
+                        data: rowData,
+                        zIndex: 2,
+                        grid: '#gridBox',
+                        onPop: function ($p) {
+                            $('#riskQuestionStandardId').val(riskQuestionStandardId);
+                            $('.btn-save').click(function () {
+                                if ($('#mainRiskQuestionStandardForm').form('validate')) {
+                                    var data = $(".riskQuestionStandardForm").sovals();
+                                    $ajax.post({
+                                        url: "${base}/ui/aams/riskquestionstandard/save",
+                                        data: data,
+                                        tip: "是否保存问题标准？",
+                                        calltip: true,
+                                        success: function (rst) {
+                                            $pop.tips(rst.msg);
+                                            setTimeout(function () {
+                                                $pop.close(p);
+                                                //$grid.load('#gridBox-scoreStandrd');
+                                                $("#gridBox-queStandrd").datagrid("reload");
+                                                // 页面动画滚动效果
+                                                $("body, html").stop().animate({
+                                                    scrollTop: current
+                                                });
+                                            }, 100);
+                                        },
+                                        cancelback: function (rst) {},
+                                    })
+                                }
+                            });
+                            $(".btn-cancel-cus-riskquestionstandard").click(function () {
+                                $pop.close(p);
+                            });
+                        }
+                    });
+                });
 
+                $('.s-op-question-del').click(function () {
+                    let current = $(document).scrollTop();
+                    var riskQuestionStandardId = $(this).attr('rel');
+                    $ajax.post({
+                        url: '${base}/ui/aams/riskquestionstandard/delete?id='+riskQuestionStandardId,
+                        jsonData: true,
+                        tip: '确定删除吗？',
+                        callback: function (rst) {
+                            $grid.reload('#gridBox-queStandrd');
+                        },
+                        success: function (rst) {
+                            // 页面动画滚动效果
+                            $("body, html").stop().animate({
+                                scrollTop: current
+                            });
+                        },
+                        cancelback: function (rst) {
+                            // 页面动画滚动效果
+                            $("body, html").stop().animate({
+                                scrollTop: current
+                            });
+                        },
+                    });
+                });
             },
-            url: '${base}/ui/aams/auditRecordFxts/getAllFxts',
+            url: '${base}/ui/aams/riskquestionstandard/queryRiskQuestionStandard?riskId=' + ${risk.riskId!} + '&riskQuestionStandardIsDlt=0',
             height: 200,
             width: '80%',
             offset: -5
@@ -600,6 +837,7 @@
             };
         });
 
+        // 选择自评手册弹框
         $('.selfRisk-prompt').click(function() {
             $pop.iframePop({
                 title: "选择自评风险点",//标题
@@ -610,19 +848,33 @@
                     //关闭执行函数，子页面可通过 $pop.closePop 返回参数
                     //console.log($store.get('selfRisk'));
                     // 赋值操作
-                    $('#selfRiskid').val($store.get('selfRisk').selfRiskId);
-                    $('#selfRiskBussinessType').combobox('setValue', $store.get('selfRisk').selfRiskBussinessType);
-                    $('#selfRiskCode').val($store.get('selfRisk').selfRiskCode);
-                    $('#selfRiskTitle').val($store.get('selfRisk').selfRiskTitle);
-                    $('#selfRiskType').val($store.get('selfRisk').selfRiskType);
-                    $('#selfRiskFirstLevel').val($store.get('selfRisk').selfRiskFirstLevel);
-                    $('#selfRiskSecondLevel').val($store.get('selfRisk').selfRiskSecondLevel);
-                    $('#selfRiskScore').val($store.get('selfRisk').selfRiskScore);
-                    $('#selfRiskDesc').val($store.get('selfRisk').selfRiskDesc);
-                    $('#selfRiskEvalucationBasis').val($store.get('selfRisk').selfRiskEvalucationBasis);
-                    $('#selfRiskMethod').val($store.get('selfRisk').selfRiskMethod);
-                    $('#selfRiskGuide').val($store.get('selfRisk').selfRiskGuide);
-                    $('#selfRiskDeductCriterion').val($store.get('selfRisk').selfRiskDeductCriterion);
+                    if($store.get('selfRisk') != null){
+                        $('#selfRiskid').val($store.get('selfRisk').selfRiskId);
+                        $('#selfRiskBussinessType').combobox('setValue', $store.get('selfRisk').selfRiskBussinessType);
+                        $('#selfRiskCode').val($store.get('selfRisk').selfRiskCode);
+                        $('#selfRiskTitle').val($store.get('selfRisk').selfRiskTitle);
+                        $('#selfRiskType').val($store.get('selfRisk').selfRiskType);
+                        $('#selfRiskFirstLevel').val($store.get('selfRisk').selfRiskFirstLevel);
+                        $('#selfRiskSecondLevel').val($store.get('selfRisk').selfRiskSecondLevel);
+                        $('#selfRiskScore').val($store.get('selfRisk').selfRiskScore);
+                        $('#selfRiskDesc').val($store.get('selfRisk').selfRiskDesc);
+                        $('#selfRiskEvalucationBasis').val($store.get('selfRisk').selfRiskEvalucationBasis);
+                        $('#selfRiskMethod').val($store.get('selfRisk').selfRiskMethod);
+                        $('#selfRiskGuide').val($store.get('selfRisk').selfRiskGuide);
+                        $('#selfRiskDeductCriterion').val($store.get('selfRisk').selfRiskDeductCriterion);
+                        var selfRiskForHospType = $store.get('selfRisk').selfRiskForHospType;
+                        // 找到特定的div，并选择其中所有的checkbox
+                        $(".clearfix.mar-l20.mar-b30.forHospTypeDiv input[type='checkbox']").each(function() {
+                            // 获取forHospTypeEnum属性值
+                            var forHospTypeEnumValue = parseInt($(this).attr("forHospTypeEnum"), 10);
+                            var selfRiskForHospTypeInt =  parseInt(selfRiskForHospType, 10);
+                            // 进行与运算并判断
+                            if ((forHospTypeEnumValue & selfRiskForHospTypeInt) === forHospTypeEnumValue) {
+                                // 如果满足条件，则选中复选框
+                                $(this).prop("checked", true);
+                            }
+                        });
+                    }
                     $store.clear();
                 },
                 sureback : function (iframeSendData){
@@ -630,6 +882,136 @@
                 }
             },'');
         });
+
+        // 保存审计发现模板
+        $('.so-template-add').click(function () {
+            if($.trim('${risk.riskId!}') == '' || '${risk.riskId!}'=='undefined' || '${risk.riskId!}'==null){
+                $pop.msg('审计手册Id不能为空，请先保存审计手册！');
+                return false;
+            }
+            if( $.trim($('#riskFindTemplateDetail').val()) === '' || $('#riskFindTemplateDetail').val() === undefined || $('#riskFindTemplateDetail').val() === null){
+                $pop.msg('模板内容不能为空！');
+                return false;
+            }
+
+            var riskTemplate = {riskFindTemplateDetail : $('#riskFindTemplateDetail').val(),riskFindTemplateId:$('#riskFindTemplateId').val(),riskId:${risk.riskId!}};
+            $ajax.post({
+                url: '${base}/ui/aams/riskTemplate/save',
+                data: riskTemplate,
+                tip: '你确定提交吗？',
+                jsonData : true,//是否采用jsonData格式提交
+                sync : false,//是否同步方式提交
+                type : 'post',//采用post方式提交
+                loadingMask : true,//进行异步请求中，是否显示mask
+                calltip : true,//提交成功后显示请求成功信息
+                success: function (rst) {
+                    $('#riskFindTemplateDetail').val('');
+                    $('#riskFindTemplateId').val('');
+                    $('#gridBox-template').datagrid('reload');
+                },//请求成功后，code===200或者201返回事件
+                callback : function(rst){},//请求成功后返回事件
+                cancelback : function(){},//确认框点取消返回事件
+                errback : function(req, textStatus, errorThrown){
+                    //$pop.alert('保存失败111！');
+                }//出现错误时返回事件
+            });
+        });
+
+        // 新增扣分标准
+        $(".so-riskscorestandard-add").click(function ($e) {
+            var pRiskScoreStandard = $pop.popTemForm({
+                title: "新增扣分标准",
+                temId: 'editRiskScoreStandard',
+                area: ['810px', '300px'],
+                temData: {},
+                zIndex: 2,
+                grid: '#gridBox-scoreStandrd',
+                onPop: function ($p) {
+                    let current = $(document).scrollTop();
+                    $('#riskScoreStandardType').val('1');
+                    $('.btn-save').click(function () {
+                        if ($('#mainRiskScoreStandardForm').form('validate')) {
+                            var data = $(".riskScoreStandardForm").sovals();
+                            $ajax.post({
+                                url: "${base}/ui/aams/riskscorestandard/save",
+                                data: data,
+                                tip: "是否保存扣分标准？",
+                                calltip: true,
+                                success: function (rst) {
+                                    $pop.tips(rst.msg);
+                                    setTimeout(function () {
+                                        $pop.close(pRiskScoreStandard);
+                                        $("#gridBox-scoreStandrd").datagrid("reload");
+                                        // 页面动画滚动效果
+                                        $("body, html").stop().animate({
+                                            scrollTop: current
+                                        });
+                                    }, 100);
+                                },
+                                cancelback: function (rst) {},
+                            })
+                        }
+                    });
+                    $(".btn-cancel-cus-riskscorestandard").click(function () {
+                        $pop.close(pRiskScoreStandard);
+                    });
+                },
+                end: function () {
+
+                },
+                beforeSubmit: function (opt, $form, formData) {
+                    return true;
+                }
+            });
+        });
+
+        // 新增问题标准
+        $(".so-riskquestionstandard-add").click(function ($e) {
+            var pRiskQuestionStandard = $pop.popTemForm({
+                title: "新增扣分标准",
+                temId: 'editRiskQuestionStandard',
+                area: ['810px', '300px'],
+                temData: {},
+                zIndex: 2,
+                grid: '#gridBox-queStandrd',
+                onPop: function ($p) {
+                    let current = $(document).scrollTop();
+                    $('.btn-save').click(function () {
+                        if ($('#mainRiskQuestionStandardForm').form('validate')) {
+                            var data = $(".riskQuestionStandardForm").sovals();
+                            $ajax.post({
+                                url: "${base}/ui/aams/riskquestionstandard/save",
+                                data: data,
+                                tip: "是否保存问题标准？",
+                                calltip: true,
+                                success: function (rst) {
+                                    $pop.tips(rst.msg);
+                                    setTimeout(function () {
+                                        $pop.close(pRiskQuestionStandard);
+                                        $("#gridBox-queStandrd").datagrid("reload");
+                                        // 页面动画滚动效果
+                                        $("body, html").stop().animate({
+                                            scrollTop: current
+                                        });
+                                    }, 100);
+                                },
+                                cancelback: function (rst) {},
+                            })
+                        }
+                    });
+                    $(".btn-cancel-cus-riskquestionstandard").click(function () {
+                        $pop.close(pRiskQuestionStandard);
+                    });
+                },
+                end: function () {
+
+                },
+                beforeSubmit: function (opt, $form, formData) {
+                    return true;
+                }
+            });
+        });
+
 
     });
 

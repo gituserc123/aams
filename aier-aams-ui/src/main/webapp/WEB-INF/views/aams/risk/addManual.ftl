@@ -429,19 +429,9 @@
             pagination: true,
             fitColumns: false,
             columns: [[
-                {title: 'auditRecordId', field: 'auditRecordId', hidden: true,width: 150,},
-                {title: '省区', field: 'orgMasterRegion', width: 100},
-                {title: '机构名称', field: 'orgMasterName', width: 200},
-                {title: '主题', field: 'auditRecordTheme', width: 300},
-                {title: '报告编号', field: 'auditRecordName', width: 150},
-                {title: '日期', field: 'auditRecordYear', width: 150,formatter(v,row,index){
-                        return v + '年' + row.auditRecordMonth + '月';
-                    }},
-                {title:'操作',field:'op',width:300,formatter :function (v,row,index) {
-                        var s = '&nbsp;<span class="icon-plus_sign hand s-op-auth" rel="'+row.auditRecordId+'"  relIndex='+ index +' title="风险提示授权"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                        s += '<span class="s-op  blue hand s-op-reply" rel="'+row.auditRecordId+'"  relIndex= ' +index + ' >风险提示回复</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class=" s-op-edit s-op-reportview" rel="'+row.id+'" relIndex= ' + index + 'title="">报告查看</span>'
-                        return s;
-                    }},
+                {title: 'riskfindtemplateid', field: 'riskfindtemplateid', hidden: true,width: 150},
+                {title: 'riskid', field: 'riskid', hidden: true,width: 150},
+                {title: '模板内容', field: 'riskfindtemplatedetail', width: 1000,},
             ]],
             rowStyler: function (index, row) {
             },

@@ -62,5 +62,14 @@ public class SelfRisk extends BaseEntity implements Serializable {
 
     private String selfRiskBussinessTypeTxt;
 
+    private Boolean hospital;
+
+    private Boolean outPatient;
+
+    private Boolean eyeOpticClinic;
+
+    private Boolean spectacleStore;
+
+
 
 }
