@@ -20,4 +20,6 @@ public interface SelfRiskService extends IService<SelfRisk> {
 
     List<SelfRisk> getAll(Page<Map<String, Object>> page, SelfRiskCondition cond);
 
+    SelfRisk save(SelfRisk selfRisk);
+
 }

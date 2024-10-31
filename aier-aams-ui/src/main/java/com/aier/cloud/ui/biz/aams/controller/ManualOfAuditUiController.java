@@ -13,8 +13,10 @@ import com.aier.cloud.basic.api.response.domain.base.PageResponse;
 import com.aier.cloud.basic.common.exception.BizException;
 import com.aier.cloud.basic.web.controller.BaseController;
 import com.aier.cloud.ui.biz.aams.feign.CodeMasterFeignService;
+import com.aier.cloud.ui.biz.aams.feign.QueryMapperFeignService;
 import com.aier.cloud.ui.biz.aams.feign.RiskFeignService;
 import com.aier.cloud.ui.biz.aams.feign.SelfRiskFeignService;
+import com.alibaba.fastjson.JSONArray;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,9 @@ public class ManualOfAuditUiController  extends BaseController {
 
     @Autowired
     private SelfRiskFeignService selfRiskFeignService;
+
+    @Autowired
+    private QueryMapperFeignService queryMapperFeignService;
 
     @RequestMapping(value = "/manualList", method = { RequestMethod.GET, RequestMethod.POST })
     public String manualofaudit(Map<String, Object> map, Model model) {
@@ -148,13 +153,33 @@ public class ManualOfAuditUiController  extends BaseController {
     }
 
     @PostMapping(value = "/editSaveManual")
-    @ResponseBody Object editSaveManual(Risk risk){
-        Map<String, Object> retMap = riskFeignService.save(risk);
-        if(retMap.get("code").equals("200")){
-            return this.success("保存成功!","riskId",retMap.get("riskId"));
+    @ResponseBody Object editSaveManual(@RequestBody Map<String, Object> formData){
+        System.out.println(formData.size());
+        Risk editRisk = JSONArray.parseObject(formData.get("risk").toString(), Risk.class);
+        riskFeignService.editSaveManual(formData);
+        return this.success("保存成功!","riskId",editRisk.getRiskId());
+    }
+
+    @RequestMapping(value = "/getCountBySelfRiskId")
+    public @ResponseBody Integer getCountBySelfRiskId(String selfRiskId){
+        return queryMapperFeignService.queryCount(" count(*) ","Risk","SelfRiskId=" + selfRiskId);
+    }
+
+    @RequestMapping(value = "/getUniqueSelfRiskCode")
+    public @ResponseBody Integer getUniqueSelfRiskCode(String selfRiskId,String selfRiskBussinessType,String selfRiskCode){
+        if(StrUtil.isEmptyIfStr(selfRiskId)){
+            return queryMapperFeignService.queryCount(" count(*) ","SelfRisk"," SelfRiskBussinessType='" + selfRiskBussinessType
+                    + "' and SelfRiskCode='" + selfRiskCode + "'");
         }else{
-            throw new BizException(MapUtils.getString(retMap,"msg"));
+            return queryMapperFeignService.queryCount(" count(*) ","SelfRisk","SelfRiskId <> " + selfRiskId + " and SelfRiskBussinessType='" + selfRiskBussinessType
+                    + "' and SelfRiskCode='" + selfRiskCode + "'");
         }
+    }
+
+    @RequestMapping(value = "/unbindBangSelfRisk")
+    @ResponseBody
+    public Object unbindBangSelfRisk(Long riskId){
+        return riskFeignService.unbindBangSelfRisk(riskId);
     }
 
     // 反射设置Boolean属性值的方法

@@ -98,6 +98,24 @@ public class RiskScoreStandardServiceImpl extends ServiceImpl<RiskScoreStandardM
         return true;
     }
 
+    @Override
+    public Object saveByRisk(RiskScoreStandard riskScoreStandard){
+        try{
+            AierUser aamsUser = UserContext.getUser();
+            SecUser secUser = JSON.parseObject(aamsUser.getMasterSlaveCookie().get("secUser"), SecUser.class);
+            if(riskScoreStandard.getRiskScoreStandardId() == null){
+                riskScoreStandard.setRiskscorestandardcreateTime(new Date());
+                riskScoreStandard.setRiskscorestandardcreateUser(String.valueOf(secUser.getSecuserid()));
+            }
+            riskScoreStandard.setRiskscorestandardupdateTime(new Date());
+            riskScoreStandard.setRiskscorestandardupdateUser(String.valueOf(secUser.getSecuserid()));
+            this.insertOrUpdate(riskScoreStandard);
+        }catch (Exception e){
+            throw new BizException("保存扣分标准失败",e);
+        }
+        return riskScoreStandard;
+    }
+
 
 
 }

@@ -32,7 +32,7 @@ public class QueryProvider {
                 "T_SYS_ROLE","T_SYS_ROLE_PERMISSION","T_SYS_STAFF_INST_ROLE","UserCustomizations","UserSELevel","UserSelfDept","UserSelfEvaluation",
                 "UserSelfEvaluationDetail","UserSelfRisk","UserSelfRiskLevel","WeChatRemind","WechatRest");
         if (!validTables.contains(tableName)) {
-            throw new IllegalArgumentException("Invalid table name");
+            throw new IllegalArgumentException("Invalid input param!");
         }
     }
 }

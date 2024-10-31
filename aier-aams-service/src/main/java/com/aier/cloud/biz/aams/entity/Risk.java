@@ -1,5 +1,6 @@
 package com.aier.cloud.biz.aams.entity;
 
+import com.baomidou.mybatisplus.enums.FieldStrategy;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -92,7 +93,7 @@ public class Risk implements Serializable {
     @TableField("RiskIsRandom")
     private Boolean riskIsRandom;
 
-    @TableField("SelfRiskId")
+    @TableField(value="SelfRiskId",strategy = FieldStrategy.IGNORED)
     private Long selfRiskId;
 
     @TableField("RiskSenstivityDesc")

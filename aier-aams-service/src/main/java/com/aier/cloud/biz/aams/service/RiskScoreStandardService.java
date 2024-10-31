@@ -22,4 +22,6 @@ public interface RiskScoreStandardService extends IService<RiskScoreStandard> {
 
     int deleteRiskScoreStandard(Long riskScoreStandardId);
 
+    Object saveByRisk(RiskScoreStandard riskScoreStandard);
+
 }

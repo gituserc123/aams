@@ -123,7 +123,7 @@
         $(".s-tool:contains('新增')").click(function() {
             // 执行新增操作的代码
             $pop.iframePop({
-                title: "编辑风险点",//标题
+                title: "新增风险手册",//标题
                 content: '${base}/ui/aams/manualofaudit/addManual',//请求地址
                 area: ['100%', '100%'],//窗口大小
                 // postData : {mainId:row.id},//往子页面传值

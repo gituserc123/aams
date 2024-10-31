@@ -33,25 +33,25 @@
             <div class="p3">
                 <div class="item-one solab-s">
                     <label class="lab-item">业务类别：</label>
-                    <select class="drop drop-sl-v easyui-combobox  w-150" name="riskBussinessType" id="riskBussinessType"  data-options="valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true"></select>
+                    <select class="drop drop-sl-v easyui-combobox  w-150" name="riskBussinessType" id="riskBussinessType"  data-options="valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true,required:true"></select>
                 </div>
             </div>
             <div class="p3">
                 <div class="item-one solab-l">
                     <label class="lab-item">风险编号：</label>
-                    <input class="txt txt-validate" type="text" id="riskCode" name="riskCode"  value="${risk.riskCode!}" autocomplete="off" data-options=""/>
+                    <input class="txt txt-validate required" type="text" id="riskCode" name="riskCode"  value="${risk.riskCode!}" autocomplete="off" data-options="required:true"/>
                 </div>
             </div>
             <div class="p3">
                 <div class="item-one solab-s">
                     <label class="lab-item">审计项目：</label>
-                    <input class="txt txt-validate" type="text" id="riskProject" name="riskProject"  value="${risk.riskProject!}" autocomplete="off" data-options=""/>
+                    <input class="txt txt-validate required" type="text" id="riskProject" name="riskProject"  value="${risk.riskProject!}" autocomplete="off" data-options="required:true"/>
                 </div>
             </div>
             <div class="p3">
                 <div class="item-one solab-s">
                     <label class="lab-item">风险类别：</label>
-                    <input class="txt txt-validate" type="text" id="riskType" name="riskType" value="${risk.riskType!}" autocomplete="off"  dataOptions="" noNull=""/>
+                    <input class="txt txt-validate" type="text" id="riskType" name="riskType" value="${risk.riskType!}" autocomplete="off"  dataOptions="required:true" noNull="风险类别必填"/>
                 </div>
             </div>
         </div>
@@ -59,26 +59,26 @@
             <div class="p3">
                 <div class="item-one solab-s">
                     <label class="lab-item">内控点：</label>
-                    <input class="txt txt-validate" type="text" id="riskName" name="riskName" value="${risk.riskName!}" autocomplete="off" data-options=""/>
+                    <input class="txt txt-validate" type="text" id="riskName" name="riskName" value="${risk.riskName!}" autocomplete="off" data-options="required:true"/>
                 </div>
             </div>
             <div class="p3">
                 <div class="item-one solab-l">
                     <label class="lab-item">风险级别：</label>
-                    <select class="drop drop-sl-v easyui-combobox  w-150" name="riskLevel" id="riskLevel"  data-options="valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true,
+                    <select class="drop drop-sl-v easyui-combobox  w-150" name="riskLevel" id="riskLevel"  data-options="valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true,required:true,
                         onChange:((v)=>{
-                            if(v=='RiskLevel1') {$('#riskLevelScore').val(8);};
-                            if(v=='RiskLevel2') {$('#riskLevelScore').val(6);};
-                            if(v=='RiskLevel3') {$('#riskLevelScore').val(4);};
-                            if(v=='RiskLevel4') {$('#riskLevelScore').val(2);};
-                            if(v=='RiskLevel5') {$('#riskLevelScore').val(10);};
+                            let filtered = $.grep($('#riskLevel').combobox('getData'), function(item) {
+                                return item.codeMasterTypeCode === v;
+                            });
+                            $('#riskLevelScore').val(filtered[0].codeMasterNameDesc);
+                            $('#editSelfRiskForm #selfRiskScore').numberbox('setValue',filtered[0].codeMasterNameDesc);
                         })"></select>
                 </div>
             </div>
             <div class="p3">
                 <div class="item-one solab-s">
                     <label class="lab-item">分值：</label>
-                    <input class="txt txt-validate" type="text" id="riskLevelScore" name="riskLevelScore" value="${risk.riskLevelScore!}" readonly="true" autocomplete="off" data-options=""/>
+                    <input class="txt txt-validate" type="text" id="riskLevelScore" name="riskLevelScore" value="${risk.riskLevelScore!}" readonly="true" autocomplete="off" data-options="required:true"/>
                 </div>
             </div>
             <div class="p3">
@@ -89,14 +89,14 @@
         <div class="clearfix mar-l20 mar-b10">
             <span class="fl">
                 <label class="lab-inline w-60">扣分标准：</label>
-                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="" noNull="" id="riskEmergencyRef"
+                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="required:true" noNull="扣分标准必填" id="riskEmergencyRef"
                           name="riskEmergencyRef" cols="200" row="10" placeholder="请填写扣分标准">${risk.riskEmergencyRef!}</textarea>
             </span>
         </div>
         <div class="clearfix mar-l20 mar-b10">
             <span class="fl">
                 <label class="lab-inline w-60">审计方法：</label>
-                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="" noNull="" id="riskMethod"
+                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="required:true" noNull="审计方法必填" id="riskMethod"
                           name="riskMethod" cols="300" row="20" placeholder="请填写审计方法">${risk.riskMethod!}</textarea>
             </span>
         </div>
@@ -109,14 +109,14 @@
         <div  id="digitalModelDiv" class="clearfix mar-l20 mar-b10 hide">
             <span class="fl">
                 <label class="lab-inline w-60">数字化模型：</label>
-                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="" noNull="" id="riskDigitalModel"
+                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="required:true" noNull="数字化模型必填" id="riskDigitalModel"
                           name="riskDigitalModel" cols="200" row="10" placeholder="请填写数字化模型">${risk.riskDigitalModel!}</textarea>
             </span>
         </div>
         <div class="clearfix mar-l20 mar-b10">
             <span class="fl">
                 <label class="lab-inline w-60">制度支持：</label>
-                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="" noNull="" id="riskInstitution"
+                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="required:true" noNull="制度支持必填" id="riskInstitution"
                           name="riskInstitution" cols="300" row="20" placeholder="请填写制度支持">${risk.riskInstitution!}</textarea>
             </span>
         </div>
@@ -124,7 +124,7 @@
             <div class="p3">
                 <div class="item-one solab-l" style="padding-left: 80px !important;">
                     <label class="lab-item" style="text-align: left !important;">内控点类别：</label>
-                    <select class="drop drop-sl-v easyui-combobox w-150" name="riskCategory" id="riskCategory"  data-options="valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true"></select>
+                    <select class="drop drop-sl-v easyui-combobox w-150" name="riskCategory" id="riskCategory"  data-options="valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true,required:true"></select>
                 </div>
             </div>
             <div class="p6" style="margin-left: 1% !important;">
@@ -150,13 +150,13 @@
             <div class="p3">
                 <div class="item-one solab-l" style="padding-left: 80px !important;">
                     <label class="lab-item" style="text-align: left !important;">敏感信息类别：</label>
-                    <input class="txt txt-validate" type="text" id="riskSenstivityDesc" name="riskSenstivityDesc" value="${risk.riskSenstivityDesc!}" autocomplete="off" data-options=""/>
+                    <input class="txt txt-validate" type="text" id="riskSenstivityDesc" name="riskSenstivityDesc" value="${risk.riskSenstivityDesc!}" autocomplete="off" data-options="required:true"/>
                 </div>
             </div>
             <div class="p3">
                 <div class="item-one solab-l">
                     <label class="lab-item">整改类型：</label>
-                    <select class="drop drop-sl-v easyui-combobox w-150" name="riskRectifyType" id="riskRectifyType"  data-options="valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true"></select>
+                    <select class="drop drop-sl-v easyui-combobox w-150" name="riskRectifyType" id="riskRectifyType"  data-options="valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true,required:true"></select>
                 </div>
             </div>
             <div class="p3">
@@ -171,7 +171,7 @@
         <div class="clearfix mar-l20 mar-b10">
             <span class="fl">
                 <label class="lab-inline w-60">内控点整改属性：</label>
-                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="" noNull="" id="riskRectifyAttribute"
+                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="required:true" noNull="内控点整改属性必填" id="riskRectifyAttribute"
                           name="riskRectifyAttribute" cols="200" row="10" placeholder="请填写内控点整改属性">${risk.riskRectifyAttribute!}</textarea>
             </span>
         </div>
@@ -179,27 +179,27 @@
             <div class="easyui-panel" title="体量" style="width:1068px;padding:10px 10px 10px 20px;">
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">大体量：</label>
-                    <input type="checkbox" id="big" name="big" value="true" orgCapabilityEnum="1" [#if '${risk.big }' == true ] checked="checked" [/#if]>
+                    <input type="checkbox" id="big" name="big" value="true" orgCapabilityEnum="32" [#if '${risk.big }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">中体量：</label>
-                    <input type="checkbox" id="medium" name="medium" value="true" orgCapabilityEnum="2"  [#if '${risk.medium }' == true ] checked="checked" [/#if]>
+                    <input type="checkbox" id="medium" name="medium" value="true" orgCapabilityEnum="16"  [#if '${risk.medium }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">小体量：</label>
-                    <input type="checkbox" id="small" name="small" value="true" orgCapabilityEnum="4"  [#if '${risk.small }' == true ] checked="checked" [/#if]>
+                    <input type="checkbox" id="small" name="small" value="true" orgCapabilityEnum="8"  [#if '${risk.small }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">新院：</label>
-                    <input type="checkbox" id="newhosp" name="newhosp" value="true" orgCapabilityEnum="8"  [#if '${risk.newhosp }' == true ] checked="checked" [/#if]>
+                    <input type="checkbox" id="newhosp" name="newhosp" value="true" orgCapabilityEnum="4"  [#if '${risk.newhosp }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">县级：</label>
-                    <input type="checkbox" id="county" name="county" value="true" orgCapabilityEnum="16"  [#if '${risk.county }' == true ] checked="checked" [/#if]>
+                    <input type="checkbox" id="county" name="county" value="true" orgCapabilityEnum="2"  [#if '${risk.county }' == true ] checked="checked" [/#if]>
                 </div>
                 <div class="item-one solab-s" style="float: left !important;">
                     <label class="lab-item">视光/门诊：</label>
-                    <input type="checkbox" id="outpatient" name="outpatient" value="true" orgCapabilityEnum="32"  [#if '${risk.outpatient }' == true ] checked="checked" [/#if]>
+                    <input type="checkbox" id="outpatient" name="outpatient" value="true" orgCapabilityEnum="1"  [#if '${risk.outpatient }' == true ] checked="checked" [/#if]>
                 </div>
             </div>
         </div>
@@ -242,6 +242,8 @@
             <div id="gridBox-queStandrd"></div>
         </div>
     </div>
+</form>
+<form id="editSelfRiskForm"  class="soform formA form-validate form-enter pad-t3 selfRiskForm">
     <h2 class="h2-title-a">
         <span class="s-title">自评手册</span>
     </h2>
@@ -262,19 +264,19 @@
             <div class="p3">
                 <div class="item-one solab-s">
                     <label class="lab-item">业务板块：</label>
-                    <select class="drop drop-sl-v easyui-combobox  w-150" name="selfRiskBussinessType" id="selfRiskBussinessType"  data-options="valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true"></select>
+                    <select class="drop drop-sl-v easyui-combobox  w-150" name="selfRiskBussinessType" id="selfRiskBussinessType"  data-options="valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true,required:true"></select>
                 </div>
             </div>
             <div class="p3">
                 <div class="item-one solab-n">
                     <label class="lab-item">自评风险编号：</label>
-                    <input class="txt txt-validate" type="text" id="selfRiskCode" name="selfRiskCode" value="${selfRisk.selfRiskCode!}" autocomplete="off" data-options=""/>
+                    <input class="txt txt-validate" type="text" id="selfRiskCode" name="selfRiskCode" value="${selfRisk.selfRiskCode!}" autocomplete="off" data-options="required:true"/>
                 </div>
             </div>
             <div class="p3">
                 <div class="item-one solab-s">
                     <label class="lab-item">风险点：</label>
-                    <input class="txt txt-validate" type="text" id="selfRiskTitle" name="selfRiskTitle" value="${selfRisk.selfRiskTitle!}" autocomplete="off"  dataOptions="" noNull=""/>
+                    <input class="txt txt-validate" type="text" id="selfRiskTitle" name="selfRiskTitle" value="${selfRisk.selfRiskTitle!}" autocomplete="off"  data-options="required:true" noNull="风险点必填"/>
                 </div>
             </div>
         </div>
@@ -282,60 +284,60 @@
             <div class="p3">
                 <div class="item-one solab-l">
                     <label class="lab-item">风险类别：</label>
-                    <input class="txt txt-validate" type="text" id="selfRiskType" name="selfRiskType" value="${selfRisk.selfRiskType!}" autocomplete="off"  dataOptions="" noNull=""/>
+                    <input class="txt txt-validate" type="text" id="selfRiskType" name="selfRiskType" value="${selfRisk.selfRiskType!}" autocomplete="off"  dataOptions="required:true" noNull="风险类别必填"/>
                 </div>
             </div>
             <div class="p3">
                 <div class="item-one solab-s">
                     <label class="lab-item">一级流程：</label>
-                    <input class="txt txt-validate" type="text" id="selfRiskFirstLevel" name="selfRiskFirstLevel" value="${selfRisk.selfRiskFirstLevel!}" autocomplete="off" data-options=""/>
+                    <input class="txt txt-validate" type="text" id="selfRiskFirstLevel" name="selfRiskFirstLevel" value="${selfRisk.selfRiskFirstLevel!}" autocomplete="off" data-options="required:true"/>
                 </div>
             </div>
             <div class="p3">
                 <div class="item-one solab-n">
                     <label class="lab-item">二级流程：</label>
-                    <input class="txt txt-validate" type="text" id="selfRiskSecondLevel" name="selfRiskSecondLevel" value="${selfRisk.selfRiskSecondLevel!}" autocomplete="off" data-options=""/>
+                    <input class="txt txt-validate" type="text" id="selfRiskSecondLevel" name="selfRiskSecondLevel" value="${selfRisk.selfRiskSecondLevel!}" autocomplete="off" data-options="required:true"/>
                 </div>
             </div>
             <div class="p3">
                 <div class="item-one solab-s">
                     <label class="lab-item">分值：</label>
-                    <input class="txt txt-validate" type="text" id="selfRiskScore" name="selfRiskScore" value="${selfRisk.selfRiskScore!}" autocomplete="off" data-options=""/>
+                    <input class="txt txt-validate easyui-numberbox" type="text" id="selfRiskScore" name="selfRiskScore" value="${selfRisk.selfRiskScore!}" autocomplete="off" data-options="min:0,precision:0,required:true"/>
                 </div>
             </div>
         </div>
         <div class="clearfix mar-l20 mar-b10">
             <span class="fl">
                 <label class="lab-inline w-60">风险描述：</label>
-                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="" noNull="" id="selfRiskDesc"
+                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="required:true" noNull="风险描述必填" id="selfRiskDesc"
                           name="selfRiskDesc" cols="200" row="10" placeholder="请填写风险描述">${selfRisk.selfRiskDesc!}</textarea>
             </span>
         </div>
         <div class="clearfix mar-l20 mar-b10">
             <span class="fl">
                 <label class="lab-inline w-60">评估依据：</label>
-                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="" noNull="" id="selfRiskEvalucationBasis"
+                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="required:true" noNull="评估依据必填" id="selfRiskEvalucationBasis"
                           name="selfRiskEvalucationBasis" cols="300" row="20" placeholder="请填写评估依据">${selfRisk.selfRiskEvalucationBasis!}</textarea>
             </span>
         </div>
         <div class="clearfix mar-l20 mar-b10">
             <span class="fl">
                 <label class="lab-inline w-60">自评方法：</label>
-                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="" noNull="" id="selfRiskMethod"
+                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="required:true" noNull="自评方法必填" id="selfRiskMethod"
                           name="selfRiskMethod" cols="200" row="10" placeholder="请填写自评方法">${selfRisk.selfRiskMethod!}</textarea>
             </span>
         </div>
         <div class="clearfix mar-l20 mar-b10">
             <span class="fl">
                 <label class="lab-inline w-60">风险应对指引：</label>
-                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="" noNull="" id="selfRiskGuide"
+                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="required:true" noNull="风险应对指引必填" id="selfRiskGuide"
                           name="selfRiskGuide" cols="300" row="20" placeholder="请填写风险应对指引">${selfRisk.selfRiskGuide!}</textarea>
             </span>
         </div>
         <div class="clearfix mar-l20 mar-b10">
             <span class="fl">
                 <label class="lab-inline w-60">扣分标准：</label>
-                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="" noNull="" id="selfRiskDeductCriterion"
+                <textarea class="txta txt-validate adaptiveTextarea" style="width:1000px" dataOptions="required:true" noNull="扣分标准必填" id="selfRiskDeductCriterion"
                           name="selfRiskDeductCriterion" cols="200" row="10" placeholder="请填写扣分标准">${selfRisk.selfRiskDeductCriterion!}</textarea>
             </span>
         </div>
@@ -361,7 +363,7 @@
         </div>
     </div>
     <p class="row-btn pad-t5">
-        <input type="button" class="btn btn-primary btn-risk-add" name="btnCancel" value="保 存" />
+        <input type="button" class="btn btn-primary btn-risk-add" name="btnRiskAdd" value="保 存" />
         <input type="button" class="btn btn-cancel-cus" name="btnCancel" value="返 回" />
     </p>
     <p class="row-btn pad-t5" style="padding-top: 20px !important;"></p>
@@ -453,41 +455,47 @@
             $("#riskLevel").combobox('setValue', '${risk.riskLevel!}');
             $("#riskCategory").combobox('setValue', '${risk.riskCategory!}');
             $("#riskRectifyType").combobox('setValue', '${risk.riskRectifyType!}');
-            $("#selfRiskBussinessType").combobox('setValue', '${selfRisk.selfRiskBussinessType!}');
+            if(eval('${risk.riskRemote }') == true){
+                $('#digitalModelDiv').show();
+                $('#riskDigitalModel').prop('disabled', false);
+                $('#riskDigitalModel').validatebox('enableValidation');
+            }else{
+                $('#digitalModelDiv').hide();
+                $('#riskDigitalModel').prop('disabled', true);
+                $('#riskDigitalModel').validatebox('disableValidation');
+            }
+            if(eval('${risk.riskIsPost }') == true){
+                $('#riskIsRandomDiv').show();
+                $('#riskIsRandom').prop('disabled', false);
+            }
+            if('${selfRisk}'){
+                $('.so-selfRisk-pop').addClass("hide");
+                if($('.so-selfRisk-cancel').hasClass("hide")){
+                    $('.so-selfRisk-cancel').removeClass("hide")
+                };
+                if($('.so-selfRisk-unbang').hasClass("hide")){
+                    $('.so-selfRisk-unbang').removeClass("hide")
+                };
+                if($('.selfRisk').hasClass("hide")){
+                    $('.selfRisk').removeClass("hide")
+                };
+                $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=SelfEvaluationBussinessType',null,false,false).done(function (rst) {
+                    $('#selfRiskBussinessType').combobox('loadData', rst);      // 自评业务类别
+                });
+                $("#selfRiskBussinessType").combobox('setValue', '${selfRisk.selfRiskBussinessType!}');
+            }
         });
-
-        if(eval('${risk.riskRemote }') == true){
-            $('#digitalModelDiv').show();
-            $('#riskDigitalModel').prop('disabled', false);
-        }
-        if(eval('${risk.riskIsPost }') == true){
-            $('#riskIsRandomDiv').show();
-            $('#riskIsRandom').prop('disabled', false);
-        }
-        if('${selfRisk}'){
-            $('.so-selfRisk-pop').addClass("hide");
-            if($('.so-selfRisk-cancel').hasClass("hide")){
-                $('.so-selfRisk-cancel').removeClass("hide")
-            };
-            if($('.so-selfRisk-unbang').hasClass("hide")){
-                $('.so-selfRisk-unbang').removeClass("hide")
-            };
-            if($('.selfRisk').hasClass("hide")){
-                $('.selfRisk').removeClass("hide")
-            };
-            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=SelfEvaluationBussinessType',null,false,false).done(function (rst) {
-                $('#selfRiskBussinessType').combobox('loadData', rst);      // 自评业务类别
-            });
-        }
 
         // 数字化结论点击事件
         $('#riskRemote').click(function() {
             if ($(this).is(':checked')) {
                 $('#digitalModelDiv').show();
                 $('#riskDigitalModel').prop('disabled', false);
+                $('#riskDigitalModel').validatebox('enableValidation');
             } else {
                 $('#digitalModelDiv').hide();
                 $('#riskDigitalModel').prop('disabled', true);
+                $('#riskDigitalModel').validatebox('disableValidation');
             }
         });
         // 是否合规项目点击事件
@@ -502,40 +510,111 @@
         });
         // 默认勾选 class="easyui-panel" 内的所有复选框
         //$('.easyui-panel input[type="checkbox"]').prop('checked', true);
+        // 扣分标准事件
+        $('#riskEmergencyRef').on('input', function() {
+            $('#editSelfRiskForm #selfRiskDeductCriterion').val($(this).val());
+        });
+        // 制度支持事件
+        $('#riskInstitution').on('input', function() {
+            $('#editSelfRiskForm #selfRiskEvalucationBasis').val($(this).val());
+        });
 
         // 保存审计手册和自评手册
         $('.btn-risk-add').click(function () {
-            var data = $(".manualRiskForm").sovals();
-            // 数据处理
-            var total = 0;
-            // 找到特定的div，并选择其中所有的checkbox
-            $(".clearfix.mar-l20.mar-b30.orgCapabilityDiv input[type='checkbox']").each(function() {
-                // 检查该复选框是否被选中
-                if ($(this).is(':checked')) {
-                    // 获取orgCapabilityEnum属性值并转换为整数
-                    var orgCapabilityEnumValue = parseInt($(this).attr("orgCapabilityEnum"), 10);
-                    // 累加orgCapabilityEnumValue
-                    total += orgCapabilityEnumValue;
+            let riskFormCheck = $('#editManualForm').form('validate');
+            let selfRiskFormCheck = true;
+            let boolSelfRiskForm = !$('.selfRisk').hasClass("hide");
+            if(boolSelfRiskForm){
+                selfRiskFormCheck = $('#editSelfRiskForm').form('validate');
+            }
+            if (riskFormCheck && selfRiskFormCheck){
+                if($('#riskRemote').is(':checked')){
+                    if($.isEmptyObject($('#riskDigitalModel').val())){
+                        $pop.msg('数字化结论勾选时,数字化模型必须填写。');
+                        return false;
+                    }
                 }
-            });
-            data.riskCapability=total;
-            let current = $(document).scrollTop();
-            $ajax.post({
-                url: "${base}/ui/aams/manualofaudit/saveManual",
-                data: data,
-                tip: "是否保存风险点？",
-                calltip: true,
-                success: function (rst) {
-                    window.location.href='${base}/ui/aams/manualofaudit/editManual?riskId=' + rst.riskId;
-                },
-                cancelback: function (rst) {
-                    //$pop.closePop();
-                    // 页面动画滚动效果
-                    $("body, html").stop().animate({
-                        scrollTop: current
+                if($('#riskIsQueDescStd').is(':checked')){
+                    let queRowsData = $('#gridBox-queStandrd').datagrid('getRows');
+                    if(!queRowsData.length>0){
+                        $pop.msg('勾选了"是否问题描述标准化"时，需要新增标准问题。');
+                        return false;
+                    }
+                }
+                var data = $(".manualRiskForm").sovals();
+                // 数据处理
+                var total = 0;
+                // 找到特定的div，并选择其中所有的checkbox
+                $(".clearfix.mar-l20.mar-b30.orgCapabilityDiv input[type='checkbox']").each(function() {
+                    // 检查该复选框是否被选中
+                    if ($(this).is(':checked')) {
+                        // 获取orgCapabilityEnum属性值并转换为整数
+                        let orgCapabilityEnumValue = parseInt($(this).attr("orgCapabilityEnum"), 10);
+                        // 累加orgCapabilityEnumValue
+                        total += orgCapabilityEnumValue;
+                    }
+                });
+                if(!total>0){
+                    $pop.msg('体量必须选择。');
+                    return false;
+                }
+                data.riskCapability=total;
+                let formData = {"risk": data};
+                // 自评手册数据处理
+                if(boolSelfRiskForm){
+                    let selfRiskData =  $(".selfRiskForm").sovals();
+                    var selfRiskTotal = 0;
+                    // 找到特定的div，并选择其中所有的checkbox
+                    $(".clearfix.mar-l20.mar-b30.forHospTypeDiv input[type='checkbox']").each(function() {
+                        // 检查该复选框是否被选中
+                        if ($(this).is(':checked')) {
+                            // 获取orgCapabilityEnum属性值并转换为整数
+                            let forHospTypeEnum = parseInt($(this).attr("forHospTypeEnum"), 10);
+                            // 累加orgCapabilityEnumValue
+                            selfRiskTotal += forHospTypeEnum;
+                        }
                     });
-                },
-            })
+                    if(!selfRiskTotal>0){
+                        $pop.msg('自评手册体量必须选择。');
+                        return false;
+                    }
+                    selfRiskData.selfRiskForHospType=selfRiskTotal;
+                    let selfRiskid = $('#selfRiskid').val();
+                    let selfRiskBussinessType = $('#selfRiskBussinessType').combobox('getValue');
+                    let selfRiskCode = $('#selfRiskCode').val();
+                    let isUniqueSelfRisk = false;
+                    $ajax.postSync('${base}/ui/aams/manualofaudit/getUniqueSelfRiskCode?selfRiskId='+ selfRiskid
+                        + '&selfRiskBussinessType=' + selfRiskBussinessType
+                        + '&selfRiskCode=' + selfRiskCode,null,false,false).done(function (rst){
+                        if(rst > 0){
+                            isUniqueSelfRisk=true;
+                        }
+                    });
+                    if(isUniqueSelfRisk){
+                        $pop.msg("自评风险编号在板块已存在。");
+                        return false;
+                    }
+                    formData = {"risk": data,"selfRisk":selfRiskData};
+                }
+                let current = $(document).scrollTop();
+                $ajax.post({
+                    url: "${base}/ui/aams/manualofaudit/editSaveManual",
+                    data: formData,
+                    jsonData: true,
+                    tip: "是否保存风险点？",
+                    calltip: true,
+                    success: function (rst) {
+                        window.location.href='${base}/ui/aams/manualofaudit/editManual?riskId=' + rst.riskId;
+                    },
+                    cancelback: function (rst) {
+                        //$pop.closePop();
+                        // 页面动画滚动效果
+                        $("body, html").stop().animate({
+                            scrollTop: current
+                        });
+                    },
+                })
+            }
         });
 
         // 审计发现模板Grid初始化
@@ -849,29 +928,36 @@
                     //console.log($store.get('selfRisk'));
                     // 赋值操作
                     if($store.get('selfRisk') != null){
-                        $('#selfRiskid').val($store.get('selfRisk').selfRiskId);
-                        $('#selfRiskBussinessType').combobox('setValue', $store.get('selfRisk').selfRiskBussinessType);
-                        $('#selfRiskCode').val($store.get('selfRisk').selfRiskCode);
-                        $('#selfRiskTitle').val($store.get('selfRisk').selfRiskTitle);
-                        $('#selfRiskType').val($store.get('selfRisk').selfRiskType);
-                        $('#selfRiskFirstLevel').val($store.get('selfRisk').selfRiskFirstLevel);
-                        $('#selfRiskSecondLevel').val($store.get('selfRisk').selfRiskSecondLevel);
-                        $('#selfRiskScore').val($store.get('selfRisk').selfRiskScore);
-                        $('#selfRiskDesc').val($store.get('selfRisk').selfRiskDesc);
-                        $('#selfRiskEvalucationBasis').val($store.get('selfRisk').selfRiskEvalucationBasis);
-                        $('#selfRiskMethod').val($store.get('selfRisk').selfRiskMethod);
-                        $('#selfRiskGuide').val($store.get('selfRisk').selfRiskGuide);
-                        $('#selfRiskDeductCriterion').val($store.get('selfRisk').selfRiskDeductCriterion);
-                        var selfRiskForHospType = $store.get('selfRisk').selfRiskForHospType;
-                        // 找到特定的div，并选择其中所有的checkbox
-                        $(".clearfix.mar-l20.mar-b30.forHospTypeDiv input[type='checkbox']").each(function() {
-                            // 获取forHospTypeEnum属性值
-                            var forHospTypeEnumValue = parseInt($(this).attr("forHospTypeEnum"), 10);
-                            var selfRiskForHospTypeInt =  parseInt(selfRiskForHospType, 10);
-                            // 进行与运算并判断
-                            if ((forHospTypeEnumValue & selfRiskForHospTypeInt) === forHospTypeEnumValue) {
-                                // 如果满足条件，则选中复选框
-                                $(this).prop("checked", true);
+                        $ajax.postSync('${base}/ui/aams/manualofaudit/getCountBySelfRiskId?selfRiskId=' + $store.get('selfRisk').selfRiskId,null,false,false).done(function (rst) {
+                            if(rst > 0){
+                                $pop.msg("该手册已被绑定。请重新选择！");
+                            }else{
+                                console.log($store.get('selfRisk'));
+                                $('#selfRiskid').val($store.get('selfRisk').selfRiskId);
+                                $('#selfRiskBussinessType').combobox('setValue', $store.get('selfRisk').selfRiskBussinessType);
+                                $('#selfRiskCode').val($store.get('selfRisk').selfRiskCode);
+                                $('#selfRiskTitle').val($store.get('selfRisk').selfRiskTitle);
+                                $('#selfRiskType').val($store.get('selfRisk').selfRiskType);
+                                $('#selfRiskFirstLevel').val($store.get('selfRisk').selfRiskFirstLevel);
+                                $('#selfRiskSecondLevel').val($store.get('selfRisk').selfRiskSecondLevel);
+                                $('#selfRiskScore').numberbox('setValue',$store.get('selfRisk').selfRiskScore);
+                                $('#selfRiskDesc').val($store.get('selfRisk').selfRiskDesc);
+                                $('#selfRiskEvalucationBasis').val($store.get('selfRisk').selfRiskEvalucationBasis);
+                                $('#selfRiskMethod').val($store.get('selfRisk').selfRiskMethod);
+                                $('#selfRiskGuide').val($store.get('selfRisk').selfRiskGuide);
+                                $('#selfRiskDeductCriterion').val($store.get('selfRisk').selfRiskDeductCriterion);
+                                var selfRiskForHospType = $store.get('selfRisk').selfRiskForHospType;
+                                // 找到特定的div，并选择其中所有的checkbox
+                                $(".clearfix.mar-l20.mar-b30.forHospTypeDiv input[type='checkbox']").each(function() {
+                                    // 获取forHospTypeEnum属性值
+                                    var forHospTypeEnumValue = parseInt($(this).attr("forHospTypeEnum"), 10);
+                                    var selfRiskForHospTypeInt =  parseInt(selfRiskForHospType, 10);
+                                    // 进行与运算并判断
+                                    if ((forHospTypeEnumValue & selfRiskForHospTypeInt) === forHospTypeEnumValue) {
+                                        // 如果满足条件，则选中复选框
+                                        $(this).prop("checked", true);
+                                    }
+                                });
                             }
                         });
                     }
@@ -1012,6 +1098,23 @@
             });
         });
 
+        // 自评解绑事件
+        $('.so-selfRisk-unbang').click(function() {
+            if($.isEmptyObject($('#selfRiskid').val())){
+                $pop.msg('未绑定自评ID！');
+                return false;
+            }
+            let riskId = '${risk.riskId!}';
+            $pop.confirm('您确认想要解绑吗？',function(r){
+                if (r){
+                    $ajax.postSync('${base}/ui/aams/manualofaudit/unbindBangSelfRisk?riskId='+riskId,null,false,false).done(function (rst) {
+                        if (rst.code === '200') {
+                            window.location.href='${base}/ui/aams/manualofaudit/editManual?riskId=' + riskId;
+                        }
+                    });
+                }
+            });
+        });
 
     });
 
