@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class RiskRelationServiceImpl extends ServiceImpl<RiskRelationMapper, RiskRelation> implements RiskRelationService {
 
+    @Override
+    public boolean saveRiskRelation(RiskRelation riskRelation) {
+        return this.baseMapper.saveRiskRelation(riskRelation);
+    }
 }

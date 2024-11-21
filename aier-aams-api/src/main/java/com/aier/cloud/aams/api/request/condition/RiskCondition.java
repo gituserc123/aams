@@ -76,5 +76,14 @@ public class RiskCondition extends PageCondition {
 
     private String riskDigitalModel;
 
+    private Long curRiskId;
+
+    private String filterFullText;
+
+    private Integer justPre;
+
+    private String queryOrigin;
+
+
 
 }

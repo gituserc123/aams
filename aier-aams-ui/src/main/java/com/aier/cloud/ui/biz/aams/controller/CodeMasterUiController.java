@@ -21,8 +21,8 @@ public class CodeMasterUiController   extends BaseController {
 
     @RequestMapping(value = "/getCodeMasterByType", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    protected List<CodeMaster>  getCodeMasterByType(String riskBussinessType){
-        List<CodeMaster> ldLists = codeMasterFeignService.getCodeMasterByType(riskBussinessType);
+    protected List<CodeMaster>  getCodeMasterByType(String codeMasterType){
+        List<CodeMaster> ldLists = codeMasterFeignService.getCodeMasterByType(codeMasterType);
         return ldLists;
     }
 }

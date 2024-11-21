@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface RiskRelationService extends IService<RiskRelation> {
 
+    boolean saveRiskRelation(RiskRelation riskRelation);
 }

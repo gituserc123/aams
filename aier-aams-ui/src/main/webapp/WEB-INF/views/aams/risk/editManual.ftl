@@ -9,14 +9,12 @@
     [#include "/WEB-INF/views/common/include_resources.ftl"]
 </head>
 <style type="text/css">
-    .selfRisk-prompt {
+    .selfRisk-prompt,
+    .prevRisk-prompt{
         cursor: pointer; /* 使鼠标悬停时光标显示为“手”的形状 */
     }
 
 </style>
-
-<script type="text/javascript">
-</script>
 <body>
 <!-- <div class="row" style="margin-top: 5px;">-->
 <form id="editManualForm"  class="soform formA form-validate form-enter pad-t3 manualRiskForm">
@@ -29,6 +27,16 @@
             <span class="s-title">基本信息</span>
         </h2>
         <hr class="mar-l10 mar-r10 mar-t0 mar-b20" style="border-color:#b2def4">
+        [#if "${opr!}" == 'edit']
+        <div class="row">
+            <div class="p3">
+                <div class="item-one solab-l">
+                    <label class="lab-item">前任风险点：</label>
+                    <img class="prevRisk-prompt" style="vertical-align: middle !important;margin-bottom: 3px;margin-left: 2px;" src="${base}/static/images/base/prompt.png" />
+                </div>
+            </div>
+        </div>
+        [/#if]
         <div class="row">
             <div class="p3">
                 <div class="item-one solab-s">
@@ -430,25 +438,43 @@
     </form>
 </script>
 
+<script id="popPreRisk" type="text/html">
+    <div class="searchHead bob-line">
+        <form id="sPreBox" class="soform form-enter">
+            <input class="txt hide" type="text" id="curRiskId" name="curRiskId" value="${risk.riskId!}"/>
+            <input class="txt hide" type="text" id="queryOrigin" name="queryOrigin" value="preRisk"/>
+            <label class="lab-inline">业务类别：</label><select id="riskBussinessType" name="riskBussinessType"  class="easyui-combobox" style="width:200px;" data-options="url:'${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=RiskBussinessType',valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true"></select>
+            <label class="lab-inline">搜索：</label><input type="text" class="txt inline" name="filterFullText" value="" />
+            <label class="lab-val"><input type="checkbox" class="chk"  name="justPre" value="1"/>只显示前任</label>
+            <button type="button" class="btn btn-small btn-primary so-search" data-opt="{grid:'#gridPreBox',scope:'#sPreBox'}">查 询</button>
+            <button type="button" class="btn btn-small btn-primary so-edit-pre">修改前任</button>
+            <button type="button" class="btn btn-small btn-primary so-nav-pre">返 回</button>
+        </form>
+    </div>
+    <div class="cont-grid">
+        <div id="gridPreBox"></div>
+    </div>
+</script>
+
 </body>
 
 [#include "/WEB-INF/views/common/include_js.ftl"]
 
 <script type="text/javascript">
 
-    requirejs(['pub'], function () {
+    requirejs(['lodash',"pub"], function (_) {
         $(document).ready(function() {
             // 下拉表初始化
-            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskBussinessType',null,false,false).done(function (rst) {
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=RiskBussinessType',null,false,false).done(function (rst) {
                 $('#riskBussinessType').combobox('loadData', rst);          // 业务类别
             });
-            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskLevel',null,false,false).done(function (rst) {
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=RiskLevel',null,false,false).done(function (rst) {
                 $('#riskLevel').combobox('loadData', rst);                   // 风险级别
             });
-            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskCategory',null,false,false).done(function (rst) {
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=RiskCategory',null,false,false).done(function (rst) {
                 $('#riskCategory').combobox('loadData', rst);               // 内控点类别
             });
-            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskRectifyType',null,false,false).done(function (rst) {
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=RiskRectifyType',null,false,false).done(function (rst) {
                 $('#riskRectifyType').combobox('loadData', rst);            // 整改类型
             });
             $("#riskBussinessType").combobox('setValue', '${risk.riskBussinessType!}')
@@ -479,7 +505,7 @@
                 if($('.selfRisk').hasClass("hide")){
                     $('.selfRisk').removeClass("hide")
                 };
-                $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=SelfEvaluationBussinessType',null,false,false).done(function (rst) {
+                $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=SelfEvaluationBussinessType',null,false,false).done(function (rst) {
                     $('#selfRiskBussinessType').combobox('loadData', rst);      // 自评业务类别
                 });
                 $("#selfRiskBussinessType").combobox('setValue', '${selfRisk.selfRiskBussinessType!}');
@@ -881,6 +907,99 @@
             $pop.closePop();
         });
 
+        // 前任风险点按钮事件
+        $('.prevRisk-prompt').click(function () {
+            let pPreForm = $pop.popTemForm({
+                title: "风险点关系",
+                temId: 'popPreRisk',
+                area: ['1000px', '500px'],
+                temData: {},
+                zIndex: 2,
+                grid: '',
+                onPop: function ($p) {
+                    $grid.newGrid("#gridPreBox", {
+                        pagination: true,
+                        fitColumns: false,
+                        tools: [],
+                        singleSelect: false,
+                        columns: [[
+                            {field: 'ck',checkbox:true},
+                            {title: '风险点Id', field: 'riskId', hidden: false,width: 80,},
+                            {title: '风险编号', field: 'riskCode', width: 100},
+                            {title: '业务类别', field: 'riskBussinessTypeDesc', width: 150},
+                            {title: '审计项目', field: 'riskProject', width: 150},
+                            {title: '风险类别', field: 'riskType', width: 150},
+                            {title: '风险级别', field: 'riskLevelDesc', width: 100},
+                            {title: '内控点', field: 'riskName', width: 100},
+                            {title: '分值', field: 'riskLevelScore', width: 100},
+                            {title: '扣分标准', field: 'riskEmergencyRef', width: 100},
+                            {title: '审计方法', field: 'riskMethod', width: 100},
+                            {title: '制度支持', field: 'riskInstitution', width: 100},
+                            {title: '适用体量', field: 'riskCapabilityDesc', width: 100},
+                            {title: '内控点整改属性', field: 'riskRectifyAttribute', width: 100},
+                        ]],
+                        rowStyler: function (index, row) {
+                        },
+                        queryParams: {
+                            curRiskId:'${riskId}',
+                            queryOrigin: "preRisk"
+                        },
+                        onBeforeLoad: function (param) {
+                            return true;
+                        },
+                        onLoadSuccess: function (data) {
+                            // 初始化表格时，如果是前任风险点，checkbox勾选
+                            $.each(data.rows, function(i, v){
+                                if(v.preRiskChecked){
+                                    $("#gridPreBox").datagrid('checkRow', i);
+                                }
+                            });
+                            // "修改前任"点击事件
+                            $('.so-edit-pre').click(function() {
+                                var preRiskArr= $("#gridPreBox").datagrid("getSelections");
+                                if(_.isEmpty(preRiskArr)){
+                                    $pop.alert.err('请选择前任风险点！');
+                                    return false;
+                                }
+                                let preRiskArrData = [];
+                                $.each(preRiskArr, function (index, row) {
+                                    preRiskArrData.push({"riskRelationPreRiskId": row.riskId,"riskRelationRiskId": '${riskId}'});
+                                });
+                                $pop.confirm('是否保存所有选中项目',function(){
+                                    $ajax.post({
+                                        url: '${base}/ui/aams/manualofaudit/savePreRisk?riskId=${riskId}',
+                                        data: preRiskArrData,
+                                        jsonData: true,
+                                        calltip: true,
+                                        success: function (rst) {
+                                            $grid.reload('#gridPreBox');
+                                        }
+                                    });
+                                    return true;//return true关闭窗口
+                                },function(){
+                                    return true;//return true关闭窗口
+                                });
+                            });
+                            // "返回"点击事件
+                            $(".so-nav-pre").click(function () {
+                                $pop.close(pPreForm);
+                                window.location.href='${base}/ui/aams/manualofaudit/editManual?opr=edit&riskId=${riskId}';
+                            });
+                        },
+                        url: '${base}/ui/aams/manualofaudit/getAll',
+                        // height: 'auto',
+                        offset: -5
+                    });
+                },
+                end: function () {
+                    window.location.href='${base}/ui/aams/manualofaudit/editManual?opr=edit&riskId=${riskId}';
+                },
+                beforeSubmit: function (opt, $form, formData) {
+                    return true;
+                }
+            });
+        });
+
         // 新增自评手册按钮事件
         $('.so-selfRisk-pop').click(function () {
             if(!$(this).hasClass("hide")){
@@ -895,7 +1014,7 @@
             if($('.selfRisk').hasClass("hide")){
                 $('.selfRisk').removeClass("hide")
             };
-            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=SelfEvaluationBussinessType',null,false,false).done(function (rst) {
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=SelfEvaluationBussinessType',null,false,false).done(function (rst) {
                 $('#selfRiskBussinessType').combobox('loadData', rst);      // 自评业务类别
             });
         });

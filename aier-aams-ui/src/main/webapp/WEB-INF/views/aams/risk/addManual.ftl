@@ -220,16 +220,16 @@
 
         $(document).ready(function() {
             // 下拉表初始化
-            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskBussinessType', null, false, false).done(function (rst) {
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=RiskBussinessType', null, false, false).done(function (rst) {
                 $('#riskBussinessType').combobox('loadData', rst);          // 业务类别
             });
-            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskLevel', null, false, false).done(function (rst) {
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=RiskLevel', null, false, false).done(function (rst) {
                 $('#riskLevel').combobox('loadData', rst);                   // 风险级别
             });
-            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskCategory', null, false, false).done(function (rst) {
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=RiskCategory', null, false, false).done(function (rst) {
                 $('#riskCategory').combobox('loadData', rst);               // 内控点类别
             });
-            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskRectifyType', null, false, false).done(function (rst) {
+            $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=RiskRectifyType', null, false, false).done(function (rst) {
                 $('#riskRectifyType').combobox('loadData', rst);            // 整改类型
             });
         });

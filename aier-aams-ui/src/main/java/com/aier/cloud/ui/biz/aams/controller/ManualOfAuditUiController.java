@@ -8,16 +8,18 @@ import com.aier.cloud.aams.api.request.condition.RiskCondition;
 import com.aier.cloud.aams.api.request.condition.SelfRiskCondition;
 import com.aier.cloud.aams.api.request.domain.CodeMaster;
 import com.aier.cloud.aams.api.request.domain.Risk;
+import com.aier.cloud.aams.api.request.domain.RiskRelation;
 import com.aier.cloud.aams.api.request.domain.SelfRisk;
 import com.aier.cloud.basic.api.response.domain.base.PageResponse;
 import com.aier.cloud.basic.common.exception.BizException;
 import com.aier.cloud.basic.web.controller.BaseController;
-import com.aier.cloud.ui.biz.aams.feign.CodeMasterFeignService;
-import com.aier.cloud.ui.biz.aams.feign.QueryMapperFeignService;
-import com.aier.cloud.ui.biz.aams.feign.RiskFeignService;
-import com.aier.cloud.ui.biz.aams.feign.SelfRiskFeignService;
+import com.aier.cloud.ui.biz.aams.feign.*;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.compress.utils.Lists;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,6 +54,9 @@ public class ManualOfAuditUiController  extends BaseController {
     @Autowired
     private QueryMapperFeignService queryMapperFeignService;
 
+    @Autowired
+    private RiskRelationService riskRelationService;
+
     @RequestMapping(value = "/manualList", method = { RequestMethod.GET, RequestMethod.POST })
     public String manualofaudit(Map<String, Object> map, Model model) {
         List<CodeMaster> codeMasters = codeMasterFeignService.getCodeMasterByType("RiskBussinessType");
@@ -67,6 +72,16 @@ public class ManualOfAuditUiController  extends BaseController {
         List<CodeMaster> cmRiskBussinessType = codeMasterFeignService.getCodeMasterByType("RiskBussinessType");
         // 风险级别
         List<CodeMaster> cmRiskLevel = codeMasterFeignService.getCodeMasterByType("RiskLevel");
+        // 查询前任风险点
+        Boolean queryOrigin = StringUtils.isNotEmpty(cond.getQueryOrigin()) && cond.getQueryOrigin().equals("preRisk");
+        List<Long> preRiskIds = Lists.newArrayList();
+        if(queryOrigin){
+            StringBuilder sql = new StringBuilder();
+            sql.append("select * from RiskRelation where RiskRelationRiskId = ?");
+            List<JSONObject> relations  = queryMapperFeignService.commonQueryListBean(sql.toString(), "RiskRelation",cond.getCurRiskId());
+            preRiskIds = relations.stream().map(item -> item.getLong("riskRelationPreRiskId")).distinct().collect(Collectors.toList());
+        }
+        List<Long> preRiskLoopIds = preRiskIds;
         // 显示数据处理
         ldLists.getRows().stream().forEach(ldl -> {
             // 适用体量
@@ -79,6 +94,11 @@ public class ManualOfAuditUiController  extends BaseController {
             }
             ldl.setRiskBussinessTypeDesc(cmRiskBussinessType.stream().filter(cm -> cm.getCodeMasterTypeCode().equals(ldl.getRiskBussinessType())).findFirst().get().getCodeMasterName());
             ldl.setRiskLevelDesc(cmRiskLevel.stream().filter(cm -> cm.getCodeMasterTypeCode().equals(ldl.getRiskLevel())).findFirst().get().getCodeMasterName());
+            if(queryOrigin && preRiskLoopIds.size()>0){
+                if(preRiskLoopIds.contains(ldl.getRiskId())){
+                    ldl.setPreRiskChecked(true);
+                }
+            }
         });
 
         return ldLists;
@@ -90,7 +110,7 @@ public class ManualOfAuditUiController  extends BaseController {
     }
 
     @RequestMapping(value = "/editManual", method = { RequestMethod.GET, RequestMethod.POST })
-    public String editManual(Model model,Long riskId){
+    public String editManual(Model model,Long riskId,String opr){
         Risk risk = riskFeignService.getRiskById(riskId);
         // 体量赋值
         Arrays.stream(OrgCapabilityEnum.values()).forEach(oce -> {
@@ -122,6 +142,7 @@ public class ManualOfAuditUiController  extends BaseController {
         }
         model.addAttribute("riskId",riskId);
         model.addAttribute("risk",risk);
+        model.addAttribute("opr",opr);
         return MANUAL_OF_AUDIT_EDIT;
     }
 
@@ -182,7 +203,24 @@ public class ManualOfAuditUiController  extends BaseController {
         return riskFeignService.unbindBangSelfRisk(riskId);
     }
 
-    // 反射设置Boolean属性值的方法
+    @RequestMapping(value = "/savePreRisk", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public Object savePreRisk(@RequestBody ArrayList<RiskRelation> riskRelations,@RequestParam(name="riskId") Long riskId) {
+        // 先删除riskId对应的记录
+        Map<String,Object> condition = Maps.newHashMap();
+        condition.put("riskRelationRiskId",riskId);
+        queryMapperFeignService.deleteByMap("RiskRelation", condition);
+        // 再保存页面的新记录
+        riskRelations.forEach(rr -> {
+            rr.setRiskrelationcreateTime(new Date());
+            riskRelationService.save(rr);
+        });
+        return success();
+    }
+
+
+
+        // 反射设置Boolean属性值的方法
     private static void setBooleanField(Object obj, String fieldName, Boolean value) throws Exception {
         Class<?> clazz = obj.getClass();
         Field field = clazz.getDeclaredField(fieldName);

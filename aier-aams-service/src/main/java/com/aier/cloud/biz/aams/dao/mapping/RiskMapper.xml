@@ -54,6 +54,20 @@
         <if test="cond.riskName != null and cond.riskName != ''">
             and t.RiskName like  concat(concat('%',#{cond.riskName}),'%')
         </if>
+        <if test="cond.filterFullText != null and cond.filterFullText != ''">
+            and (t.RiskCode like  concat(concat('%',#{cond.filterFullText}),'%')
+            or t.RiskProject like  concat(concat('%',#{cond.filterFullText}),'%')
+            or t.RiskType like  concat(concat('%',#{cond.filterFullText}),'%')
+            or t.RiskLevel like  concat(concat('%',#{cond.filterFullText}),'%')
+            or t.RiskName like  concat(concat('%',#{cond.filterFullText}),'%')
+            )
+        </if>
+        <if test="cond.curRiskId != null and cond.curRiskId > 0">
+            and t.RiskId &lt; #{cond.curRiskId}
+            <if test="cond.justPre != null and cond.justPre != ''">
+                and t.RiskId in (select distinct RiskRelationPreRiskId from RiskRelation where RiskRelationRiskId = #{cond.curRiskId})
+            </if>
+        </if>
     </select>
 
 </mapper>

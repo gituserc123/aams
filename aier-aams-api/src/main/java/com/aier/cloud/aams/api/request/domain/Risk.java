@@ -97,7 +97,7 @@ public class Risk extends BaseEntity implements Serializable {
 
     private BigDecimal riskLevelScore;
 
-
+    private Boolean preRiskChecked;
 
 
 }

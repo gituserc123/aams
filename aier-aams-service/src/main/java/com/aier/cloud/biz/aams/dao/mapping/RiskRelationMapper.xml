@@ -14,4 +14,9 @@
         RiskRelationPreRiskId, RiskRelationRiskId, RiskRelationCreate_time
     </sql>
 
+    <insert id="saveRiskRelation" parameterType="com.aier.cloud.biz.aams.entity.RiskRelation" >
+        insert into RiskRelation(RiskRelationPreRiskId, RiskRelationRiskId, RiskRelationCreate_time)
+        values(#{riskRelation.riskRelationPreRiskId,jdbcType=DECIMAL},#{riskRelation.riskRelationRiskId,jdbcType=DECIMAL},#{riskRelation.riskrelationcreateTime,jdbcType=TIMESTAMP})
+    </insert>
+
 </mapper>

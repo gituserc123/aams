@@ -46,7 +46,7 @@
 <script type="text/javascript">
     requirejs(['pub'], function () {
 
-        $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?riskBussinessType=RiskBussinessType',null,false,false).done(function (rst) {
+        $ajax.postSync('${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=RiskBussinessType',null,false,false).done(function (rst) {
             $('#riskBussinessType').combobox('loadData', rst);
         });
 
@@ -141,7 +141,7 @@
             var id = $(this).attr('rel');
             $pop.iframePop({
                 title: "编辑风险点",//标题
-                content: '${base}/ui/aams/manualofaudit/editManual?riskId='+id,//请求地址
+                content: '${base}/ui/aams/manualofaudit/editManual?riskId='+id + '&opr=edit',//请求地址
                 area: ['100%', '100%'],//窗口大小
                 // postData : {mainId:row.id},//往子页面传值
                 end : function(iframeSendData){
