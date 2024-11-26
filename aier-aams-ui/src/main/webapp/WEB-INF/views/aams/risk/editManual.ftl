@@ -31,7 +31,7 @@
         <div class="row">
             <div class="p3">
                 <div class="item-one solab-l">
-                    <label class="lab-item">前任风险点：</label>
+                    <label class="lab-item">前任风险点：</label><span>${strPreRisk!}</span>
                     <img class="prevRisk-prompt" style="vertical-align: middle !important;margin-bottom: 3px;margin-left: 2px;" src="${base}/static/images/base/prompt.png" />
                 </div>
             </div>
@@ -373,6 +373,7 @@
     <p class="row-btn pad-t5">
         <input type="button" class="btn btn-primary btn-risk-add" name="btnRiskAdd" value="保 存" />
         <input type="button" class="btn btn-cancel-cus" name="btnCancel" value="返 回" />
+        <input type="button" class="btn btn-primary btn-risk-push" name="btnRiskPush" value="推送至未完成的审计计划" />
     </p>
     <p class="row-btn pad-t5" style="padding-top: 20px !important;"></p>
 </form>
@@ -439,20 +440,40 @@
 </script>
 
 <script id="popPreRisk" type="text/html">
-    <div class="searchHead bob-line">
-        <form id="sPreBox" class="soform form-enter">
-            <input class="txt hide" type="text" id="curRiskId" name="curRiskId" value="${risk.riskId!}"/>
-            <input class="txt hide" type="text" id="queryOrigin" name="queryOrigin" value="preRisk"/>
-            <label class="lab-inline">业务类别：</label><select id="riskBussinessType" name="riskBussinessType"  class="easyui-combobox" style="width:200px;" data-options="url:'${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=RiskBussinessType',valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true"></select>
-            <label class="lab-inline">搜索：</label><input type="text" class="txt inline" name="filterFullText" value="" />
-            <label class="lab-val"><input type="checkbox" class="chk"  name="justPre" value="1"/>只显示前任</label>
-            <button type="button" class="btn btn-small btn-primary so-search" data-opt="{grid:'#gridPreBox',scope:'#sPreBox'}">查 询</button>
-            <button type="button" class="btn btn-small btn-primary so-edit-pre">修改前任</button>
-            <button type="button" class="btn btn-small btn-primary so-nav-pre">返 回</button>
-        </form>
-    </div>
-    <div class="cont-grid">
-        <div id="gridPreBox"></div>
+    <input type="text" style="position: absolute; left: -1000px;" id="hide-input"/>
+    <div id="con-Label" style="display: flex;">
+        <div class="cont-grid cont-grid-a bot-line-sub" style="flex: 0 0 60%; border-right: 5px solid #dddddd;">
+            <div class="searchHead bob-line">
+                <form id="sPreBox" class="soform form-enter">
+                    <input class="txt hide" type="text" id="curRiskId" name="curRiskId" value="${risk.riskId!}"/>
+                    <input class="txt hide" type="text" id="queryOrigin" name="queryOrigin" value="preRisk"/>
+                    <label class="lab-inline">业务类别：</label><select id="riskBussinessType" name="riskBussinessType"  class="easyui-combobox" style="width:200px;" data-options="url:'${base}/ui/aams/codeMaster/getCodeMasterByType?codeMasterType=RiskBussinessType',valueField:'codeMasterTypeCode',textField:'codeMasterName',clearIcon:true"></select>
+                    <label class="lab-inline">搜索：</label><input type="text" class="txt inline" name="filterFullText" value="" />
+                    <label class="lab-val"><input type="checkbox" class="chk"  name="justPre" value="1"/>只显示前任</label>
+                    <button type="button" class="btn btn-small btn-primary so-search" data-opt="{grid:'#gridPreBox',scope:'#sPreBox'}">查 询</button>
+                    <button type="button" class="btn btn-small btn-primary so-edit-pre">修改前任</button>
+                    <button type="button" class="btn btn-small btn-primary so-nav-pre">返 回</button>
+                </form>
+            </div>
+            <div class="cont-grid">
+                <div id="gridPreBox"></div>
+            </div>
+        </div>
+        <div class="cont-grid" style="flex: 0 0 40%; border-left: 1px solid #dddddd;">
+            <div class="searchHead bob-line">
+                <form id="sbox" class="soform form-enter" style="height: 34px;display: flex; align-items: center;">
+                    <input type="hidden" name="easyUi" value="GRID">
+                    <table class="s-table">
+                        <tr>
+                            <td style="padding-left: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;已选择前任风险点:</td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="cont-grid">
+                <div id="gridChosenPreBox"></div>
+            </div>
+        </div>
     </div>
 </script>
 
@@ -912,19 +933,81 @@
             let pPreForm = $pop.popTemForm({
                 title: "风险点关系",
                 temId: 'popPreRisk',
-                area: ['1000px', '500px'],
+                area: ['90%', '90%'],
                 temData: {},
                 zIndex: 2,
                 grid: '',
                 onPop: function ($p) {
+                    $("#con-Label").on("click",".s-op-btn",function(e){
+                        e.stopPropagation();
+                        var $this = $(this);
+                        var $leftGrid = $("#gridPreBox"),$rightGrid = $("#gridChosenPreBox");
+                        var type = $this.data('type');
+                        if(type == 'add'){
+                            console.log('添加至右侧表格');
+                            var addData = $leftGrid.datagrid("getRows")[$this.data('index')];
+                            let isExist = false;
+                            let rightData = $rightGrid.datagrid("getRows");
+                            $.each(rightData, function(i, v){
+                                if(addData.riskId==v.riskId) {
+                                    isExist=true;
+                                    return false;
+                                }
+                            });
+                            if(isExist){
+                                $pop.msg.warning('已存在该记录');
+                            }else{
+                                $rightGrid.datagrid('appendRow',addData);
+                            }
+                        }else if(type=='del'){
+                            console.log('从右侧表格删除');
+                            $rightGrid.datagrid('deleteRow',$this.data('index'));
+                            $rightGrid.datagrid('loadData',$rightGrid.datagrid('getRows'));
+                        }
+                    });
+                    // "修改前任"点击事件
+                    $('.so-edit-pre').click(function(e) {
+                        e.stopPropagation();
+                        var preRiskArr= $("#gridChosenPreBox").datagrid("getRows");
+                        if(_.isEmpty(preRiskArr)){
+                            $pop.alert.err('请选择前任风险点！');
+                            return false;
+                        }
+                        let preRiskArrData = [];
+                        $.each(preRiskArr, function (index, row) {
+                            preRiskArrData.push({"riskRelationPreRiskId": row.riskId,"riskRelationRiskId": '${riskId}'});
+                        });
+                        $pop.confirm('是否保存所有选中项目',function(){
+                            $ajax.post({
+                                url: '${base}/ui/aams/manualofaudit/savePreRisk?riskId=${riskId}',
+                                data: preRiskArrData,
+                                jsonData: true,
+                                calltip: true,
+                                success: function (rst) {
+                                    $grid.reload('#gridPreBox');
+                                    $grid.reload('#gridChosenPreBox');
+                                }
+                            });
+                            return true;//return true关闭窗口
+                        },function(){
+                            return true;//return true关闭窗口
+                        });
+                    });
+                    // "返回"点击事件
+                    $(".so-nav-pre").click(function () {
+                        $pop.close(pPreForm);
+                        window.location.href='${base}/ui/aams/manualofaudit/editManual?opr=edit&riskId=${riskId}';
+                    });
+
                     $grid.newGrid("#gridPreBox", {
                         pagination: true,
                         fitColumns: false,
                         tools: [],
-                        singleSelect: false,
                         columns: [[
-                            {field: 'ck',checkbox:true},
-                            {title: '风险点Id', field: 'riskId', hidden: false,width: 80,},
+                            {title: '操作',field: 'op',width: 50,formatter:function (value,row,index){
+                                    return "<span class='s-op s-op-btn icon-arrow-right2' style='cursor: pointer;' data-type='add' data-index='"+index+"'></span>"
+                            }},
+                            {title: 'ID', field: 'riskId', hidden: false,width: 50,},
                             {title: '风险编号', field: 'riskCode', width: 100},
                             {title: '业务类别', field: 'riskBussinessTypeDesc', width: 150},
                             {title: '审计项目', field: 'riskProject', width: 150},
@@ -949,44 +1032,52 @@
                         },
                         onLoadSuccess: function (data) {
                             // 初始化表格时，如果是前任风险点，checkbox勾选
-                            $.each(data.rows, function(i, v){
+                            /*$.each(data.rows, function(i, v){
                                 if(v.preRiskChecked){
                                     $("#gridPreBox").datagrid('checkRow', i);
                                 }
-                            });
-                            // "修改前任"点击事件
-                            $('.so-edit-pre').click(function() {
-                                var preRiskArr= $("#gridPreBox").datagrid("getSelections");
-                                if(_.isEmpty(preRiskArr)){
-                                    $pop.alert.err('请选择前任风险点！');
-                                    return false;
-                                }
-                                let preRiskArrData = [];
-                                $.each(preRiskArr, function (index, row) {
-                                    preRiskArrData.push({"riskRelationPreRiskId": row.riskId,"riskRelationRiskId": '${riskId}'});
-                                });
-                                $pop.confirm('是否保存所有选中项目',function(){
-                                    $ajax.post({
-                                        url: '${base}/ui/aams/manualofaudit/savePreRisk?riskId=${riskId}',
-                                        data: preRiskArrData,
-                                        jsonData: true,
-                                        calltip: true,
-                                        success: function (rst) {
-                                            $grid.reload('#gridPreBox');
-                                        }
-                                    });
-                                    return true;//return true关闭窗口
-                                },function(){
-                                    return true;//return true关闭窗口
-                                });
-                            });
-                            // "返回"点击事件
-                            $(".so-nav-pre").click(function () {
-                                $pop.close(pPreForm);
-                                window.location.href='${base}/ui/aams/manualofaudit/editManual?opr=edit&riskId=${riskId}';
-                            });
+                            });*/
                         },
                         url: '${base}/ui/aams/manualofaudit/getAll',
+                        // height: 'auto',
+                        offset: -5
+                    });
+                    // 已选择风险点
+                    $grid.newGrid("#gridChosenPreBox", {
+                        pagination: true,
+                        fitColumns: false,
+                        tools: [],
+                        singleSelect: false,
+                        columns: [[
+                            {title: '操作',field: 'op',width: 50,formatter:function (value,row,index){
+                                    return "<span class='s-op s-op-btn icon-del' style='cursor: pointer;' data-index='"+index+"' data-type='del'></span>"
+                            }},
+                            {title: 'ID', field: 'riskId', hidden: false,width: 50,},
+                            {title: '风险编号', field: 'riskCode', width: 100},
+                            {title: '业务类别', field: 'riskBussinessTypeDesc', width: 150},
+                            {title: '审计项目', field: 'riskProject', width: 150},
+                            {title: '风险类别', field: 'riskType', width: 150},
+                            {title: '风险级别', field: 'riskLevelDesc', width: 100},
+                            {title: '内控点', field: 'riskName', width: 100},
+                            {title: '分值', field: 'riskLevelScore', width: 100},
+                            {title: '扣分标准', field: 'riskEmergencyRef', width: 100},
+                            {title: '审计方法', field: 'riskMethod', width: 100},
+                            {title: '制度支持', field: 'riskInstitution', width: 100},
+                            {title: '适用体量', field: 'riskCapabilityDesc', width: 100},
+                            {title: '内控点整改属性', field: 'riskRectifyAttribute', width: 100},
+                        ]],
+                        rowStyler: function (index, row) {
+                        },
+                        queryParams: {
+                            curRiskId:'${riskId}',
+                            justPre: '1'
+                        },
+                        onBeforeLoad: function (param) {
+                            return true;
+                        },
+                        onLoadSuccess: function (data) {
+                        },
+                        url: '${base}/ui/aams/manualofaudit/getPreAll',
                         // height: 'auto',
                         offset: -5
                     });
@@ -1233,6 +1324,11 @@
                     });
                 }
             });
+        });
+
+        // 推送至未完成的审计计划
+        $(".btn-risk-push").click(function () {
+            $pop.msg("待完成");
         });
 
     });

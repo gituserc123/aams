@@ -140,9 +140,17 @@ public class ManualOfAuditUiController  extends BaseController {
           }
           model.addAttribute("selfRisk",selfRisk);
         }
+        // 前任风险点
+        RiskCondition cond = new RiskCondition();
+        cond.setCurRiskId(riskId);
+        cond.setJustPre(1);
+        PageResponse<Risk> ldLists = riskFeignService.getAll(cond);
+        String strPreRisk = ldLists.getRows().stream().map(Risk::getRiskName).collect(Collectors.joining(","));
+
         model.addAttribute("riskId",riskId);
         model.addAttribute("risk",risk);
         model.addAttribute("opr",opr);
+        model.addAttribute("strPreRisk",strPreRisk);
         return MANUAL_OF_AUDIT_EDIT;
     }
 
@@ -175,7 +183,6 @@ public class ManualOfAuditUiController  extends BaseController {
 
     @PostMapping(value = "/editSaveManual")
     @ResponseBody Object editSaveManual(@RequestBody Map<String, Object> formData){
-        System.out.println(formData.size());
         Risk editRisk = JSONArray.parseObject(formData.get("risk").toString(), Risk.class);
         riskFeignService.editSaveManual(formData);
         return this.success("保存成功!","riskId",editRisk.getRiskId());
@@ -218,6 +225,30 @@ public class ManualOfAuditUiController  extends BaseController {
         return success();
     }
 
+    @RequestMapping(value = "/getPreAll", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    protected PageResponse<Risk> getPreAll(RiskCondition cond){
+        PageResponse<Risk> ldLists = riskFeignService.getAll(cond);
+        // 业务类别
+        List<CodeMaster> cmRiskBussinessType = codeMasterFeignService.getCodeMasterByType("RiskBussinessType");
+        // 风险级别
+        List<CodeMaster> cmRiskLevel = codeMasterFeignService.getCodeMasterByType("RiskLevel");
+        // 显示数据处理
+        ldLists.getRows().stream().forEach(ldl -> {
+            // 适用体量
+            String oceDesc = Arrays.stream(OrgCapabilityEnum.values())
+                    .filter(oce -> (ldl.getRiskCapability().intValue() & oce.getValue()) == oce.getValue())
+                    .map(OrgCapabilityEnum::getContent)
+                    .collect(Collectors.joining(","));
+            if(Objects.nonNull(oceDesc) && oceDesc.length()>0){
+                ldl.setRiskCapabilityDesc(oceDesc);
+            }
+            ldl.setRiskBussinessTypeDesc(cmRiskBussinessType.stream().filter(cm -> cm.getCodeMasterTypeCode().equals(ldl.getRiskBussinessType())).findFirst().get().getCodeMasterName());
+            ldl.setRiskLevelDesc(cmRiskLevel.stream().filter(cm -> cm.getCodeMasterTypeCode().equals(ldl.getRiskLevel())).findFirst().get().getCodeMasterName());
+        });
+
+        return ldLists;
+    }
 
 
         // 反射设置Boolean属性值的方法
