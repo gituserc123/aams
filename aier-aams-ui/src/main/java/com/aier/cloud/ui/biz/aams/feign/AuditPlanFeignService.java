@@ -10,11 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Map;
 
 @FeignClient(name = "aier-aams-service")
-public interface AuditRecordFeignService {
-
-    @RequestMapping(value = "/api/service/biz/aams/auditRecord/getAllFxts")
-    @ResponseBody
-    PageResponse<Map<String, Object>> getAllFxts(@RequestBody AuditRecordCondition cond);
+public interface AuditPlanFeignService {
 
     @RequestMapping(value = "/api/service/biz/aams/auditPlan/getAuditPlanList")
     @ResponseBody

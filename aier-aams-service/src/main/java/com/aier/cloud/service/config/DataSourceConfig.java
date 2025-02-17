@@ -1,11 +1,10 @@
 package com.aier.cloud.service.config;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import com.aier.cloud.basic.core.druid.SqlCountFilter;
+import com.aier.cloud.basic.starter.service.config.log.SqlLogConfig;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.reflection.MetaObject;
@@ -16,15 +15,21 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.ColumnMapRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.aier.cloud.basic.common.util.ToolUtils;
 import com.aier.cloud.basic.core.schema.AierTenantSqlParser;
 import com.aier.cloud.basic.starter.service.config.properties.DatasourceProperties;
 import com.aier.cloud.center.common.context.UserContext;
+import com.aier.cloud.biz.common.config.JdbcHelper;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.plugins.parser.ISqlParser;
@@ -84,6 +89,9 @@ public class DataSourceConfig {
 
 	@Autowired
 	DatasourceProperties datasourceProperties;
+
+
+	private DruidDataSource view;
 
 	/**
 	 * 基础平台的数据源
@@ -193,6 +201,50 @@ public class DataSourceConfig {
 				});
 			}
 		};
+	}
+
+
+	/**
+	 * 视图数据源, 上传数据专用
+	 * @return
+	 */
+	@Bean(name = "aierViewJdbcHelper")
+	@Qualifier("aierViewJdbcHelper")
+	public JdbcHelper ahisViewJdbcHelper(DruidDataSource ds) {
+
+		view = new DruidDataSource();
+		datasourceProperties.config(view);
+		view.setUrl(datasourceProperties.getUrl());
+		view.setUsername(datasourceProperties.getUsername());
+		view.setPassword(datasourceProperties.getPassword());
+		view.clearFilters();
+		view.setProxyFilters(ds.getProxyFilters());
+		view.setProxyFilters(Arrays.asList(SqlLogConfig.logFilter(), new SqlCountFilter()));
+		view.setMaxActive(50);
+		JdbcTemplate jdbc = new JdbcTemplate(view) {
+			@Override
+			protected RowMapper<Map<String, Object>> getColumnMapRowMapper() {
+				return new ColumnMapRowMapper() {
+					@Override
+					protected String getColumnKey(String columnName) {
+						JdbcColumnStrategy s = JobContext.currentJdbcColumnStrategy();
+						if(s == JdbcColumnStrategy.CAMEL) {
+							return ToolUtils.camel(columnName);
+						}else if(s == JdbcColumnStrategy.NORMAL) {
+							return columnName;
+						}else {
+							return columnName;
+						}
+					}
+				};
+
+			}
+		};
+
+		// 这里执行查询，触发 RowMapper 的调用
+		// List<Map<String, Object>> results = jdbc.query("SELECT * FROM your_table_name", getColumnMapRowMapper());
+
+		return new JdbcHelper(new NamedParameterJdbcTemplate(jdbc));
 	}
 
 }

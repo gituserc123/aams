@@ -32,6 +32,7 @@ public class UserInfoTestUiController {
     }
 
 
+    // http://localhost:8097/ui/aams/manage/test/getCodeMasterBean
     @RequestMapping(value = "/getCodeMaster")
     public @ResponseBody List<Map<String, Object>> getCodeMaster() {
 
@@ -49,7 +50,7 @@ public class UserInfoTestUiController {
         sql.append("select * from CodeMaster");
         sql.append(" where CodeMasterType = ? ");
 
-        return queryMapperFeignService.commonQueryListBean(sql.toString(), "com.aier.cloud.biz.aams.entity.CodeMaster","AuditRecordType");
+        return queryMapperFeignService.commonQueryListBean(sql.toString(), "CodeMaster","AuditRecordType");
     }
 
     /*
@@ -79,5 +80,35 @@ public class UserInfoTestUiController {
         conditions.put("auditFxtsReplyUser",Long.parseLong(sId));
         conditions.put("auditFxtsReplyUpdTime",new Date());
         return queryMapperFeignService.insertOrUpdate(conditions,beanClass);
+    }
+
+    // http://localhost:8097/ui/aams/manage/test/queryList
+    @RequestMapping(value = "/queryList")
+    public @ResponseBody List<Map<String, Object>> queryList() {
+        // 查询出的字段全部为小写
+        return queryMapperFeignService.queryList(" * ", "AuditFxtsReply"," 1=1 ");
+    }
+
+    @RequestMapping(value = "/queryPageParamMap")
+    public @ResponseBody Object queryPageParamMap(String replyId) {
+        Map<String,Object> conditions = Maps.newHashMap();
+        conditions.put("auditFxtsReplyId",Long.parseLong(replyId));
+        return queryMapperFeignService.queryPageParamMap(1,10,"select * from AuditFxtsReply where auditFxtsReplyId = :auditFxtsReplyId",conditions);
+    }
+    @RequestMapping(value = "/queryPageParamObject")
+    public @ResponseBody Object queryPageParamObject(String replyId) {
+        return queryMapperFeignService.queryPageParamObject(1,10,"select * from AuditFxtsReply where auditFxtsReplyId = ?", Long.parseLong(replyId));
+    }
+
+    @RequestMapping(value = "/queryPageParamMapT")
+    public @ResponseBody Object queryPageParamMapT(String replyId,String entityName) throws Exception {
+        Map<String,Object> conditions = Maps.newHashMap();
+        conditions.put("auditFxtsReplyId",Long.parseLong(replyId));
+        return queryMapperFeignService.queryPageParamMapT(entityName,1,10,"select * from AuditFxtsReply",conditions);
+    }
+
+    @RequestMapping(value = "/queryPageParamObjectT")
+    public @ResponseBody Object queryPageParamObjectT(String replyId,String entityName) throws Exception {
+        return queryMapperFeignService.queryPageParamObjectT(entityName,1,10,"select * from AuditFxtsReply where auditFxtsReplyId = ?",Long.parseLong(replyId));
     }
 }

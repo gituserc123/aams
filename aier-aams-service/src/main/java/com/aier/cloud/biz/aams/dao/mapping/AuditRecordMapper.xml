@@ -65,38 +65,55 @@
     </sql>
 
     <sql id="sql_where">
-        <trim prefix="WHERE" prefixOverrides="AND | OR">
             <if test="cond.auditRecordId != null and cond.auditRecordId > 0">
                 and t.AuditRecordId = #{cond.auditRecordId}
             </if>
             <if test="cond.auditRecordType != null and cond.auditRecordType != ''">
                 and t.AuditRecordType = #{cond.auditRecordType}
             </if>
-        </trim>
+            <if test="cond.auditRecordYear != null and cond.auditRecordYear > 0">
+                and t.AuditRecordYear = #{cond.auditRecordYear}
+            </if>
+            <if test="cond.auditRecordMonth != null and cond.auditRecordMonth > 0">
+                and t.AuditRecordMonth = #{cond.auditRecordMonth}
+            </if>
+            <if test="cond.orgMasterId != null and cond.orgMasterId != ''">
+                and th.orgMasterId = #{cond.orgMasterId}
+            </if>
+            <if test="cond.orgMasterName != null and cond.orgMasterName != ''">
+                and th.orgMasterName like  concat(concat('%',#{cond.orgMasterName}),'%')
+            </if>
+            <if test="cond.auditRecordIsFinished != null and cond.auditRecordIsFinished >= 0">
+                and t.AuditRecordIsFinished = #{cond.auditRecordIsFinished}
+            </if>
+            <if test="cond.auditRecordStatus != null and cond.auditRecordStatus >= 0">
+                and t.AuditRecordStatus = #{cond.auditRecordStatus}
+            </if>
     </sql>
 
-    <select id="getAllFxts" resultMap="BaseResultMap">
-        select
-        t.*,
+    <select id="getAuditPlanList" resultMap="BaseResultMap">
+        select t.*,
         (select OrgMasterName from OrgMaster where orgMasterId=th.orgMasterRegion) as orgMasterRegion,
+        (select CodeMasterName from CodeMaster where CodeMasterType='OrgMasterType' and CodeMasterTypeCode=th.OrgMasterType) as orgMasterType,
+        (select CodeMasterName from CodeMaster where CodeMasterType='AuditRecordType' and CodeMasterTypeCode=t.AuditRecordType) as auditRecordTypeName,
         th.OrgMasterName
         from AuditRecord t INNER JOIN OrgMaster th on t.orgMasterId=th.orgMasterId
-        where AuditRecordIsdlt= false
-         and AuditRecordType='AuditRecordTypeFXTS'
-         and AuditRecordIsFinished=1
+        where t.AuditRecordIsdlt= false
+        <include refid="sql_where"/>
+        order by AuditRecordCreate_time desc
+    </select>
+
+    <select id="getAllFxts" resultMap="BaseResultMap">
+        select t.*,
+        (select OrgMasterName from OrgMaster where orgMasterId=th.orgMasterRegion) as orgMasterRegion,
+        (select CodeMasterName from CodeMaster where CodeMasterType='OrgMasterType' and CodeMasterTypeCode=th.OrgMasterType) as orgMasterType,
+        th.OrgMasterName
+        from AuditRecord t INNER JOIN OrgMaster th on t.orgMasterId=th.orgMasterId
+        where t.AuditRecordIsdlt= false
+         and t.AuditRecordType='AuditRecordTypeFXTS'
+         and t.AuditRecordIsFinished=1
          and th.orgmasterType &lt;&gt; 'orgmasterType10'
-         <if test="cond.auditRecordYear != null and cond.auditRecordYear > 0">
-             and t.AuditRecordYear = #{cond.auditRecordYear}
-         </if>
-        <if test="cond.auditRecordMonth != null and cond.auditRecordMonth > 0">
-            and t.AuditRecordMonth = #{cond.auditRecordMonth}
-        </if>
-         <if test="cond.orgMasterId != null and cond.orgMasterId != ''">
-             and th.orgMasterId = #{cond.orgMasterId}
-         </if>
-         <if test="cond.orgMasterName != null and cond.orgMasterName != ''">
-             and th.orgMasterName like  concat(concat('%',#{cond.orgMasterName}),'%')
-         </if>
+        <include refid="sql_where"/>
     </select>
 
 </mapper>

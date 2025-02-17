@@ -188,5 +188,17 @@ public class AuditRecord implements Serializable {
     @TableField(exist=false)
     private String orgMasterName;
 
+    @TableField(exist=false)
+    private String orgMasterType;
+
+    @TableField(exist=false)
+    private String auditRecordCapabilityDesc;
+
+    @TableField(exist=false)
+    private String auditPlanPerson;
+
+    @TableField(exist=false)
+    private String auditRecordTypeName;
+
 
 }

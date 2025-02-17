@@ -21,4 +21,6 @@ import java.util.Map;
 @Mapper
 public interface AuditRecordMapper extends BaseMapper<AuditRecord> {
     List<AuditRecord> getAllFxts(Page<Map<String, Object>> page, @Param("cond")AuditRecordCondition cond);
+
+    List<AuditRecord> getAuditPlanList(Page<Map<String, Object>> page, @Param("cond")AuditRecordCondition cond);
 }

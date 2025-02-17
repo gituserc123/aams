@@ -15,7 +15,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class SecFunctionality extends BaseEntity implements Serializable { 
+public class SecFunctionality implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

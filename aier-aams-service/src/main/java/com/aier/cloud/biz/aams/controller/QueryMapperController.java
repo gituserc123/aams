@@ -2,13 +2,16 @@ package com.aier.cloud.biz.aams.controller;
 
 import com.aier.cloud.aams.api.domain.constant.Constants;
 import com.aier.cloud.basic.common.exception.BizException;
-import com.aier.cloud.basic.starter.service.config.JdbcHelper;
+import com.aier.cloud.basic.api.response.domain.base.PageResponse;
+import com.aier.cloud.biz.common.config.JdbcHelper;
 import com.aier.cloud.basic.starter.service.controller.BaseController;
 import com.aier.cloud.biz.aams.dao.QueryMapper;
 import com.aier.cloud.biz.aams.utils.EntityUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.google.common.collect.Maps;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -33,7 +36,7 @@ import java.util.Map;
 @RequestMapping("/api/service/biz/aams/query")
 public class QueryMapperController extends BaseController {
 
-    @Autowired
+    @Resource(name = "aierViewJdbcHelper")
     private JdbcHelper db;
 
     @Resource
@@ -119,6 +122,50 @@ public class QueryMapperController extends BaseController {
             }
             // 执行查询
             result = db.queryBeanList(sql, beanType, params);
+        } catch (IllegalArgumentException e) {
+            logger.error("参数验证失败: {}", e.getMessage());
+            throw new RuntimeException("参数错误: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("SQL执行失败: {}", e.getMessage());
+            throw new RuntimeException("查询失败，请检查SQL语句和参数");
+        }
+
+        return result;
+    }
+
+    /**
+     * 通用查询接口，返回泛型列表;适用于单表查询
+     *
+     * @param sql       SQL查询语句
+     * @param entityName  返回对象类型
+     * @param paramMap    可变参数列表，用于填充SQL中的占位符
+     * @param <T>       泛型类型
+     * @return 查询结果，返回一个包含泛型对象的列表
+     */
+    @RequestMapping(value = "/commonQueryListBeanByMap", method = RequestMethod.POST)
+    @ResponseBody
+    public <T> List<T> commonQueryListBeanByMap(@RequestParam("sql") String sql,
+                                           @RequestParam("entityName") String entityName,
+                                           @RequestBody Map<String, ?> paramMap) {
+        List<T> result = new ArrayList<>();
+        try {
+            // 参数验证
+            validateSqlAndParams(sql, paramMap);
+
+            logger.info("Executing SQL: {}", sql);
+            logger.info("With Parameters: {}", paramMap);
+
+            // 将全类名字符串转换为 Class<T>
+            Class<T> beanType;
+            try {
+                @SuppressWarnings("unchecked")
+                Class<T> castedBeanType = (Class<T>) Class.forName(Constants.ENTITY_PREFIX.concat(entityName));
+                beanType = castedBeanType;
+            } catch (ClassNotFoundException e) {
+                throw new IllegalArgumentException("指定的类未找到: " + entityName);
+            }
+            // 执行查询
+            result = db.queryBeanList(sql, beanType, paramMap);
         } catch (IllegalArgumentException e) {
             logger.error("参数验证失败: {}", e.getMessage());
             throw new RuntimeException("参数错误: " + e.getMessage());
@@ -236,6 +283,33 @@ public class QueryMapperController extends BaseController {
         result.put("msg","成功");
         return result;
     }
+
+    @RequestMapping(value = "/queryPageParamMap",method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public PageResponse<Map<String, Object>> queryPageParamMap(int page, int size, String sql,@RequestBody Map<String, ?> paramMap){
+        Page<Map<String, Object>> pageResult = db.queryPage(page, size, sql, paramMap);
+        return this.returnPageResponse(pageResult);
+    }
+    @RequestMapping(value = "/queryPageParamObject",method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public PageResponse<Map<String, Object>> queryPageParamObject(int page, int size, String sql,  @RequestParam("args") Object... args){
+        Page<Map<String, Object>> pageResult = db.queryPage(page, size, sql, args);
+        return this.returnPageResponse(pageResult);
+    }
+
+    @RequestMapping(value = "/queryPageParamMapT",method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public <T> PageResponse<T> queryPageParamMapT(String entityName, int page, int size, String sql, @RequestBody Map<String, ?> paramMap) throws Exception {
+        Page<T> pageResult = db.queryPage(page, size,entityName, sql, paramMap);
+        return this.returnPageResponse(pageResult);
+    }
+    @RequestMapping(value = "/queryPageParamObjectT",method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public <T> PageResponse<T> queryPageParamObjectT(String entityName, int page, int size, String sql, @RequestParam("args") Object... args) throws Exception {
+        Page<T> pageResult = db.queryPage(page, size, entityName,sql, args);
+        return this.returnPageResponse(pageResult);
+    }
+
         /**
          * 验证SQL和参数的合法性
          *
@@ -251,6 +325,17 @@ public class QueryMapperController extends BaseController {
         }
         if (sql.chars().filter(ch -> ch == '?').count() != params.length) {
             throw new IllegalArgumentException("占位符数量与参数个数不匹配");
+        }
+    }
+
+    private void validateSqlAndParams(String sql, Map<String, ?> paramMap) {
+        if (sql == null || sql.trim().isEmpty()) {
+            throw new IllegalArgumentException("SQL语句不能为空");
+        }
+        for (String key : paramMap.keySet()) {
+            if (!sql.contains(":" + key)) {
+                throw new IllegalArgumentException("SQL中不存在参数占位符: " + key);
+            }
         }
     }
 

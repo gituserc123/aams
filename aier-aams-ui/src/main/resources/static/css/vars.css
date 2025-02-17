@@ -1,0 +1,59 @@
+:root{
+    --shallow: #eff5ff; /* 浅色 */
+    --shallowHover: #dde9ff;
+    
+    --primary: #3977de; /* 基色 */
+    --primaryHover: #3169c5;
+    
+    --danger: #d84a38; /* 危险 */
+    --dangerHover: #bc3d2d;
+    
+    --success: #35aa47; /* 成功 */
+    --successHover: #248c34;
+    
+    --warning: #f93; /* 警告 */
+    --warningHover: #f83;
+    
+    --info: #46b8da; /* 信息 */
+    --infoHover: #38a7c9;
+    
+    --inverse: #515151; /* 逆反 */
+    --inverseHover: #414141;
+    
+    /* light */
+    --dangerLight: #ffe5e1;/* 危险 */
+    --dangerLightBorder: #f5a69c;
+    --dangerLightHover: #f5c8c0;
+    
+    --successLight: #eaffed; /* 成功 */
+    --successLightBorder: #87d392;
+    --successLightHover:#baeec2;
+    
+    --warningLight: #fff3e6; /* 警告 */
+    --warningLightBorder: #f9be7d;
+    --warningLightHover:#fbdebf;
+    
+    --infoLight: #effbff; /* 信息 */
+    --infoLightBorder: #69cce9;
+    --infoLightHover:#cdf1fd;
+
+    --white: #fff; /* 纯白 */
+    --black: #000; /* 纯黑 */
+    --dark: #333; /* 文字基础色 */
+    --grey: #999; /* 灰色文字 */
+    --greyLight: #f3f3f3; /* 灰色背景 */
+    --divider: #dfe2e6; /* 分隔线色 */
+    --border: #d8d8d8; /* 输入框边框色 */
+
+    --radiusSmall: 1px; /* 小圆角(输入框) */
+    --radius: 2px; /* 基础圆角(按钮，状态条) */
+    --radiusMiddle: 4px; /* 中型圆角(区域) */
+    --radiusLarge: 6px; /* 大圆角 */
+    --radiusRound: 50%; /* 圆角 */
+
+    --opacity-1: .85; /* 透明度1 */
+    --opacity-2: .70; /* 透明度2 */
+    --opacity-3: .55; /* 透明度3 */
+    --opacity-4: .30; /* 透明度4 */
+    --opacity-5: .10; /* 透明度5 */
+}

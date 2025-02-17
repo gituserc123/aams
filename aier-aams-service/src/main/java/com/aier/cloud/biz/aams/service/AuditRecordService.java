@@ -19,4 +19,6 @@ import java.util.Map;
 public interface AuditRecordService extends IService<AuditRecord> {
     List<AuditRecord> getAllFxts(Page<Map<String, Object>> page, AuditRecordCondition cond);
 
+    List<AuditRecord> getAuditPlanList(Page<Map<String, Object>> page, AuditRecordCondition cond);
+
 }

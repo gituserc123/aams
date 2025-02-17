@@ -1,8 +1,11 @@
 package com.aier.cloud.biz.aams.utils;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.aier.cloud.aams.api.domain.constant.Constants;
 import com.aier.cloud.basic.common.exception.BizException;
 import com.aier.cloud.center.common.context.UserContext;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -230,5 +233,37 @@ public class EntityUtils {
 	    Method method = eSuperService.getDeclaredMethod("selectById", Serializable.class);
 	    Object eObject = method.invoke(applicationContext.getBean(eService), id);
 		return eObject;
+	}
+
+	/**
+	 * 将Map转换为对象
+	 *
+	 * @param paramMap
+	 * @param cls
+	 * @return
+	 */
+	public static <T> T parseMap2Object(Map<String, Object> paramMap, Class<T> cls) {
+		return JSONObject.parseObject(JSONObject.toJSONString(paramMap), cls);
+	}
+
+	/**
+	 * 将Map转换为List对象
+	 *
+	 * @param paramMap
+	 * @param cls
+	 * @return
+	 */
+	public static <T> T parseListObject(Map<String, Object> paramMap, String name, Class<T> cls) {
+		return (T) JSON.parseArray(JSON.parseObject(JSONObject.toJSONString(paramMap)).getString(name), cls);
+	}
+
+	/**
+	 * 对象转为Map
+	 *
+	 * @param ob
+	 * @return
+	 */
+	public static Map<String, Object> objectToMap(Object ob) {
+		return BeanUtil.beanToMap(ob);
 	}
 }

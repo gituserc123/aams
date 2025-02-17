@@ -42,4 +42,12 @@ public class AuditRecordController extends BaseController {
         return  returnPageResponse(page,retLists);
     }
 
+    @ApiOperation(value = "条件查询详情")
+    @RequestMapping(value = "/getAuditPlanList")
+    @ResponseBody
+    public PageResponse<AuditRecord> getAuditPlanList(@RequestBody AuditRecordCondition cond){
+        Page<Map<String, Object>> page = tranToPage(cond);
+        List<AuditRecord> retLists = auditRecordService.getAuditPlanList(page,cond);
+        return  returnPageResponse(page,retLists);
+    }
 }

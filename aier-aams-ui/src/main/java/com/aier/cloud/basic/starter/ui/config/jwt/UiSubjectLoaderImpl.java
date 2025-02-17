@@ -53,6 +53,7 @@ public class UiSubjectLoaderImpl implements SubjectLoader{
 			userMap.put("auditRoles", JSON.toJSONString(shiroUser.getAuditRoles()));
 			userMap.put("deptMasters", JSON.toJSONString(shiroUser.getDeptMasters()));
 			/* 调用这段代码就报错，很神奇! 猜测是查询出来的数据问题
+			    2025-01-24 经检测，应该是secFunctionalities大小超过了shiro传输的限制，导致序列化失败
 			userMap.put("secFunctionalities", JSON.toJSONString(shiroUser.getSecFunctionalities()));
 			*/
 			Random random = new Random();

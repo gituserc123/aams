@@ -27,4 +27,9 @@ public class AuditRecordServiceImpl extends ServiceImpl<AuditRecordMapper, Audit
     public List<AuditRecord> getAllFxts(Page<Map<String, Object>> page, AuditRecordCondition cond) {
         return this.baseMapper.getAllFxts(page,cond);
     }
+
+    @Override
+    public List<AuditRecord> getAuditPlanList(Page<Map<String, Object>> page, AuditRecordCondition cond) {
+        return this.baseMapper.getAuditPlanList(page,cond);
+    }
 }
