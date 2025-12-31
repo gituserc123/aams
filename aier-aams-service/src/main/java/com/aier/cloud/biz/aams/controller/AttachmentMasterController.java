@@ -15,5 +15,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/api/service/biz/aams/attachmentMaster")
 public class AttachmentMasterController extends BaseController {
-
+    // You can add your custom methods here
 }
