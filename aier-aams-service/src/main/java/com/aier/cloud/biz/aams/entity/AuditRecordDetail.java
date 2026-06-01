@@ -131,5 +131,8 @@ public class AuditRecordDetail implements Serializable {
     @TableField("AuditRecordDetailMarks_time")
     private Date auditrecorddetailmarksTime;
 
+    @TableField("AuditRecordDetailExcellentCase")
+    private String auditRecordDetailExcellentCase;
+
 
 }

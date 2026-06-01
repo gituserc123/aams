@@ -182,6 +182,12 @@ public class AuditRecord implements Serializable {
     @TableField("AuditRecordPublicFlag")
     private Integer auditRecordPublicFlag;
 
+    @TableField("AuditRecordJZTotalScore")
+    private Integer auditRecordJZTotalScore;
+
+    @TableField("AuditRecordNKTotalScore")
+    private Integer auditRecordNKTotalScore;
+
     @TableField(exist=false)
     private String orgMasterRegion;
 

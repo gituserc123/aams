@@ -83,5 +83,11 @@ public class AuditRecordBussinessType implements Serializable {
     @TableField("AuditRecordBussinessTypeRemarks_time")
     private Date auditrecordbussinesstyperemarksTime;
 
+    @TableField("AuditRecordBussinessTypeJZScore")
+    private Integer auditRecordBussinessTypeJZScore;
+
+    @TableField("AuditRecordBussinessTypeNKScore")
+    private Integer auditRecordBussinessTypeNKScore;
+
 
 }

@@ -75,5 +75,8 @@ public class MedSupervDetail implements Serializable {
     @TableField("MedSupervDetailIsGroupHb")
     private Boolean medSupervDetailIsGroupHb;
 
+    @TableField("MedSupervDetailIsRisk")
+    private String medSupervDetailIsRisk;
+
 
 }

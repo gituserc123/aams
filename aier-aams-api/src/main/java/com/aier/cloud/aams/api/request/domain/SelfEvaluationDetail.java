@@ -46,5 +46,7 @@ public class SelfEvaluationDetail extends BaseEntity implements Serializable {
 
     private Integer selfEvaluationDetailScoreCode;
 
+    private Integer selfEvaluationDetailScoreValue;
+
 
 }

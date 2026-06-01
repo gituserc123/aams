@@ -88,5 +88,7 @@ public class AuditRecordDetailCondition extends PageCondition {
 
     private Date auditrecorddetailmarksTime;
 
+    private String auditRecordDetailExcellentCase;
+
 
 }

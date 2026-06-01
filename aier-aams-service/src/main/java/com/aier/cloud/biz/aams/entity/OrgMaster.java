@@ -65,5 +65,8 @@ public class OrgMaster implements Serializable {
     @TableField("OrgMasterUpdate_time")
     private Date orgmasterupdateTime;
 
+    @TableField("orgMasterCompanyDesc")
+    private String orgMasterCompanyDesc;
+
 
 }

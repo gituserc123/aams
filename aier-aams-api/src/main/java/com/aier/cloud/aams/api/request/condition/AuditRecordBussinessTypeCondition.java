@@ -56,5 +56,9 @@ public class AuditRecordBussinessTypeCondition extends PageCondition {
 
     private Date auditrecordbussinesstyperemarksTime;
 
+    private Integer auditRecordBussinessTypeJZScore;
+
+    private Integer auditRecordBussinessTypeNKScore;
+
 
 }

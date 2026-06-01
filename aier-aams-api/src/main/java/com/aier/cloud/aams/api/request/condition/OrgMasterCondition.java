@@ -44,5 +44,7 @@ public class OrgMasterCondition extends PageCondition {
 
     private Date orgmasterupdateTime;
 
+    private String orgMasterCompanyDesc;
+
 
 }

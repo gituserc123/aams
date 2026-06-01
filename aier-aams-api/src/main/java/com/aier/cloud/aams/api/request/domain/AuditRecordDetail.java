@@ -88,5 +88,7 @@ public class AuditRecordDetail extends BaseEntity implements Serializable {
 
     private Date auditrecorddetailmarksTime;
 
+    private String auditRecordDetailExcellentCase;
+
 
 }

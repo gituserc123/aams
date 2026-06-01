@@ -44,5 +44,7 @@ public class OrgMaster extends BaseEntity implements Serializable {
 
     private Date orgmasterupdateTime;
 
+    private String orgMasterCompanyDesc;
+
 
 }

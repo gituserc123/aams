@@ -122,6 +122,10 @@ public class AuditRecordCondition extends PageCondition {
 
     private Integer auditRecordPublicFlag;
 
+    private Integer auditRecordJZTotalScore;
+
+    private Integer auditRecordNKTotalScore;
+
     private String orgMasterRegion;
 
     private String orgMasterName;

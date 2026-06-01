@@ -79,6 +79,11 @@ public class UiSubjectLoaderImpl implements SubjectLoader{
 	}
 
 	@Override
+	public String getPhone() {
+		return SubjectLoader.super.getPhone();
+	}
+
+	@Override
 	public Long getUserId() {
 		ShiroUser su = (ShiroUser)ShiroUtils.getStaff();
 		return su != null ? su.getId() : null;
@@ -102,7 +107,7 @@ public class UiSubjectLoaderImpl implements SubjectLoader{
 		return su != null ? su.getTenantId() : null;
 	}
 
-   
+
     @Override
     public boolean getIsHospUser() {
 		ShiroUser su = (ShiroUser)ShiroUtils.getStaff();
@@ -122,19 +127,25 @@ public class UiSubjectLoaderImpl implements SubjectLoader{
     }
 
 	@Override
+	public Long getAgenter() {
+		ShiroUser su = (ShiroUser)ShiroUtils.getStaff();
+		return su != null ? su.getAgenter() : null;
+	}
+
+	@Override
 	public String getInstName() {
 		ShiroUser su = (ShiroUser)ShiroUtils.getStaff();
 		return su != null ? su.getInstName() : null;
 	}
 
-   
+
     @Override
     public String getUserCode() {
         ShiroUser su = (ShiroUser)ShiroUtils.getStaff();
         return su != null ? su.getLoginCode() : null;
     }
 
-   
+
     @Override
     public String getPlatform() {
         AierUiProperties aierUiProperties = SpringUtils.getBean(AierUiProperties.class);

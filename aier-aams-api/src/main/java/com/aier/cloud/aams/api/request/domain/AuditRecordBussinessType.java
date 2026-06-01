@@ -56,5 +56,9 @@ public class AuditRecordBussinessType extends BaseEntity implements Serializable
 
     private Date auditrecordbussinesstyperemarksTime;
 
+    private Integer auditRecordBussinessTypeJZScore;
+
+    private Integer auditRecordBussinessTypeNKScore;
+
 
 }

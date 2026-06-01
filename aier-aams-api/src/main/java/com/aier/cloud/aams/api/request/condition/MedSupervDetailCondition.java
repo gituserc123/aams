@@ -51,5 +51,7 @@ public class MedSupervDetailCondition extends PageCondition {
 
     private Boolean medSupervDetailIsGroupHb;
 
+    private String medSupervDetailIsRisk;
+
 
 }

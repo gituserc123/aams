@@ -54,6 +54,9 @@
         <if test="cond.riskName != null and cond.riskName != ''">
             and t.RiskName like  concat(concat('%',#{cond.riskName}),'%')
         </if>
+        <if test="cond.riskLevel != null and cond.riskLevel != ''">
+            and t.RiskLevel = #{cond.riskLevel}
+        </if>
         <if test="cond.filterFullText != null and cond.filterFullText != ''">
             and (t.RiskCode like  concat(concat('%',#{cond.filterFullText}),'%')
             or t.RiskProject like  concat(concat('%',#{cond.filterFullText}),'%')

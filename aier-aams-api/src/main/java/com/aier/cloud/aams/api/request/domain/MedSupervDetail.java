@@ -51,5 +51,7 @@ public class MedSupervDetail extends BaseEntity implements Serializable {
 
     private Boolean medSupervDetailIsGroupHb;
 
+    private String medSupervDetailIsRisk;
+
 
 }

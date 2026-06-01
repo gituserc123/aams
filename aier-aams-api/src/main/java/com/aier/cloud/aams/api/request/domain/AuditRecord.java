@@ -122,5 +122,9 @@ public class AuditRecord extends BaseEntity implements Serializable {
 
     private Integer auditRecordPublicFlag;
 
+    private Integer auditRecordJZTotalScore;
+
+    private Integer auditRecordNKTotalScore;
+
 
 }

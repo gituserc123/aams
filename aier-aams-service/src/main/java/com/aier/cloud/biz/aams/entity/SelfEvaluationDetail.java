@@ -68,5 +68,8 @@ public class SelfEvaluationDetail implements Serializable {
     @TableField("SelfEvaluationDetailScoreCode")
     private Integer selfEvaluationDetailScoreCode;
 
+    @TableField("SelfEvaluationDetailScoreValue")
+    private Integer selfEvaluationDetailScoreValue;
+
 
 }

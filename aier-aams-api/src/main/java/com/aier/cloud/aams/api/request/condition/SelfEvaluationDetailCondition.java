@@ -46,5 +46,7 @@ public class SelfEvaluationDetailCondition extends PageCondition {
 
     private Integer selfEvaluationDetailScoreCode;
 
+    private Integer selfEvaluationDetailScoreValue;
+
 
 }
