@@ -251,6 +251,50 @@ bStr:需要合并的字段(不设置，则使用aStr)
 
 
 var $pop= $pop ||{};
+// ── iframe _sid 持久化 ──────────────────────────────────────────
+// 1. 页面加载时：若 URL 含 _sid，写入 sessionStorage（iframe内子页导航后仍可读）
+(function() {
+    var sidInUrl = (function() {
+        var m = new RegExp('[?&]_sid=([^&#]*)').exec(window.location.search);
+        return m ? decodeURIComponent(m[1]) : null;
+    })();
+    if (sidInUrl) {
+        try { sessionStorage.setItem('_iframe_sid', sidInUrl); } catch(e){}
+    }
+    // 2. $.ajaxSetup：所有 AJAX 请求自动追加 _sid 参数（若 sessionStorage 有值）
+    var _ajaxSid = sidInUrl || (function(){ try{ return sessionStorage.getItem('_iframe_sid'); }catch(e){ return null; } })();
+    if (_ajaxSid) {
+        $(document).ready(function() {
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (settings && settings.url && typeof settings.url === 'string') {
+                        var u = settings.url;
+                        if (u.indexOf('_sid=') < 0) {
+                            var sep = u.indexOf('?') >= 0 ? '&' : '?';
+                            settings.url = u + sep + '_sid=' + encodeURIComponent(_ajaxSid);
+                        }
+                    }
+                }
+            });
+        });
+    }
+})();
+// ────────────────────────────────────────────────────────────────
+// iframe会话辅助：从URL中提取指定参数
+$pop._getUrlParam = function(url, name) {
+    var idx = url.indexOf('?');
+    if (idx < 0) return null;
+    var search = url.slice(idx);
+    var match = new RegExp('[?&]' + name + '=([^&#]*)').exec(search);
+    return match ? decodeURIComponent(match[1]) : null;
+};
+// iframe会话辅助：向URL追加_sid参数（若已存在则跳过）
+$pop._injectSid = function(url, sid) {
+    if (!url || !sid) return url;
+    if ($pop._getUrlParam(url, '_sid')) return url; // 已有_sid，不重复追加
+    var sep = url.indexOf('?') >= 0 ? '&' : '?';
+    return url + sep + '_sid=' + encodeURIComponent(sid);
+};
 $pop.iframePop = function (opt,grid) {//pop的方式打开iframePop
       window._refreshParent = false;
       if (typeof(opt)=='string') {
@@ -262,6 +306,11 @@ $pop.iframePop = function (opt,grid) {//pop的方式打开iframePop
         // content:url,
         area :['100%', '100%']
       },opt||{});
+      // iframe场景：自动将_sid注入弹框URL，确保子iframe的会话与父页面一致
+      var _curSid = $pop._getUrlParam(window.location.href, '_sid');
+      if (_curSid && layerOpt.content && typeof layerOpt.content === 'string') {
+          layerOpt.content = $pop._injectSid(layerOpt.content, _curSid);
+      }
 
 
       if(opt.postData){//传递到iframe子页面复杂数据

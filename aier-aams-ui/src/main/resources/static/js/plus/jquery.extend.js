@@ -920,11 +920,33 @@ var $ajax = {//统一的异步post请求
 
 };
 
+// iframe会话保持：AJAX请求自动携带_sid参数
+// 解决弹框/子iframe内AJAX请求因Referer跨域策略丢失_sid导致302重定向到登录页的问题
+$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+    var curSid = (function() {
+        var m = (window.location.href || '').match(/[?&]_sid=([^&#]*)/);
+        return m ? m[1] : null;
+    })();
+    if (!curSid || !options.url) return;
+    // 只处理同源请求，避免泄露_sid到外部域名
+    if (/^(https?:)?\/\//.test(options.url)) {
+        var a = document.createElement('a');
+        a.href = options.url;
+        if (a.host !== window.location.host) return;
+    }
+    if (options.url.indexOf('_sid=') < 0) {
+        var sep = options.url.indexOf('?') >= 0 ? '&' : '?';
+        options.url += sep + '_sid=' + encodeURIComponent(curSid);
+    }
+});
+
 $(document).ajaxComplete(function(evt, request){//全局异步请求拦截，拦截获取登录超时，获取业务报错，获取服务器报错
   // window.console && console.log( request);
   var req = request.responseJSON;
   if(request.status===500 || request.status===404){//获取全局报错
       if(req&&req.code==='500'&&req.timeout===301){//登录超时
+        // iframe内（外部系统嵌入场景）不执行超时弹框和跳转，避免影响父页面
+        if (window !== window.top) { return; }
         // $pop.reLogin();
         $pop.alert('<div class="pop-loginout"><p class="p-reInfo">登录已超时，请点击确定重新登录!</p><p class="p-second"><b class="b-second red">5</b> 秒后自动退出</p></div>',function (){
           window.location.href="/";//退出登录

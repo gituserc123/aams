@@ -47,7 +47,8 @@ public class ShiroConfig {
     
     @Bean
     public DefaultWebSessionManager getDefaultWebSessionManager(CacheManager cacheShiroManager, RedisManager redisManager, AierUiProperties properties) {
-        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        // 使用 IframeAwareSessionManager 支持从 URL 参数 _sid 读取 SessionId（解决 iframe 跨站 Cookie 问题）
+        DefaultWebSessionManager sessionManager = new IframeAwareSessionManager();
         sessionManager.setSessionDAO(getRedisSessionDAO(redisManager,properties));
         sessionManager.setGlobalSessionTimeout(properties.getSessionInvalidateTime() * 1000);
       
@@ -98,6 +99,7 @@ public class ShiroConfig {
         hashMap.put("/kaptcha",             "anon");
         hashMap.put("/login/getInst",       "anon");
         hashMap.put("/login/getDept",       "anon");
+        hashMap.put("/iframeLogin/auth",    "anon");
         hashMap.put("/updatePwd",           "anon");
         hashMap.put("/login",               "authc");
         hashMap.put("/logout",              "anon");

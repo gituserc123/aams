@@ -59,6 +59,9 @@
       <if test="cond.secUserId != null and cond.secUserId > 0">
         and t.SecUserId = #{cond.secUserId,jdbcType=BIGINT}
       </if>
+      <if test="cond.secUserCode != null and cond.secUserCode != ''">
+        and t.SecUserCode = #{cond.secUserCode}
+      </if>
       <if test="cond.secUserMainCode != null and cond.secUserMainCode != ''">
         and t.SecUserMainCode = #{cond.secUserMainCode}
       </if>

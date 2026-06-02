@@ -119,7 +119,25 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
      * 4. 保存用户会话信息，如租户信息等</br>
 	 */
 	@Override
+	public boolean supports(AuthenticationToken token) {
+		return token instanceof SecUserCodePasswordToken || super.supports(token);
+	}
+
+	@Override
+	protected void assertCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) throws AuthenticationException {
+		// iframe 登录已在 doGetAuthInfoBySecUser 中完成 MD5 校验，跳过框架的 SHA1+Salt 匹配器
+		if (token instanceof SecUserCodePasswordToken) {
+			return;
+		}
+		super.assertCredentialsMatch(token, info);
+	}
+
+	@Override
 	public AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
+		// iframe 外部系统登录分支（SecUser MD5 密码体系）
+		if (authcToken instanceof SecUserCodePasswordToken) {
+			return doGetAuthInfoBySecUser((SecUserCodePasswordToken) authcToken);
+		}
 		/**
          * 1. 获取登录用户的所属医院/集团 的 机构编码
          * 2. 登录验证，失败，返回信息
@@ -281,6 +299,137 @@ public class ShiroDbRealm extends BaseShiroDbRealm implements IShiroDbRealmServi
         
         byte[] salt = EncodeUtils.decodeHex(staff.getSalt());
         return new SimpleAuthenticationInfo(shiroUser, staff.getPassword(),ByteSource.Util.bytes(salt), getName());
+	}
+
+	/**
+	 * iframe 外部系统免登录认证
+	 * 1. 按 SecUserCode 查 SecUser，直接比对 MD5 密码
+	 * 2. 通过 SecUserMainCode 找 ADP Staff
+	 * 3. 复用 validationLogin 的 AamsUiUser 构建逻辑
+	 */
+	private AuthenticationInfo doGetAuthInfoBySecUser(SecUserCodePasswordToken token) {
+		String secUserCode = token.getSecUserCode();
+
+		// 1. 查 SecUser
+		SecUserCondition cond = new SecUserCondition();
+		cond.setSecUserCode(secUserCode);
+		List<SecUser> secUsers = secUserFeignService.getSecUserByCond(cond);
+		if (secUsers == null || secUsers.isEmpty()) {
+			throw new UnknownAccountException("用户不存在");
+		}
+		SecUser secUser = secUsers.get(0);
+
+		// 2. 账号删除检查
+		if (Boolean.TRUE.equals(secUser.getSecuserisdlt())) {
+			throw new DisabledAccountException("账号已停用");
+		}
+
+		// 3. MD5 密码直接比对（外部系统传入的已是 MD5 密文）
+		if (!token.getSecUserPassword().equals(secUser.getSecuserpassword())) {
+			throw new IncorrectCredentialsException("用户名或密码错误");
+		}
+
+		// 4. 查关联 ADP Staff
+		if (StringUtils.isBlank(secUser.getSecusermaincode())) {
+			throw new UnknownAccountException("账号未关联ADP用户");
+		}
+		Staff staff = staffService.getByName(secUser.getSecusermaincode());
+		if (staff == null) {
+			throw new UnknownAccountException("ADP账号不存在: " + secUser.getSecusermaincode());
+		}
+		if (!staff.getStatus()) {
+			throw new DisabledAccountException("ADP账号已停用");
+		}
+
+		// 5. 锁定检查（同 validationLogin）
+		if (staff.getLocked()) {
+			int loginFailureLockTime = 2;
+			Date lockedDate = staff.getLockedDate() != null ? staff.getLockedDate() : new Date();
+			Date unlockDate = org.apache.commons.lang3.time.DateUtils.addMinutes(lockedDate, loginFailureLockTime);
+			if (new Date().before(unlockDate)) {
+				throw new LockedAccountException();
+			} else {
+				staff.setLoginFailureCount(0);
+				staff.setLocked(false);
+				staff.setLockedDate(null);
+				staff.setModifer(staff.getId());
+				staffService.edit(staff);
+			}
+		}
+
+		// 6. 确定登录机构（优先 lastLoginInst，降级取第一个）
+		Long instId = staff.getLastLoginInst();
+		if (instId == null) {
+			List<Institution> insts = instService.getListByStaffCode(staff.getCode());
+			if (insts == null || insts.isEmpty()) {
+				throw new UnknownAccountException("账号未关联任何机构");
+			}
+			instId = insts.get(0).getId();
+		}
+
+		// 7. 确定登录科室（优先 lastLoginDept，降级取该机构下第一个）
+		Long deptId = staff.getLastLoginDept();
+		if (deptId == null) {
+			List<Institution> depts = instService.getDeptDetailListByStaffCodeAndInst(staff.getCode(), instId);
+			if (depts == null || depts.isEmpty()) {
+				throw new UnknownAccountException("账号在所属机构下未关联任何科室");
+			}
+			deptId = depts.get(0).getId();
+		}
+
+		// 8. 校验机构/科室
+		Institution loginInst = instService.getById(instId);
+		if (ObjectUtils.isEmpty(loginInst)) {
+			throw new IncorrectInstException("机构不存在");
+		}
+		Institution loginDept = instService.getById(deptId);
+		if (ObjectUtils.isEmpty(loginDept)) {
+			throw new IncorrectInstException("科室不存在");
+		}
+		List<Institution> depts = instService.getDeptDetailListByStaffCodeAndInst(staff.getCode(), instId);
+
+		// 9. 更新最后登录信息
+		staff.setLastLoginInst(instId);
+		staff.setLastLoginDept(deptId);
+		staff.setLastLoginTime(new Date());
+		staff.setLoginFailureCount(0);
+		staff.setModifer(staff.getId());
+		staffService.edit(staff);
+
+		// 10. 构建 AamsUiUser（与 validationLogin 保持一致）
+		boolean isChangePassword = staff.getChangePassword() != null ? staff.getChangePassword() : false;
+		boolean isHosp = loginInst.getInstType().equals(InstEnum.HOSP.getInstType());
+		AamsUiUser shiroUser = new AamsUiUser(
+				staff.getId(), staff.getCode(), staff.getName(),
+				instId, loginInst.getName(),
+				!Objects.isNull(loginInst.getAhisHosp()) ? Long.valueOf(loginInst.getAhisHosp()) : 0L,
+				isChangePassword, staff.getAdmin(), isHosp, depts, deptId
+		);
+		shiroUser.setDeptName(loginDept.getName());
+
+		// 11. 加载 AAS 审计系统信息（直接复用已查到的 secUser）
+		shiroUser.setSecUser(secUser);
+		shiroUser.setSecUserId(secUser.getSecuserid());
+		List<SecRole> auditRoles = secRoleFeignService.queryRoleByUserId(secUser.getSecuserid());
+		List<DeptMaster> deptMasters = deptMasterFeignService.getDepartmentHierarchy(secUser.getDeptmastercode());
+		shiroUser.setAuditRoles(auditRoles);
+		shiroUser.setDeptMasters(deptMasters);
+		if (CollectionUtils.isNotEmpty(auditRoles)) {
+			String roles = auditRoles.stream().map(ars -> String.valueOf(ars.getSecRoleId())).collect(Collectors.joining(","));
+			List<SecFunctionality> secFunctionalities = secFunctionalityFeignService.queryJoinRoles(roles);
+			shiroUser.setSecFunctionalities(secFunctionalities);
+		}
+		if (CollectionUtils.isNotEmpty(deptMasters)) {
+			Optional<DeptMaster> parentDm = deptMasters.stream()
+					.filter(dm -> dm.getDeptMasterCode().equals(secUser.getDeptmastercode()))
+					.findFirst();
+			if (parentDm.isPresent()) {
+				List<OrgMaster> orgMasters = orgMasterFeignService.getOrgMasterHierarchy(parentDm.get().getOrgMasterId());
+				shiroUser.setOrgMasters(orgMasters);
+			}
+		}
+
+		return new SimpleAuthenticationInfo(shiroUser, token.getSecUserPassword(), getName());
 	}
 
 	/**
